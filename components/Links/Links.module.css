@@ -1,0 +1,70 @@
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.linkCard {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(30,58,31,.06);
+  border: 1px solid rgba(44,95,45,.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all .25s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkCard:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--teal);
+  transform: translateY(-3px);
+}
+
+.linkIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.linkIcon_green { background: rgba(44,95,45,.1); }
+.linkIcon_teal  { background: rgba(0,168,150,.1); }
+.linkIcon_gold  { background: rgba(200,168,75,.12); }
+
+.linkName {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-deep);
+}
+
+.linkDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.linkArrow {
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 960px) {
+  .linksGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .linksGrid { grid-template-columns: 1fr; }
+}

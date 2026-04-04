@@ -1,0 +1,77 @@
+.footer {
+  background: #0d1f0e;
+  color: rgba(255,255,255,.6);
+  padding: 48px 0 28px;
+}
+
+.footerInner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+.footerBrandName {
+  font-family: 'Merriweather', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.footerBrandSub {
+  font-size: 13px;
+  color: rgba(255,255,255,.4);
+  line-height: 1.6;
+  max-width: 280px;
+}
+
+.footerColTitle {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--teal-light);
+  margin-bottom: 16px;
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footerLink {
+  font-size: 13px;
+  color: rgba(255,255,255,.5);
+  transition: color .2s;
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: var(--white);
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.footerTeal {
+  color: var(--teal-light);
+}
+
+@media (max-width: 960px) {
+  .footerInner { grid-template-columns: 1fr; gap: 28px; }
+  .footerBottom { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .footer { padding: 36px 0 20px; }
+  .footerInner { gap: 20px; margin-bottom: 28px; }
+  .footerBrandSub { max-width: 100%; }
+}

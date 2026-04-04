@@ -1,0 +1,144 @@
+/* ─── Reset & Base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:   #1E3A1F;
+  --green-mid:    #2C5F2D;
+  --green-light:  #4A7C59;
+  --teal:         #00A896;
+  --teal-light:   #02C39A;
+  --gold:         #C8A84B;
+  --cream:        #F7F4EE;
+  --sand:         #EDE8DC;
+  --brown:        #6B4C2A;
+  --text:         #1F2B1F;
+  --text-muted:   #5A6B5A;
+  --white:        #FFFFFF;
+  --radius:       12px;
+  --shadow:       0 4px 24px rgba(30,58,31,.12);
+  --shadow-lg:    0 12px 48px rgba(30,58,31,.18);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Merriweather', serif;
+  line-height: 1.25;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ─── SECTION SHARED ───────────────────────────────────────────── */
+.section {
+  padding: 96px 0;
+}
+.section-alt {
+  background: var(--sand);
+}
+.section-dark {
+  background: var(--green-deep);
+  color: var(--white);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+.section-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.section-dark .section-tag { color: var(--teal-light); }
+.section-title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--green-deep);
+  margin-bottom: 16px;
+}
+.section-dark .section-title { color: var(--white); }
+.section-lead {
+  font-size: 17px;
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 auto;
+}
+.section-dark .section-lead { color: rgba(255,255,255,.65); }
+
+/* ─── BUTTONS ──────────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--teal);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  transition: all .25s;
+  letter-spacing: .03em;
+}
+.btn-primary:hover {
+  background: var(--teal-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,168,150,.4);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1.5px solid rgba(255,255,255,.3);
+  color: rgba(255,255,255,.85);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 14px 28px;
+  border-radius: 8px;
+  transition: all .25s;
+}
+.btn-outline:hover {
+  border-color: rgba(255,255,255,.7);
+  color: var(--white);
+  background: rgba(255,255,255,.06);
+}
+
+/* ─── SCROLL REVEAL ──────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+
+/* ─── MOBILE ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .container { padding: 0 16px; }
+  .section { padding: 64px 0; }
+  .section-header { margin-bottom: 40px; }
+  .section-lead { font-size: 15px; }
+}

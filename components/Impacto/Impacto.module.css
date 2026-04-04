@@ -1,0 +1,51 @@
+.impactGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.impactCard {
+  text-align: center;
+  padding: 40px 24px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--teal);
+}
+
+.impactNum {
+  font-family: 'Merriweather', serif;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  color: var(--green-mid);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.impactSuffix {
+  font-size: clamp(18px, 3vw, 28px);
+  color: var(--teal);
+}
+
+.impactLabel {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 160px;
+  margin: 0 auto;
+}
+
+@media (max-width: 960px) {
+  .impactGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .impactGrid {
+    grid-template-columns: 1fr;
+  }
+  .impactCard {
+    padding: 28px 20px;
+  }
+}

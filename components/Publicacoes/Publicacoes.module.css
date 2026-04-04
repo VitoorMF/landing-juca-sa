@@ -1,0 +1,124 @@
+.pubFilters {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.pubFilter {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid rgba(44,95,45,.2);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all .2s;
+  background: transparent;
+}
+
+.pubFilter.active,
+.pubFilter:hover {
+  background: var(--green-mid);
+  color: var(--white);
+  border-color: var(--green-mid);
+}
+
+.pubList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pubCard {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: 0 2px 12px rgba(30,58,31,.06);
+  border: 1px solid rgba(44,95,45,.08);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: start;
+  transition: all .25s;
+}
+
+.pubCard:hover {
+  box-shadow: var(--shadow);
+  border-color: rgba(0,168,150,.25);
+}
+
+.pubYearBadge {
+  background: var(--green-mid);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.pubTitle {
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green-deep);
+  margin-bottom: 6px;
+  line-height: 1.4;
+  display: block;
+  transition: color .2s;
+}
+
+a.pubTitle:hover {
+  color: var(--teal);
+}
+
+.pubAuthors {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.pubJournal {
+  font-size: 13px;
+  color: var(--teal);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.pubTypeTag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.pubTypeArticle {
+  background: rgba(0,168,150,.1);
+  color: var(--teal);
+}
+
+.pubTypeBook {
+  background: rgba(200,168,75,.15);
+  color: var(--brown);
+}
+
+.pubCta {
+  text-align: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 600px) {
+  .pubCard {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 12px;
+  }
+  .pubTypeTag {
+    align-self: flex-start;
+  }
+}

@@ -1,0 +1,40 @@
+.fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--teal);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 168, 150, 0.4);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s, opacity 0.3s;
+}
+
+.fab:hover {
+  background: var(--teal-light);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 168, 150, 0.5);
+}
+
+.fab:active {
+  transform: translateY(0);
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .fab {
+    bottom: 20px;
+    right: 20px;
+  }
+}
