@@ -1,8 +1,10 @@
+import { getTranslations } from 'next-intl/server'
 import styles from './Apresentacoes.module.css'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Apresentacao } from '@/types'
 
 export default async function Apresentacoes() {
+  const t = await getTranslations('apresentacoes')
   const { data } = await supabaseServer.from('apresentacoes').select('*')
   const apresentacoes: Apresentacao[] = data ?? []
 
@@ -10,12 +12,9 @@ export default async function Apresentacoes() {
     <section id="apresentacoes" className="section section-alt">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-tag">Apresentações</div>
-          <h2 className="section-title">Congressos &amp; Palestras</h2>
-          <p className="section-lead">
-            Palestrante convidado em congressos nacionais e internacionais sobre Plantio Direto,
-            carbono no solo e mudanças climáticas.
-          </p>
+          <div className="section-tag">{t('tag')}</div>
+          <h2 className="section-title">{t('title')}</h2>
+          <p className="section-lead">{t('lead')}</p>
         </div>
 
         <div className={styles.presGrid}>

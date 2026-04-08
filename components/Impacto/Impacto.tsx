@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { itensImpacto } from '@/data/impacto'
+import { useTranslations } from 'next-intl'
 import styles from './Impacto.module.css'
 
 function useCounterAnimation(target: number, isFloat: boolean, triggered: boolean) {
@@ -26,11 +26,9 @@ function ImpactCard({ numero, sufixo, label }: { numero: string; sufixo: string;
   const [triggered, setTriggered] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
-  // Parse the numeric part
   const numericStr = numero.replace(/[^0-9.]/g, '')
   const isFloat = numericStr.includes('.')
   const numericVal = parseFloat(numericStr) || 0
-  // Check if it has non-numeric prefix/suffix in the number itself (e.g. "7B")
   const prefix = numero.replace(/[0-9.]+.*/, '')
   const innerSuffix = numero.replace(/^[^0-9.]*[0-9.]+/, '')
 
@@ -66,19 +64,20 @@ function ImpactCard({ numero, sufixo, label }: { numero: string; sufixo: string;
 }
 
 export default function Impacto() {
+  const t = useTranslations('impacto')
+  const items = t.raw('items') as Array<{ numero: string; sufixo: string; label: string }>
+
   return (
     <section id="impacto" className="section section-alt">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-tag">Dados de Impacto</div>
-          <h2 className="section-title">Números que Transformam</h2>
-          <p className="section-lead">
-            Resultados mensuráveis do Sistema Plantio Direto segundo as pesquisas do Prof. Juca Sá.
-          </p>
+          <div className="section-tag">{t('tag')}</div>
+          <h2 className="section-title">{t('title')}</h2>
+          <p className="section-lead">{t('lead')}</p>
         </div>
         <div className={styles.impactGrid}>
-          {itensImpacto.map((item) => (
-            <ImpactCard key={item.id} numero={item.numero} sufixo={item.sufixo} label={item.label} />
+          {items.map((item, idx) => (
+            <ImpactCard key={idx} numero={item.numero} sufixo={item.sufixo} label={item.label} />
           ))}
         </div>
       </div>

@@ -1,0 +1,197 @@
+{
+  "nav": {
+    "perfil": "Profile",
+    "opinioes": "Principles",
+    "publicacoes": "Publications",
+    "videos": "Videos",
+    "fotos": "Photos",
+    "apresentacoes": "Presentations",
+    "noticias": "News",
+    "links": "Links",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "eyebrow": "🌱 World Reference in No-Till Farming",
+    "desc": "Senior scientist and associate researcher at the Rattan Lal Center for Carbon Management at The Ohio State University — a world reference in soil organic carbon dynamics, the No-Till System, and regenerative agriculture in the tropics.",
+    "stat1": "Scientific articles",
+    "stat2": "Citations (Google Scholar)",
+    "stat3": "Years of research",
+    "cta1": "📄 View Publications",
+    "cta2": "Meet the Researcher"
+  },
+  "perfil": {
+    "tag": "Scientific Profile",
+    "title": "Background & Training",
+    "lead": "Over 40 years dedicated to research in conservation soil management, training researchers across 11 countries and co-author of 25 articles with Nobel Peace Prize laureate Prof. Rattan Lal.",
+    "cardTitle": "Senior Scientist · Prof. Juca Sá",
+    "instLabel": "Current Institution",
+    "doutoradoLabel": "Ph.D.",
+    "labLabel": "Laboratory",
+    "cnpqLabel": "CNPq Fellowship",
+    "febrapdpLabel": "FEBRAPDP",
+    "instValue": "Rattan Lal Center for Carbon Management — The Ohio State University",
+    "doutoradoValue": "ESALQ-USP / The Ohio State University (2001)",
+    "labValue": "Soil Organic Matter Lab (CNPq)",
+    "cnpqValue": "Level 1D Researcher (highest tier)",
+    "febrapdpValue": "President of the Technical-Scientific Committee",
+    "sobreTitle": "About the Researcher",
+    "bio1": "Prof. Juca Sá is one of the world's leading experts in soil organic carbon dynamics in No-Till systems. His scientific journey began in 1981, shortly after graduating in Agronomic Engineering from UFRRJ, passing through pioneering No-Till institutions such as Fundação ABC, UEPG (State University of Ponta Grossa) — where he worked from 1996 to 2019 — and today as a senior associate researcher at The Ohio State University, alongside Nobel Peace Prize laureate Prof. Rattan Lal.",
+    "bio2": "His research has demonstrated that No-Till, when correctly implemented across its three pillars, can restore soil organic carbon stocks to levels comparable to native vegetation. A 2025 study co-authored with Rattan Lal — covering 63 farms across the Cerrado and Atlantic Forest biomes — confirmed that 25% of properties already exceed carbon stocks of native vegetation.",
+    "bio3": "He has mentored 32 undergraduate students, 12 master's, 3 doctoral, and 7 post-doctoral researchers, and trained researchers from 11 countries across Asia and Africa in 7 editions of international courses on soil organic matter management.",
+    "timeline": [
+      {
+        "emoji": "🌱",
+        "year": "1981 — UFRRJ",
+        "text": "B.Sc. in Agronomic Engineering — Federal Rural University of Rio de Janeiro. Began career at the Dairy Farmers Cooperative of Paraná."
+      },
+      {
+        "emoji": "🔬",
+        "year": "1988 — Fundação ABC",
+        "text": "Soil fertility researcher — Fundação ABC, a pioneering No-Till institution in Brazil. First deep engagement with the NT system."
+      },
+      {
+        "emoji": "📜",
+        "year": "1994 — UFPR / 2001 — ESALQ-USP + OSU",
+        "text": "M.Sc. (UFPR) and Ph.D. in Soils — ESALQ/USP with a sandwich period at The Ohio State University. First international publications on carbon sequestration in Brazilian Oxisols."
+      },
+      {
+        "emoji": "🏫",
+        "year": "1996–2019 — UEPG",
+        "text": "Associate Professor C — Dept. of Soil Science and Agricultural Engineering, UEPG. Built one of Brazil's leading research groups in soil organic matter."
+      },
+      {
+        "emoji": "🌎",
+        "year": "2008–present — The Ohio State University",
+        "text": "Post-doctorates (2008, 2012) and Senior Visiting Professor (2015) at C-MASC (Carbon Management and Sequestration Center), alongside Prof. Rattan Lal."
+      },
+      {
+        "emoji": "🏆",
+        "year": "2025 — COP30, Belém",
+        "text": "Opening speaker at the House of Sustainable Agriculture — presented groundbreaking NT carbon sequestration results at the UN COP30."
+      }
+    ]
+  },
+  "impacto": {
+    "tag": "Impact Data",
+    "title": "Numbers That Transform",
+    "lead": "Measurable outcomes of the No-Till System according to Prof. Juca Sá's research.",
+    "items": [
+      {
+        "numero": "59",
+        "sufixo": "M",
+        "label": "tons of CO₂-eq mitigated by Brazilian NT in 2020"
+      },
+      {
+        "numero": "25",
+        "sufixo": "%",
+        "label": "of studied farms already exceed carbon of native vegetation"
+      },
+      {
+        "numero": "7B",
+        "sufixo": "t",
+        "label": "of erosion avoided over 50 years (US$ 34–101B in preserved assets)"
+      },
+      {
+        "numero": "40",
+        "sufixo": "%",
+        "label": "higher profitability for farms adopting all 3 NT pillars correctly"
+      }
+    ]
+  },
+  "opinioes": {
+    "tag": "Principles & Vision",
+    "title": "The 3 Pillars of the No-Till System",
+    "lead": "According to Prof. Juca Sá, 85–90% of \"no-till\" areas in Brazil do not correctly apply the three fundamental principles — and this compromises all the benefits of the system.",
+    "principios": [
+      {
+        "numero": 1,
+        "titulo": "Minimum Soil Disturbance",
+        "descricao": "The soil is disturbed only at the seeding row. No conventional plowing or harrowing. The natural structure and soil aggregates are preserved."
+      },
+      {
+        "numero": 2,
+        "titulo": "Permanent Soil Cover",
+        "descricao": "Living plants or straw throughout the year. Requires 16–19 t/ha of biomass/straw to ensure continuous protection and feed soil biota year-round."
+      },
+      {
+        "numero": 3,
+        "titulo": "Diversified Crop Rotation",
+        "descricao": "Diversity of plant species in rotation to increase quality and quantity of biomass-C, stimulate edaphic biota, and break pest and disease cycles."
+      }
+    ],
+    "citacoes": [
+      {
+        "texto": "Crop residues are the food of the soil, and by feeding the soil, we feed humans — and agriculture can contribute to minimizing the climate crisis.",
+        "fonte": "Prof. Juca Sá — FEBRAPDP / COP30, Belém 2025"
+      },
+      {
+        "texto": "The No-Till System, grounded in its principles, has the capacity to recover carbon, reaching levels similar to those of native vegetation.",
+        "fonte": "Science of the Total Environment, 2025 (Sá & Lal)"
+      },
+      {
+        "texto": "Expanding one hectare of correct no-till can offset the preservation of one hectare of forest in terms of carbon accounting.",
+        "fonte": "Interview — Notícias Agrícolas / 17th National NT Congress"
+      },
+      {
+        "texto": "Full implementation of NT could mitigate 211 million tons of CO₂-eq per year in Brazil — more than 10% of all agribusiness emissions.",
+        "fonte": "Prof. Juca Sá — Agrobalsas 2025"
+      }
+    ]
+  },
+  "publicacoes": {
+    "tag": "Scientific Output",
+    "title": "Main Publications",
+    "lead": "Over 70 scientific articles published in high-impact international journals, with 9,400+ citations. Co-author with Nobel Peace Prize laureate Prof. Rattan Lal.",
+    "filterArticle": "Articles",
+    "filterBook": "Books / Chapters",
+    "filterMisc": "Miscellaneous",
+    "cta": "📚 View all on Google Scholar",
+    "tagArticle": "Article",
+    "tagBook": "Chapter",
+    "tagMisc": "Miscellaneous"
+  },
+  "videos": {
+    "tag": "Video Content",
+    "title": "Lectures & Interviews",
+    "lead": "Courses, online classes, interviews and presentations at national and international conferences."
+  },
+  "fotos": {
+    "tag": "Gallery",
+    "title": "Photos",
+    "lead": "Field research, international conferences and the No-Till System in action."
+  },
+  "apresentacoes": {
+    "tag": "Presentations",
+    "title": "Conferences & Lectures",
+    "lead": "Invited speaker at national and international conferences on No-Till, soil carbon, and climate change."
+  },
+  "noticias": {
+    "tag": "Media Coverage",
+    "title": "Recent News",
+    "lead": "Prof. Juca Sá's research and statements covered by specialized media in agribusiness, soil science, and climate."
+  },
+  "links": {
+    "tag": "External Links",
+    "title": "Profiles & Resources",
+    "lead": "Access the academic profiles, full publications and organizations associated with Prof. Juca Sá.",
+    "cta": "Access →"
+  },
+  "footer": {
+    "brandSub": "João Carlos de Moraes Sá — Senior Researcher, Rattan Lal Center for Carbon Management, The Ohio State University. World reference in No-Till and soil carbon.",
+    "sections": "Sections",
+    "academic": "Academic Profiles",
+    "copyright": "© 2026 Prof. Juca Sá — No-Till System",
+    "made": "Made with ♥ for soil science and the climate",
+    "navItems": [
+      "Profile",
+      "Principles",
+      "Publications",
+      "Videos",
+      "Photos",
+      "Presentations",
+      "News",
+      "Links"
+    ]
+  }
+}

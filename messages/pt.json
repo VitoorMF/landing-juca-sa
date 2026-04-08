@@ -1,0 +1,197 @@
+{
+  "nav": {
+    "perfil": "Perfil",
+    "opinioes": "Opiniões",
+    "publicacoes": "Publicações",
+    "videos": "Vídeos",
+    "fotos": "Fotos",
+    "apresentacoes": "Apresentações",
+    "noticias": "Notícias",
+    "links": "Links",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "hero": {
+    "eyebrow": "🌱 Referência Mundial em Plantio Direto",
+    "desc": "Cientista sênior, pesquisador associado no Rattan Lal Center for Carbon Management da The Ohio State University, e referência mundial em dinâmica de carbono orgânico no solo, Sistema Plantio Direto e agricultura regenerativa nos trópicos.",
+    "stat1": "Artigos científicos",
+    "stat2": "Citações (Google Scholar)",
+    "stat3": "Anos de pesquisa",
+    "cta1": "📄 Ver Publicações",
+    "cta2": "Conheça o Pesquisador"
+  },
+  "perfil": {
+    "tag": "Perfil Científico",
+    "title": "Trajetória e Formação",
+    "lead": "Mais de 40 anos dedicados à pesquisa em manejo conservacionista do solo, formando pesquisadores em 11 países e co-autor em 25 artigos com o Prêmio Nobel da Paz Prof. Rattan Lal.",
+    "cardTitle": "Cientista Sênior · Prof. Juca Sá",
+    "instLabel": "Instituição Atual",
+    "doutoradoLabel": "Doutorado",
+    "labLabel": "Laboratório",
+    "cnpqLabel": "Bolsa CNPq",
+    "febrapdpLabel": "FEBRAPDP",
+    "instValue": "Rattan Lal Center for Carbon Management — The Ohio State University",
+    "doutoradoValue": "ESALQ-USP / The Ohio State University (2001)",
+    "labValue": "Soil Organic Matter Lab (CNPq)",
+    "cnpqValue": "Pesquisador Nível 1D (mais alto nível)",
+    "febrapdpValue": "Presidente da Comissão Técnico-Científica",
+    "sobreTitle": "Sobre o Pesquisador",
+    "bio1": "Prof. Juca Sá é um dos maiores especialistas mundiais em dinâmica de carbono orgânico do solo em sistemas de Plantio Direto. Sua jornada científica começou em 1981, logo após se formar em Engenharia Agronômica pela UFRRJ, passando por instituições pioneiras no SPD como a Fundação ABC, a UEPG (Universidade Estadual de Ponta Grossa) — onde atuou de 1996 a 2019 — e hoje como pesquisador associado sênior na The Ohio State University, ao lado do Prêmio Nobel da Paz Prof. Rattan Lal.",
+    "bio2": "Suas pesquisas demonstraram que o Plantio Direto, quando implementado corretamente nos seus três pilares, é capaz de restaurar os estoques de carbono orgânico do solo a níveis comparáveis aos da vegetação nativa. Um estudo publicado em 2025 em parceria com Rattan Lal — abrangendo 63 fazendas nos biomas Cerrado e Mata Atlântica — confirmou que 25% das propriedades já superaram os estoques de carbono da vegetação nativa.",
+    "bio3": "Formou 32 orientandos de graduação, 12 mestres, 3 doutores e 7 pós-doutores, além de treinar pesquisadores de 11 países da Ásia e África em 7 edições de cursos internacionais sobre manejo de matéria orgânica do solo.",
+    "timeline": [
+      {
+        "emoji": "🌱",
+        "year": "1981 — UFRRJ",
+        "text": "Graduação em Engenharia Agronômica — Universidade Federal Rural do Rio de Janeiro. Início na Cooperativa Central de Laticínios do Paraná."
+      },
+      {
+        "emoji": "🔬",
+        "year": "1988 — Fundação ABC",
+        "text": "Pesquisador em fertilidade do solo — Fundação ABC, instituição pioneira do Plantio Direto no Brasil. Primeiros contatos profundos com o SPD."
+      },
+      {
+        "emoji": "📜",
+        "year": "1994 — UFPR / 2001 — ESALQ-USP + OSU",
+        "text": "Mestrado (UFPR) e Doutorado em solos — ESALQ/USP com período sanduíche na The Ohio State University. Primeiras publicações internacionais sobre sequestro de carbono em Oxissolos brasileiros."
+      },
+      {
+        "emoji": "🏫",
+        "year": "1996–2019 — UEPG",
+        "text": "Professor Associado C — Depto. de Ciência do Solo e Eng. Agrícola, UEPG. Construiu um dos principais grupos de pesquisa em matéria orgânica do solo do Brasil."
+      },
+      {
+        "emoji": "🌎",
+        "year": "2008–presente — The Ohio State University",
+        "text": "Pós-doutorados (2008, 2012) e Professor Visitante Sênior (2015) no C-MASC (Carbon Management and Sequestration Center), ao lado do Prof. Rattan Lal."
+      },
+      {
+        "emoji": "🏆",
+        "year": "2025 — COP30, Belém",
+        "text": "Palestrante de abertura na Casa da Agricultura Sustentável — apresentou resultados inéditos do SPD para sequestro de carbono na ONU COP30."
+      }
+    ]
+  },
+  "impacto": {
+    "tag": "Dados de Impacto",
+    "title": "Números que Transformam",
+    "lead": "Resultados mensuráveis do Sistema Plantio Direto segundo as pesquisas do Prof. Juca Sá.",
+    "items": [
+      {
+        "numero": "59",
+        "sufixo": "M",
+        "label": "toneladas de CO₂-eq mitigadas pelo SPD brasileiro em 2020"
+      },
+      {
+        "numero": "25",
+        "sufixo": "%",
+        "label": "das fazendas estudadas já superam o carbono da mata nativa"
+      },
+      {
+        "numero": "7B",
+        "sufixo": "t",
+        "label": "de erosão evitada em 50 anos (US$ 34–101 bi em ativos preservados)"
+      },
+      {
+        "numero": "40",
+        "sufixo": "%",
+        "label": "mais rentabilidade para quem adota os 3 pilares do SPD corretamente"
+      }
+    ]
+  },
+  "opinioes": {
+    "tag": "Princípios & Visão",
+    "title": "Os 3 Pilares do Sistema Plantio Direto",
+    "lead": "Segundo o Prof. Juca Sá, 85–90% das áreas de \"plantio direto\" no Brasil não aplicam corretamente os três princípios fundamentais — e isso compromete todos os benefícios do sistema.",
+    "principios": [
+      {
+        "numero": 1,
+        "titulo": "Mínimo Revolvimento do Solo",
+        "descricao": "O solo é perturbado apenas na linha de semeadura. Não há aração nem gradagem convencional. A estrutura natural e os agregados do solo são preservados."
+      },
+      {
+        "numero": 2,
+        "titulo": "Cobertura Permanente do Solo",
+        "descricao": "Plantas vivas ou palha durante todo o ano. Requer 16–19 t/ha de biomassa/palha para garantir proteção contínua e alimentar a biota do solo o ano inteiro."
+      },
+      {
+        "numero": 3,
+        "titulo": "Rotação Diversificada de Culturas",
+        "descricao": "Diversidade de espécies vegetais em rotação para aumentar a qualidade e quantidade de biomassa-C, estimular a biota edáfica e romper ciclos de pragas e doenças."
+      }
+    ],
+    "citacoes": [
+      {
+        "texto": "O resíduo das culturas é o alimento do solo, e ao alimentar o solo, alimentamos os seres humanos — e a agricultura pode contribuir para minimizar a crise climática.",
+        "fonte": "Prof. Juca Sá — FEBRAPDP / COP30, Belém 2025"
+      },
+      {
+        "texto": "O Sistema Plantio Direto, fundamentado nos seus princípios, tem a capacidade de recuperar o carbono, alcançando níveis semelhantes aos da mata nativa.",
+        "fonte": "Science of the Total Environment, 2025 (Sá & Lal)"
+      },
+      {
+        "texto": "Expandir um hectare de plantio direto correto pode compensar a preservação de um hectare de floresta em termos de contabilidade de carbono.",
+        "fonte": "Entrevista — Notícias Agrícolas / 17º Congresso Nacional SPD"
+      },
+      {
+        "texto": "A implementação plena do SPD poderia mitigar 211 milhões de toneladas de CO₂-eq por ano no Brasil — mais de 10% de todas as emissões do agronegócio.",
+        "fonte": "Prof. Juca Sá — Agrobalsas 2025"
+      }
+    ]
+  },
+  "publicacoes": {
+    "tag": "Produção Científica",
+    "title": "Principais Publicações",
+    "lead": "Mais de 70 artigos científicos publicados em periódicos internacionais de alto impacto, com 9.400+ citações. Co-autor com o Nobel da Paz Prof. Rattan Lal.",
+    "filterArticle": "Artigos",
+    "filterBook": "Livros / Capítulos",
+    "filterMisc": "Miscelânea",
+    "cta": "📚 Ver todas no Google Scholar",
+    "tagArticle": "Artigo",
+    "tagBook": "Capítulo",
+    "tagMisc": "Miscelânea"
+  },
+  "videos": {
+    "tag": "Conteúdo em Vídeo",
+    "title": "Palestras & Entrevistas",
+    "lead": "Aulas, cursos online, entrevistas e apresentações em congressos nacionais e internacionais."
+  },
+  "fotos": {
+    "tag": "Galeria",
+    "title": "Fotos",
+    "lead": "Pesquisa em campo, congressos internacionais e o Sistema Plantio Direto em ação."
+  },
+  "apresentacoes": {
+    "tag": "Apresentações",
+    "title": "Congressos & Palestras",
+    "lead": "Palestrante convidado em congressos nacionais e internacionais sobre Plantio Direto, carbono no solo e mudanças climáticas."
+  },
+  "noticias": {
+    "tag": "Cobertura de Imprensa",
+    "title": "Notícias Recentes",
+    "lead": "Pesquisas e declarações do Prof. Juca Sá repercutindo na mídia especializada em agronegócio, ciência do solo e clima."
+  },
+  "links": {
+    "tag": "Links Externos",
+    "title": "Perfis & Recursos",
+    "lead": "Acesse os perfis acadêmicos, publicações completas e organizações associadas ao Prof. Juca Sá.",
+    "cta": "Acessar →"
+  },
+  "footer": {
+    "brandSub": "João Carlos de Moraes Sá — Pesquisador Sênior, Rattan Lal Center for Carbon Management, The Ohio State University. Referência mundial em Plantio Direto e carbono no solo.",
+    "sections": "Seções",
+    "academic": "Perfis Acadêmicos",
+    "copyright": "© 2026 Prof. Juca Sá — Sistema Plantio Direto",
+    "made": "Feito com ♥ para a ciência do solo e o clima",
+    "navItems": [
+      "Perfil",
+      "Opiniões",
+      "Publicações",
+      "Vídeos",
+      "Fotos",
+      "Apresentações",
+      "Notícias",
+      "Links"
+    ]
+  }
+}

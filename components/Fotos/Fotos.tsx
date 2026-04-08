@@ -1,8 +1,10 @@
+import { getTranslations } from 'next-intl/server'
 import styles from './Fotos.module.css'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Foto } from '@/types'
 
 export default async function Fotos() {
+  const t = await getTranslations('fotos')
   const { data } = await supabaseServer.from('fotos').select('*')
   const fotos: Foto[] = data ?? []
 
@@ -10,11 +12,9 @@ export default async function Fotos() {
     <section id="fotos" className="section">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-tag">Galeria</div>
-          <h2 className="section-title">Fotos</h2>
-          <p className="section-lead">
-            Pesquisa em campo, congressos internacionais e o Sistema Plantio Direto em ação.
-          </p>
+          <div className="section-tag">{t('tag')}</div>
+          <h2 className="section-title">{t('title')}</h2>
+          <p className="section-lead">{t('lead')}</p>
         </div>
 
         <div className={styles.galleryGrid}>

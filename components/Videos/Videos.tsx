@@ -1,8 +1,10 @@
+import { getTranslations } from 'next-intl/server'
 import styles from './Videos.module.css'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Video } from '@/types'
 
 export default async function Videos() {
+  const t = await getTranslations('videos')
   const { data } = await supabaseServer.from('videos').select('*')
   const videos: Video[] = (data ?? []).map((v: Record<string, unknown>) => ({
     ...v,
@@ -14,11 +16,9 @@ export default async function Videos() {
     <section id="videos" className="section section-alt">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-tag">Conteúdo em Vídeo</div>
-          <h2 className="section-title">Palestras &amp; Entrevistas</h2>
-          <p className="section-lead">
-            Aulas, cursos online, entrevistas e apresentações em congressos nacionais e internacionais.
-          </p>
+          <div className="section-tag">{t('tag')}</div>
+          <h2 className="section-title">{t('title')}</h2>
+          <p className="section-lead">{t('lead')}</p>
         </div>
 
         <div className={styles.videosGrid}>

@@ -11,6 +11,7 @@ const vazio: Omit<Publicacao, 'id'> = {
   autores: '',
   revista: '',
   tipo: 'article',
+  subtipo: '',
   url: '',
 }
 
@@ -18,6 +19,7 @@ export default function PublicacoesAdmin() {
   const [lista, setLista] = useState<Publicacao[]>([])
   const [busca, setBusca] = useState('')
   const [filtro, setFiltro] = useState<'todos' | TipoPublicacao>('todos')
+
   const [form, setForm] = useState<Omit<Publicacao, 'id'>>(vazio)
   const [editandoId, setEditandoId] = useState<string | null>(null)
   const [mostrarForm, setMostrarForm] = useState(false)
@@ -50,7 +52,7 @@ export default function PublicacoesAdmin() {
   }
 
   function abrirEditar(p: Publicacao) {
-    setForm({ ano: p.ano, titulo: p.titulo, autores: p.autores, revista: p.revista, tipo: p.tipo, url: p.url ?? '' })
+    setForm({ ano: p.ano, titulo: p.titulo, autores: p.autores, revista: p.revista, tipo: p.tipo, subtipo: p.subtipo ?? '', url: p.url ?? '' })
     setEditandoId(p.id)
     setMostrarForm(true)
   }
@@ -85,8 +87,11 @@ export default function PublicacoesAdmin() {
     setConfirmDelete(null)
   }
 
-  const tipoLabel = (t: TipoPublicacao) => t === 'article' ? 'Artigo' : 'Livro/Capítulo';
-  const tipoCor = (t: TipoPublicacao) => t === 'article' ? styles.badgeArtigo : styles.badgeLivro;
+  const tipoLabel = (p: Publicacao) =>
+    p.tipo === 'article' ? 'Artigo' :
+    p.tipo === 'book' ? 'Livro/Capítulo' :
+    (p.subtipo?.trim() || 'Miscelânea')
+  const tipoCor = (t: TipoPublicacao) => t === 'article' ? styles.badgeArtigo : t === 'book' ? styles.badgeLivro : styles.badgeMisc
 
 
 
@@ -113,13 +118,13 @@ export default function PublicacoesAdmin() {
           onChange={e => setBusca(e.target.value)}
         />
         <div className={styles.tabs}>
-          {(['todos', 'article', 'book'] as const).map(f => (
+          {(['todos', 'article', 'book', 'misc'] as const).map(f => (
             <button
               key={f}
               className={`${styles.tab} ${filtro === f ? styles.tabAtivo : ''}`}
               onClick={() => setFiltro(f)}
             >
-              {f === 'todos' ? 'Todas' : f === 'article' ? 'Artigos' : 'Livros'}
+              {f === 'todos' ? 'Todas' : f === 'article' ? 'Artigos' : f === 'book' ? 'Livros' : 'Miscelânea'}
             </button>
           ))}
         </div>
@@ -153,7 +158,7 @@ export default function PublicacoesAdmin() {
                 <td className={styles.autoresCell}>{p.autores}</td>
                 <td>
                   <span className={`${styles.badge} ${tipoCor(p.tipo)}`}>
-                    {tipoLabel(p.tipo)}
+                    {tipoLabel(p)}
                   </span>
                 </td>
                 <td>
@@ -246,12 +251,25 @@ export default function PublicacoesAdmin() {
                   <select
                     className={styles.input}
                     value={form.tipo}
-                    onChange={e => setForm(f => ({ ...f, tipo: e.target.value as TipoPublicacao }))}
+                    onChange={e => setForm(f => ({ ...f, tipo: e.target.value as TipoPublicacao, subtipo: '' }))}
                   >
                     <option value="article">Artigo</option>
                     <option value="book">Livro / Capítulo</option>
+                    <option value="misc">Miscelânea</option>
                   </select>
                 </label>
+
+                {form.tipo === 'misc' && (
+                  <label className={styles.label}>
+                    Especificar tipo
+                    <input
+                      className={styles.input}
+                      value={form.subtipo ?? ''}
+                      onChange={e => setForm(f => ({ ...f, subtipo: e.target.value }))}
+                      placeholder="Ex: Citação, Jornal, Relatório técnico…"
+                    />
+                  </label>
+                )}
               </div>
 
               <label className={styles.label}>

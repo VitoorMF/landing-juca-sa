@@ -1,8 +1,10 @@
+import { getTranslations } from 'next-intl/server'
 import styles from './Noticias.module.css'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Noticia } from '@/types'
 
 export default async function Noticias() {
+  const t = await getTranslations('noticias')
   const { data } = await supabaseServer.from('noticias').select('*')
   const noticias: Noticia[] = (data ?? []).map((n: Record<string, unknown>) => ({
     ...n,
@@ -17,12 +19,9 @@ export default async function Noticias() {
     <section id="noticias" className="section">
       <div className="container">
         <div className="section-header reveal">
-          <div className="section-tag">Cobertura de Imprensa</div>
-          <h2 className="section-title">Notícias Recentes</h2>
-          <p className="section-lead">
-            Pesquisas e declarações do Prof. Juca Sá repercutindo na mídia especializada em
-            agronegócio, ciência do solo e clima.
-          </p>
+          <div className="section-tag">{t('tag')}</div>
+          <h2 className="section-title">{t('title')}</h2>
+          <p className="section-lead">{t('lead')}</p>
         </div>
 
         <div className={styles.newsGrid}>
@@ -34,9 +33,7 @@ export default async function Noticias() {
               >
                 <div className={styles.newsImgEmoji}>{destaque.emoji}</div>
                 <div className={styles.newsImgOverlay} />
-                {destaque.tag && (
-                  <div className={styles.newsImgTag}>{destaque.tag}</div>
-                )}
+                {destaque.tag && <div className={styles.newsImgTag}>{destaque.tag}</div>}
               </div>
               <div className={styles.newsCardBody}>
                 <div className={styles.newsDate}>{destaque.data}</div>

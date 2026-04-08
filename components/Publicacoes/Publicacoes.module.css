@@ -107,6 +107,11 @@ a.pubTitle:hover {
   color: var(--brown);
 }
 
+.pubTypeMisc {
+  background: rgba(91,62,200,.1);
+  color: #5B3EC8;
+}
+
 .pubCta {
   text-align: center;
   margin-top: 40px;

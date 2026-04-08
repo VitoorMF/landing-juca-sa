@@ -1,20 +1,27 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
+import { useRouter, usePathname } from '@/i18n/navigation'
 import styles from './Navbar.module.css'
 
-const navItems = [
-  { href: '#perfil', label: 'Perfil' },
-  { href: '#opinioes', label: 'Opiniões' },
-  { href: '#publicacoes', label: 'Publicações' },
-  { href: '#videos', label: 'Vídeos' },
-  { href: '#fotos', label: 'Fotos' },
-  { href: '#apresentacoes', label: 'Apresentações' },
-  { href: '#noticias', label: 'Notícias' },
-  { href: '#links', label: 'Links' },
-]
-
 export default function Navbar() {
+  const t = useTranslations('nav')
+  const locale = useLocale()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const navItems = [
+    { href: '#perfil',        label: t('perfil') },
+    { href: '#opinioes',      label: t('opinioes') },
+    { href: '#publicacoes',   label: t('publicacoes') },
+    { href: '#videos',        label: t('videos') },
+    { href: '#fotos',         label: t('fotos') },
+    { href: '#apresentacoes', label: t('apresentacoes') },
+    { href: '#noticias',      label: t('noticias') },
+    { href: '#links',         label: t('links') },
+  ]
+
   const [activeSection, setActiveSection] = useState('perfil')
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -28,7 +35,6 @@ export default function Navbar() {
       })
       if (current) setActiveSection(current)
     }
-
     window.addEventListener('scroll', updateNav, { passive: true })
     return () => window.removeEventListener('scroll', updateNav)
   }, [])
@@ -53,6 +59,11 @@ export default function Navbar() {
     }
   }
 
+  function toggleLocale() {
+    const next = locale === 'pt' ? 'en' : 'pt'
+    router.replace(pathname, { locale: next })
+  }
+
   return (
     <>
       <nav id="navbar" className={styles.navbar}>
@@ -63,13 +74,13 @@ export default function Navbar() {
             onClick={(e) => {
               e.preventDefault()
               window.scrollTo({ top: 0, behavior: 'smooth' })
-              history.pushState(null, '', '/')
+              history.pushState(null, '', locale === 'en' ? '/en' : '/')
             }}
           >
             Prof. Juca Sá
           </a>
 
-          {/* Desktop links */}
+          {/* Desktop: links */}
           <div className={styles.navLinks}>
             {navItems.map((item) => (
               <a
@@ -83,21 +94,30 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Hamburger button */}
-          <button
-            className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`}
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-            aria-expanded={menuOpen}
-          >
-            <span />
-            <span />
-            <span />
+          {/* Desktop: botão de idioma isolado à direita */}
+          <button className={styles.langBtnDesktop} onClick={toggleLocale}>
+            {locale === 'pt' ? 'EN' : 'PT'}
           </button>
+
+          {/* Mobile: botão de idioma + hamburger */}
+          <div className={styles.navMobile}>
+            <button className={styles.langBtn} onClick={toggleLocale}>
+              {locale === 'pt' ? 'EN' : 'PT'}
+            </button>
+            <button
+              className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`}
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
+              aria-expanded={menuOpen}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Mobile drawer */}
       {menuOpen && (
         <div className={styles.overlay} onClick={() => setMenuOpen(false)} />
       )}

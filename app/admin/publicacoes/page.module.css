@@ -183,6 +183,11 @@
   color: #8B6914;
 }
 
+.badgeMisc {
+  background: #F0EEFF;
+  color: #5B3EC8;
+}
+
 /* ─── Ações ───────────────────────────────────────────────────── */
 .acoes {
   display: flex;

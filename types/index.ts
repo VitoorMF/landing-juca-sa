@@ -1,4 +1,4 @@
-export type TipoPublicacao = 'article' | 'book'
+export type TipoPublicacao = 'article' | 'book' | 'misc'
 
 export interface Publicacao {
   id: string
@@ -7,6 +7,7 @@ export interface Publicacao {
   autores: string
   revista: string
   tipo: TipoPublicacao
+  subtipo?: string
   url?: string
 }
 

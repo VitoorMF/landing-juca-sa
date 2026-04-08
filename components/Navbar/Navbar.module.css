@@ -26,6 +26,38 @@
   letter-spacing: .02em;
 }
 
+.navMobile {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.langBtn,
+.langBtnDesktop {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.8);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.langBtn:hover,
+.langBtnDesktop:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+/* Só aparece no desktop, sempre no canto direito */
+.langBtnDesktop {
+  margin-left: auto;
+}
+
 /* Desktop nav links */
 .navLinks {
   display: flex;
@@ -162,6 +194,12 @@
   }
   .navLinks {
     display: none;
+  }
+  .langBtnDesktop {
+    display: none;
+  }
+  .navMobile {
+    display: flex;
   }
   .hamburger {
     display: flex;
