@@ -8,6 +8,8 @@ export async function GET() {
     return NextResponse.json({ erro: 'Variáveis VERCEL_ACCESS_TOKEN e VERCEL_PROJECT_ID não configuradas.' }, { status: 500 })
   }
 
+  try {
+
   const agora = new Date()
   const inicio30d = new Date(agora)
   inicio30d.setDate(agora.getDate() - 30)
@@ -23,11 +25,18 @@ export async function GET() {
   const base = `https://vercel.com/api/web-analytics`
   const qs = `projectId=${PROJECT_ID}`
 
+  const fetchJson = async (url: string) => {
+    const r = await fetch(url, { headers })
+    const text = await r.text()
+    if (!r.ok) throw new Error(`${r.status} ${url} — ${text}`)
+    return JSON.parse(text)
+  }
+
   const [resumo, resumoAnterior, paises, paginas] = await Promise.all([
-    fetch(`${base}/timeseries?${qs}&from=${from}&to=${to}&granularity=day`, { headers }).then(r => r.json()),
-    fetch(`${base}/timeseries?${qs}&from=${fromAnterior}&to=${toAnterior}&granularity=day`, { headers }).then(r => r.json()),
-    fetch(`${base}/breakdown?${qs}&from=${from}&to=${to}&groupBy=country&limit=6`, { headers }).then(r => r.json()),
-    fetch(`${base}/breakdown?${qs}&from=${from}&to=${to}&groupBy=path&limit=5`, { headers }).then(r => r.json()),
+    fetchJson(`${base}/timeseries?${qs}&from=${from}&to=${to}&granularity=day`),
+    fetchJson(`${base}/timeseries?${qs}&from=${fromAnterior}&to=${toAnterior}&granularity=day`),
+    fetchJson(`${base}/breakdown?${qs}&from=${from}&to=${to}&groupBy=country&limit=6`),
+    fetchJson(`${base}/breakdown?${qs}&from=${from}&to=${to}&groupBy=path&limit=5`),
   ])
 
   const somarVisitantes = (data: { visitors?: number }[]) =>
@@ -53,4 +62,8 @@ export async function GET() {
       visitas: p.total,
     })),
   })
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e)
+    return NextResponse.json({ erro: msg }, { status: 500 })
+  }
 }
