@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-const API_KEY     = process.env.UMAMI_API_KEY
-const WEBSITE_ID  = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
-const BASE        = 'https://api.umami.is/v1'
+const API_KEY    = process.env.UMAMI_API_KEY
+const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
+const BASE       = 'https://api.umami.is/v1'
 
 export async function GET() {
   if (!API_KEY || !WEBSITE_ID) {
@@ -14,38 +14,55 @@ export async function GET() {
     const inicio30d = agora - 30 * 24 * 60 * 60 * 1000
     const anterior  = agora - 60 * 24 * 60 * 60 * 1000
 
-    const headers = { Authorization: `Bearer ${API_KEY}` }
-    const qs      = `startAt=${inicio30d}&endAt=${agora}`
-    const qsAntes = `startAt=${anterior}&endAt=${inicio30d}`
+    const h   = { Authorization: `Bearer ${API_KEY}` }
+    const qs  = `startAt=${inicio30d}&endAt=${agora}`
+    const qsP = `startAt=${anterior}&endAt=${inicio30d}`
+    const m   = (type: string, limit = 10) =>
+      fetch(`${BASE}/websites/${WEBSITE_ID}/metrics?${qs}&type=${type}&limit=${limit}`, { headers: h }).then(r => r.json())
 
-    const [stats, statsPrev, paises, paginas] = await Promise.all([
-      fetch(`${BASE}/websites/${WEBSITE_ID}/stats?${qs}`,                          { headers }).then(r => r.json()),
-      fetch(`${BASE}/websites/${WEBSITE_ID}/stats?${qsAntes}`,                     { headers }).then(r => r.json()),
-      fetch(`${BASE}/websites/${WEBSITE_ID}/metrics?${qs}&type=country&limit=6`,   { headers }).then(r => r.json()),
-      fetch(`${BASE}/websites/${WEBSITE_ID}/metrics?${qs}&type=url&limit=5`,       { headers }).then(r => r.json()),
+    const [stats, statsPrev, urls, entradas, saidas, paises, regioes, cidades, browsers, sistemas, dispositivos, referrers] = await Promise.all([
+      fetch(`${BASE}/websites/${WEBSITE_ID}/stats?${qs}`,  { headers: h }).then(r => r.json()),
+      fetch(`${BASE}/websites/${WEBSITE_ID}/stats?${qsP}`, { headers: h }).then(r => r.json()),
+      m('url'),
+      m('entry'),
+      m('exit'),
+      m('country'),
+      m('region'),
+      m('city'),
+      m('browser'),
+      m('os'),
+      m('device'),
+      m('referrer'),
     ])
 
-    const visitantes     = stats?.visitors?.value     ?? 0
-    const visitantesPrev = statsPrev?.visitors?.value ?? 0
-    const pageviews      = stats?.pageviews?.value    ?? 0
-    const crescimento    = visitantesPrev > 0
-      ? (((visitantes - visitantesPrev) / visitantesPrev) * 100).toFixed(1)
-      : null
+    const toArr = (d: unknown) => Array.isArray(d) ? d : []
+    const fmt   = (d: { x: string; y: number }) => ({ nome: d.x || '(direto)', visitas: d.y })
+
+    // Umami Cloud pode retornar { visitors: 2 } ou { visitors: { value: 2 } }
+    const getVal = (v: unknown): number => {
+      if (typeof v === 'number') return v
+      if (typeof v === 'object' && v !== null && 'value' in v) return (v as { value: number }).value ?? 0
+      return 0
+    }
+
+    const visitors  = getVal(stats?.visitors)
+    const visits    = getVal(stats?.visits)
+    const pageviews = getVal(stats?.pageviews)
+    const bounces   = getVal(stats?.bounces)
+    const totaltime = getVal(stats?.totaltime)
+    const visitorsP = getVal(statsPrev?.visitors)
+
+    const crescimento    = visitorsP > 0 ? (((visitors - visitorsP) / visitorsP) * 100).toFixed(1) : null
+    const taxaRejeicao   = visits > 0 ? Math.round((bounces / visits) * 100) : 0
+    const duracaoSeg     = visits > 0 ? Math.round(totaltime / visits) : 0
+    const duracao        = `${Math.floor(duracaoSeg / 60)}m ${duracaoSeg % 60}s`
 
     return NextResponse.json({
-      visitantes30d:      visitantes,
-      visitantesAnterior: visitantesPrev,
-      pageviews30d:       pageviews,
-      crescimento,
-      paises: (Array.isArray(paises) ? paises : []).map((p: { x: string; y: number }) => ({
-        pais:    p.x,
-        visitas: p.y,
-      })),
-      topPaginas: (Array.isArray(paginas) ? paginas : []).map((p: { x: string; y: number }) => ({
-        pagina:  p.x,
-        nome:    p.x === '/' ? 'Página inicial' : p.x,
-        visitas: p.y,
-      })),
+      stats: { visitors, visits, pageviews, taxaRejeicao, duracao, crescimento, visitorsP },
+      paginas:      { urls: toArr(urls).map(fmt), entradas: toArr(entradas).map(fmt), saidas: toArr(saidas).map(fmt) },
+      localizacao:  { paises: toArr(paises).map(fmt), regioes: toArr(regioes).map(fmt), cidades: toArr(cidades).map(fmt) },
+      ambiente:     { browsers: toArr(browsers).map(fmt), sistemas: toArr(sistemas).map(fmt), dispositivos: toArr(dispositivos).map(fmt) },
+      origens:      { referrers: toArr(referrers).map(fmt) },
     })
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e)
