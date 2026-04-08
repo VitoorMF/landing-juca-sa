@@ -1,0 +1,108 @@
+.page { padding: 40px 48px; }
+.cabecalho { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+.titulo { font-family: 'Merriweather', serif; font-size: 24px; font-weight: 700; color: var(--green-deep); margin-bottom: 4px; }
+.sub { font-size: 14px; color: var(--text-muted); }
+
+.aviso { display: flex; align-items: flex-start; gap: 8px; background: #FFF8E6; border: 1px solid rgba(200,168,75,.3); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+.aviso strong { color: var(--text); }
+.aviso code { background: #f0f2f5; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 12px; border: 1px solid #e8eaed; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.cardSpan { grid-column: span 2; }
+.cardImgWrap { position: relative; height: 160px; background: #f0f2f5; overflow: hidden; }
+.cardImg { width: 100%; height: 100%; object-fit: cover; }
+.cardPlaceholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 40px; opacity: .3; z-index: -1; }
+.cardBody { padding: 14px 16px; }
+.cardSrc { font-size: 12px; font-weight: 600; color: var(--teal); font-family: monospace; margin-bottom: 4px; }
+.cardCaption { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+.badgeDestaque { display: inline-block; margin-top: 8px; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; background: #FFF8E6; color: #8B6914; }
+.cardAcoes { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid #f0f2f5; }
+.btnEditar { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #dde1e7; background: #fff; font-size: 13px; font-weight: 500; color: var(--text); cursor: pointer; transition: border-color .15s, background .15s; }
+.btnEditar:hover { border-color: var(--teal); background: #EFF8F7; color: var(--teal); }
+.btnExcluir { flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #dde1e7; background: #fff; font-size: 13px; font-weight: 500; color: var(--text); cursor: pointer; transition: border-color .15s, background .15s; }
+.btnExcluir:hover { border-color: #e53935; background: #FFEBEE; color: #e53935; }
+
+.btnPrimario { padding: 10px 22px; background: var(--teal); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity .15s; font-family: 'Inter', sans-serif; white-space: nowrap; }
+.btnPrimario:hover { opacity: .88; }
+.btnPrimario:disabled { opacity: .45; cursor: not-allowed; }
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 200; display: flex; align-items: flex-start; justify-content: flex-end; }
+.drawer { width: 480px; max-width: 100vw; height: 100vh; background: #fff; display: flex; flex-direction: column; box-shadow: -4px 0 32px rgba(0,0,0,.15); }
+.drawerHeader { display: flex; align-items: center; justify-content: space-between; padding: 24px 28px; border-bottom: 1px solid #e8eaed; }
+.drawerTitulo { font-family: 'Merriweather', serif; font-size: 18px; font-weight: 700; color: var(--green-deep); }
+.btnFechar { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; padding: 4px 8px; border-radius: 6px; transition: background .15s; }
+.btnFechar:hover { background: #f0f2f5; }
+.drawerBody { flex: 1; padding: 28px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+.drawerFooter { display: flex; gap: 12px; justify-content: flex-end; padding: 20px 28px; border-top: 1px solid #e8eaed; }
+.label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text); }
+.input { padding: 10px 14px; border: 1px solid #dde1e7; border-radius: 8px; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text); background: #fff; outline: none; transition: border-color .15s; width: 100%; }
+.input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,168,150,.12); }
+.checkLabel { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: var(--text); cursor: pointer; }
+.btnCancelar { padding: 10px 22px; background: #fff; color: var(--text); border: 1px solid #dde1e7; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: 'Inter', sans-serif; transition: background .15s; }
+.btnCancelar:hover { background: #f0f2f5; }
+
+/* ─── Upload ──────────────────────────────────────────────────── */
+.uploadArea {
+  border: 2px dashed #dde1e7;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color .15s;
+  position: relative;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadArea:hover { border-color: var(--teal); }
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px;
+}
+
+.uploadIcone { font-size: 36px; }
+.uploadTexto { font-size: 14px; font-weight: 600; color: var(--text); }
+.uploadSub { font-size: 12px; color: var(--text-muted); }
+
+.uploadPreview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.uploadLoading {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--teal);
+}
+
+.btnTrocar {
+  background: none;
+  border: 1px solid #dde1e7;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background .15s;
+  font-family: 'Inter', sans-serif;
+}
+.modalConfirm { background: #fff; border-radius: 14px; padding: 36px 40px; text-align: center; max-width: 360px; width: 90%; margin: auto; box-shadow: 0 8px 40px rgba(0,0,0,.2); }
+.modalIcon { font-size: 40px; margin-bottom: 12px; }
+.modalConfirm h3 { font-family: 'Merriweather', serif; font-size: 18px; color: var(--text); margin-bottom: 8px; }
+.modalConfirm p { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+.modalAcoes { display: flex; gap: 12px; justify-content: center; }
+.btnExcluirConfirm { padding: 10px 22px; background: #e53935; color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity .15s; }
+.btnExcluirConfirm:hover { opacity: .88; }

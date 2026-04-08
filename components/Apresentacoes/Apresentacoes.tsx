@@ -1,7 +1,11 @@
-import { apresentacoes } from '@/data/apresentacoes'
 import styles from './Apresentacoes.module.css'
+import { supabaseServer } from '@/lib/supabase-server'
+import { Apresentacao } from '@/types'
 
-export default function Apresentacoes() {
+export default async function Apresentacoes() {
+  const { data } = await supabaseServer.from('apresentacoes').select('*')
+  const apresentacoes: Apresentacao[] = data ?? []
+
   return (
     <section id="apresentacoes" className="section section-alt">
       <div className="container">

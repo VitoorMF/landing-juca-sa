@@ -1,7 +1,15 @@
-import { noticias } from '@/data/noticias'
 import styles from './Noticias.module.css'
+import { supabaseServer } from '@/lib/supabase-server'
+import { Noticia } from '@/types'
 
-export default function Noticias() {
+export default async function Noticias() {
+  const { data } = await supabaseServer.from('noticias').select('*')
+  const noticias: Noticia[] = (data ?? []).map((n: Record<string, unknown>) => ({
+    ...n,
+    gradientFrom: n.gradient_from,
+    gradientTo: n.gradient_to,
+  } as Noticia))
+
   const destaque = noticias.find((n) => n.destaque)
   const secundarias = noticias.filter((n) => !n.destaque)
 

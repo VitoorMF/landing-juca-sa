@@ -1,7 +1,14 @@
-import { links } from '@/data/links'
 import styles from './Links.module.css'
+import { supabaseServer } from '@/lib/supabase-server'
+import { Link } from '@/types'
 
-export default function Links() {
+export default async function Links() {
+  const { data } = await supabaseServer.from('links').select('*')
+  const links: Link[] = (data ?? []).map((l: Record<string, unknown>) => ({
+    ...l,
+    iconBg: l.icon_bg,
+  } as Link))
+
   return (
     <section id="links" className="section section-dark">
       <div className="container">

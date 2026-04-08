@@ -1,7 +1,11 @@
 import styles from './Fotos.module.css'
-import { fotos } from '@/data/fotos'
+import { supabaseServer } from '@/lib/supabase-server'
+import { Foto } from '@/types'
 
-export default function Fotos() {
+export default async function Fotos() {
+  const { data } = await supabaseServer.from('fotos').select('*')
+  const fotos: Foto[] = data ?? []
+
   return (
     <section id="fotos" className="section">
       <div className="container">

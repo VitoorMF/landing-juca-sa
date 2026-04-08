@@ -1,7 +1,15 @@
-import { videos } from '@/data/videos'
 import styles from './Videos.module.css'
+import { supabaseServer } from '@/lib/supabase-server'
+import { Video } from '@/types'
 
-export default function Videos() {
+export default async function Videos() {
+  const { data } = await supabaseServer.from('videos').select('*')
+  const videos: Video[] = (data ?? []).map((v: Record<string, unknown>) => ({
+    ...v,
+    gradientFrom: v.gradient_from,
+    gradientTo: v.gradient_to,
+  } as Video))
+
   return (
     <section id="videos" className="section section-alt">
       <div className="container">

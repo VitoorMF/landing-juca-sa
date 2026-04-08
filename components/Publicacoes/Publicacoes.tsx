@@ -1,16 +1,26 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { publicacoes, TipoPublicacao } from '@/data/publicacoes'
+import { supabase } from '@/lib/supabase'
+import { Publicacao, TipoPublicacao } from '@/types'
 import styles from './Publicacoes.module.css'
 
 type FilterType = 'all' | TipoPublicacao
 
 export default function Publicacoes() {
+  const [lista, setLista] = useState<Publicacao[]>([])
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
   const listRef = useRef<HTMLDivElement>(null)
 
-  const filtered = publicacoes.filter((p) => activeFilter === 'all' || p.tipo === activeFilter)
+  useEffect(() => {
+    async function buscar() {
+      const { data } = await supabase.from('publicacoes').select('*')
+      if (data) setLista(data as Publicacao[])
+    }
+    buscar()
+  }, [])
+
+  const filtered = lista.filter((p) => activeFilter === 'all' || p.tipo === activeFilter)
 
   useEffect(() => {
     const container = listRef.current
@@ -34,7 +44,7 @@ export default function Publicacoes() {
     cards.forEach((el) => observer.observe(el))
 
     return () => observer.disconnect()
-  }, [activeFilter])
+  }, [activeFilter, lista])
 
   return (
     <section id="publicacoes" className="section">
