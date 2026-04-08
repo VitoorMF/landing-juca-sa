@@ -22,7 +22,7 @@ export async function GET() {
   const toAnterior = inicio30d.toISOString().split('T')[0]
 
   const headers = { Authorization: `Bearer ${TOKEN}` }
-  const base = `https://vercel.com/api/web-analytics`
+  const base = `https://vercel.com/api/v1/web-analytics`
   const qs = `projectId=${PROJECT_ID}`
 
   const fetchJson = async (url: string) => {
