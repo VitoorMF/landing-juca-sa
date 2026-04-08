@@ -6,6 +6,7 @@ import styles from './page.module.css'
 interface DadosMetricas {
   visitantes30d: number
   visitantesAnterior: number
+  pageviews30d: number
   crescimento: string | null
   paises: { pais: string; visitas: number }[]
   topPaginas: { pagina: string; nome: string; visitas: number }[]
@@ -71,6 +72,12 @@ export default function MetricasAdmin() {
               <div className={crescimentoNum !== null && crescimentoNum >= 0 ? styles.cardCrescimento : styles.cardCrescimentoNeg}>
                 {crescimentoTexto}
               </div>
+            </div>
+            <div className={styles.card}>
+              <div className={styles.cardIcono}>👁️</div>
+              <div className={styles.cardNum}>{dados.pageviews30d.toLocaleString('pt-BR')}</div>
+              <div className={styles.cardLabel}>Páginas visualizadas</div>
+              <div className={styles.cardCrescimento}>últimos 30 dias</div>
             </div>
             <div className={styles.card}>
               <div className={styles.cardIcono}>📅</div>
