@@ -22,11 +22,44 @@
 }
 .sub { font-size: 13px; color: var(--text-muted); }
 
+/* ── Lado direito do cabeçalho ── */
+.cabecalhoDireita {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* ── Filtro de período ── */
+.filtros {
+  display: flex;
+  gap: 4px;
+  background: #f0f2f5;
+  border-radius: 10px;
+  padding: 4px;
+}
+.filtroBotao {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.filtroBotao:hover { color: var(--text); }
+.filtroAtivo {
+  background: #fff;
+  color: var(--green-deep);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+
 /* ── Ativos agora ── */
 .ativosWrap {
-  position: absolute;
-  top: 40px;
-  right: 48px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -67,6 +100,15 @@
   color: var(--text-muted);
   font-size: 14px;
   padding: 40px 0;
+}
+.recarregando {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom: 12px;
+  opacity: .7;
 }
 .spinner {
   width: 20px; height: 20px;

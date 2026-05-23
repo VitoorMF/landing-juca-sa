@@ -29,6 +29,14 @@ type TabSources = 'referrers'
 type TabAmbiente = 'browsers' | 'sistemas' | 'dispositivos'
 type TabLocal = 'paises' | 'regioes' | 'cidades'
 
+const PERIODOS = [
+  { dias: 7,   label: '7 dias'  },
+  { dias: 30,  label: '30 dias' },
+  { dias: 90,  label: '90 dias' },
+  { dias: 365, label: '12 meses'},
+] as const
+type Periodo = typeof PERIODOS[number]['dias']
+
 const bandeiras: Record<string, string> = {
   Brazil: '🇧🇷', 'United States': '🇺🇸', Argentina: '🇦🇷',
   Paraguay: '🇵🇾', Uruguay: '🇺🇾', Germany: '🇩🇪',
@@ -115,6 +123,7 @@ export default function MetricasAdmin() {
   const [dados, setDados] = useState<DadosMetricas | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(true)
+  const [periodo, setPeriodo] = useState<Periodo>(30)
 
   const [ativos, setAtivos] = useState<number | null>(null)
 
@@ -124,12 +133,14 @@ export default function MetricasAdmin() {
   const [tabLoc, setTabLoc] = useState<TabLocal>('paises')
 
   useEffect(() => {
-    fetch('/api/metricas')
+    setCarregando(true)
+    setErro(null)
+    fetch(`/api/metricas?dias=${periodo}`)
       .then(r => r.json())
       .then(d => { if (d.erro) setErro(d.erro); else setDados(d) })
       .catch(() => setErro('Erro ao carregar métricas.'))
       .finally(() => setCarregando(false))
-  }, [])
+  }, [periodo])
 
   useEffect(() => {
     const buscar = () =>
@@ -151,24 +162,45 @@ export default function MetricasAdmin() {
       <div className={styles.cabecalho}>
         <div>
           <h1 className={styles.titulo}>Métricas de acesso</h1>
-          <p className={styles.sub}>Últimos 30 dias · via Umami Analytics</p>
+          <p className={styles.sub}>
+            Últimos {PERIODOS.find(p => p.dias === periodo)?.label} · via Umami Analytics
+          </p>
+        </div>
+        <div className={styles.cabecalhoDireita}>
+          {ativos !== null && (
+            <div className={styles.ativosWrap}>
+              <span className={styles.ativosDot} />
+              <span className={styles.ativosNum}>{ativos}</span>
+              <span className={styles.ativosLabel}>
+                {ativos === 1 ? 'pessoa online agora' : 'pessoas online agora'}
+              </span>
+            </div>
+          )}
+          <div className={styles.filtros}>
+            {PERIODOS.map(p => (
+              <button
+                key={p.dias}
+                className={`${styles.filtroBotao} ${periodo === p.dias ? styles.filtroAtivo : ''}`}
+                onClick={() => setPeriodo(p.dias)}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
-      {ativos !== null && (
-        <div className={styles.ativosWrap}>
-          <span className={styles.ativosDot} />
-          <span className={styles.ativosNum}>{ativos}</span>
-          <span className={styles.ativosLabel}>
-            {ativos === 1 ? 'pessoa online agora' : 'pessoas online agora'}
-          </span>
-        </div>
-      )}
-
-      {carregando && (
+      {carregando && !dados && (
         <div className={styles.loading}>
           <div className={styles.spinner} />
           <span>Carregando métricas…</span>
+        </div>
+      )}
+
+      {carregando && dados && (
+        <div className={styles.recarregando}>
+          <div className={styles.spinner} />
+          <span>Atualizando…</span>
         </div>
       )}
 

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-const API_KEY    = process.env.UMAMI_API_KEY
+const API_KEY = process.env.UMAMI_API_KEY
 const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
-const BASE       = 'https://api.umami.is/v1'
+const BASE = 'https://api.umami.is/v1'
 
 export async function GET() {
   if (!API_KEY || !WEBSITE_ID) {
@@ -10,7 +10,7 @@ export async function GET() {
   }
 
   try {
-    const res  = await fetch(`${BASE}/websites/${WEBSITE_ID}/active`, {
+    const res = await fetch(`${BASE}/websites/${WEBSITE_ID}/active`, {
       headers: { Authorization: `Bearer ${API_KEY}` },
       cache: 'no-store',
     })

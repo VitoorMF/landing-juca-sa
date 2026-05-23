@@ -12,7 +12,9 @@ const timelineColors = [
 
 export default async function Perfil() {
   const t = await getTranslations('perfil')
-  const timeline = t.raw('timeline') as Array<{ emoji: string; year: string; text: string }>
+  const timeline   = t.raw('timeline')   as Array<{ emoji: string; year: string; text: string }>
+  const cardItems  = t.raw('cardItems')  as Array<{ icon: string; label: string; value: string }>
+  const links      = t.raw('links')      as Array<{ icon: string; label: string; url: string }>
 
   return (
     <section id="perfil" className="section">
@@ -34,13 +36,7 @@ export default async function Perfil() {
                 <div className={styles.profileCardTitle}>Ph.D. · {t('cardTitle')}</div>
               </div>
               <div className={styles.profileCardBody}>
-                {[
-                  { icon: '🏛️', label: t('instLabel'),     value: t('instValue') },
-                  { icon: '🎓', label: t('doutoradoLabel'), value: t('doutoradoValue') },
-                  { icon: '🔬', label: t('labLabel'),       value: t('labValue') },
-                  { icon: '🌍', label: t('cnpqLabel'),      value: t('cnpqValue') },
-                  { icon: '🤝', label: t('febrapdpLabel'),  value: t('febrapdpValue') },
-                ].map((item) => (
+                {cardItems.map((item) => (
                   <div key={item.label} className={styles.profileMetaItem}>
                     <div className={styles.profileMetaIcon}>{item.icon}</div>
                     <div>
@@ -51,11 +47,11 @@ export default async function Perfil() {
                 ))}
               </div>
               <div className={styles.profileLinks}>
-                <a className={styles.profileLink} href="https://scholar.google.com/citations?user=01cxZjoAAAAJ" target="_blank" rel="noopener noreferrer">📚 Google Scholar</a>
-                <a className={styles.profileLink} href="https://www.researchgate.net/profile/Joao-Carlos-Sa" target="_blank" rel="noopener noreferrer">🔗 ResearchGate</a>
-                <a className={styles.profileLink} href="https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
-                <a className={styles.profileLink} href="http://lattes.cnpq.br/5078594632126000" target="_blank" rel="noopener noreferrer">🎓 Lattes</a>
-                <a className={styles.profileLink} href="https://orcid.org/0000-0003-1502-5537" target="_blank" rel="noopener noreferrer">🔬 ORCID</a>
+                {links.map((link) => (
+                  <a key={link.url} className={styles.profileLink} href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.icon} {link.label}
+                  </a>
+                ))}
               </div>
             </div>
           </div>

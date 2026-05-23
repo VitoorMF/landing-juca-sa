@@ -4,15 +4,18 @@ const API_KEY    = process.env.UMAMI_API_KEY
 const WEBSITE_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
 const BASE       = 'https://api.umami.is/v1'
 
-export async function GET() {
+export async function GET(req: Request) {
   if (!API_KEY || !WEBSITE_ID) {
     return NextResponse.json({ erro: 'Variáveis UMAMI_API_KEY e NEXT_PUBLIC_UMAMI_WEBSITE_ID não configuradas.' }, { status: 500 })
   }
 
   try {
+    const { searchParams } = new URL(req.url)
+    const dias = Math.max(1, parseInt(searchParams.get('dias') ?? '30', 10))
+
     const agora     = Date.now()
-    const inicio30d = agora - 30 * 24 * 60 * 60 * 1000
-    const anterior  = agora - 60 * 24 * 60 * 60 * 1000
+    const inicio30d = agora - dias * 24 * 60 * 60 * 1000
+    const anterior  = agora - dias * 2 * 24 * 60 * 60 * 1000
 
     const h   = { Authorization: `Bearer ${API_KEY}` }
     const qs  = `startAt=${inicio30d}&endAt=${agora}`
