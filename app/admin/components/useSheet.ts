@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase'
 
 const uid = () => 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
 
-export function useSheet<T extends Record<string, unknown>>(
+export function useSheet<T extends { id: string }>(
   table: string,
   blank: Omit<T, 'id'>,
   transform?: (row: Record<string, unknown>) => T,
@@ -35,7 +35,7 @@ export function useSheet<T extends Record<string, unknown>>(
   }
 
   function onChange(id: string, key: keyof T, val: string) {
-    setRows(prev => prev.map(r => r.id === id ? { ...r, [key]: val } : r))
+    setRows(prev => prev.map(r => r.id === id ? ({ ...r, [key]: val } as T & { id: string }) : r))
   }
 
   function onAdd() {
@@ -67,7 +67,7 @@ export function useSheet<T extends Record<string, unknown>>(
     const inserts = toInsert.map(({ id, ...rest }) => rest)
     const updates = toUpdate.map(r => ({ ...r }))
 
-    const ops: Promise<unknown>[] = []
+    const ops: PromiseLike<unknown>[] = []
     if (inserts.length) ops.push(supabase.from(table).insert(inserts))
     updates.forEach(r => ops.push(supabase.from(table).update(r).eq('id', r.id)))
     await Promise.all(ops)

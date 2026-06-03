@@ -64,7 +64,7 @@ export default function FotosAdmin() {
   }
 
   async function save() {
-    const ops: Promise<unknown>[] = []
+    const ops: PromiseLike<unknown>[] = []
     rows.forEach(r => {
       const payload = { src: r.src, label: r.caption, caption: r.caption, categoria: r.categoria, span: r.span ?? false }
       if (r.id.startsWith('x')) ops.push(supabase.from('fotos').insert(payload))
