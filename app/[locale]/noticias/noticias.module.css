@@ -1,0 +1,150 @@
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 54px 48px 110px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 38px;
+  transition: gap .25s, color .2s;
+}
+.back:hover { color: var(--teal); gap: 12px; }
+
+.head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.eyebrow::before, .eyebrow::after {
+  content: "";
+  width: 26px; height: 1.5px;
+  background: var(--teal);
+  opacity: .5;
+}
+.title {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  margin: 18px 0 18px;
+  color: var(--green-deep);
+}
+.sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Grid de cards ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid #e3ded0;
+  border-radius: 18px;
+  padding: 24px 26px;
+  box-shadow: 0 18px 40px -30px rgba(20,50,32,.5);
+  text-decoration: none;
+  color: inherit;
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .3s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 46px -28px rgba(20,50,32,.6);
+  border-color: rgba(0,168,150,.4);
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.cardSrc {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--teal);
+  padding: 4px 10px;
+  border-radius: 7px;
+}
+.cardDate {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.cardTitle {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.32;
+  color: var(--green-deep);
+  margin: 0 0 10px;
+  transition: color .2s;
+}
+.card:hover .cardTitle { color: var(--teal); }
+
+.cardDesc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardFoot {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #ece8db;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cardRead {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal);
+}
+.cardTime {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .wrap { padding: 40px 22px 80px; }
+  .grid { grid-template-columns: 1fr; }
+}

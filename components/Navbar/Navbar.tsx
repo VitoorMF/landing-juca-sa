@@ -15,7 +15,6 @@ export default function Navbar() {
     { href: '#perfil',        label: t('perfil') },
     { href: '#opinioes',      label: t('opinioes') },
     { href: '#publicacoes',   label: t('publicacoes') },
-    { href: '#videos',        label: t('videos') },
     { href: '#fotos',         label: t('fotos') },
     { href: '#apresentacoes', label: t('apresentacoes') },
     { href: '#noticias',      label: t('noticias') },
@@ -94,15 +93,17 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Desktop: botão de idioma isolado à direita */}
-          <button className={styles.langBtnDesktop} onClick={toggleLocale}>
-            {locale === 'pt' ? 'EN' : 'PT'}
+          {/* Desktop: toggle de idioma isolado à direita */}
+          <button className={`${styles.langToggle} ${styles.langToggleDesktop}`} onClick={toggleLocale} aria-label="Toggle language">
+            <span className={`${styles.langOpt} ${locale === 'pt' ? styles.langOptActive : ''}`}>PT</span>
+            <span className={`${styles.langOpt} ${locale === 'en' ? styles.langOptActive : ''}`}>EN</span>
           </button>
 
-          {/* Mobile: botão de idioma + hamburger */}
+          {/* Mobile: toggle de idioma + hamburger */}
           <div className={styles.navMobile}>
-            <button className={styles.langBtn} onClick={toggleLocale}>
-              {locale === 'pt' ? 'EN' : 'PT'}
+            <button className={styles.langToggle} onClick={toggleLocale} aria-label="Toggle language">
+              <span className={`${styles.langOpt} ${locale === 'pt' ? styles.langOptActive : ''}`}>PT</span>
+              <span className={`${styles.langOpt} ${locale === 'en' ? styles.langOptActive : ''}`}>EN</span>
             </button>
             <button
               className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`}

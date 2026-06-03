@@ -21,6 +21,7 @@ export interface Noticia {
   gradientFrom: string
   gradientTo: string
   url?: string
+  urlToImage?: string
   destaque?: boolean
 }
 
@@ -50,6 +51,7 @@ export interface Foto {
   label: string
   caption: string
   span?: boolean
+  categoria?: string
 }
 
 export interface Link {

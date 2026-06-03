@@ -1,11 +1,15 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
 import styles from './Fotos.module.css'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Foto } from '@/types'
+import FotosClient from './FotosClient'
 
 export default async function Fotos() {
-  const t = await getTranslations('fotos')
-  const { data } = await supabaseServer.from('fotos').select('*')
+  const [t, locale, { data }] = await Promise.all([
+    getTranslations('fotos'),
+    getLocale(),
+    supabaseServer.from('fotos').select('*').limit(8),
+  ])
   const fotos: Foto[] = data ?? []
 
   return (
@@ -16,25 +20,7 @@ export default async function Fotos() {
           <h2 className="section-title">{t('title')}</h2>
           <p className="section-lead">{t('lead')}</p>
         </div>
-
-        <div className={styles.galleryGrid}>
-          {fotos.map((foto, idx) => {
-            const delay = idx % 3
-            return (
-              <div
-                key={foto.id}
-                className={`${styles.galleryItem} ${foto.span ? styles.galleryItemSpan : ''} reveal${delay > 0 ? ` reveal-delay-${delay}` : ''}`}
-              >
-                <div className={styles.galleryThumb}>
-                  <img src={foto.src} alt={foto.label} className={styles.galleryImg} />
-                </div>
-                <div className={styles.galleryOverlay}>
-                  <span className={styles.galleryCaption}>{foto.caption}</span>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <FotosClient fotos={fotos} locale={locale} />
       </div>
     </section>
   )

@@ -12,13 +12,56 @@
     "closeMenu": "Fechar menu"
   },
   "hero": {
-    "eyebrow": "🌱 Referência Mundial em Plantio Direto",
+    "eyebrow": "Referência Mundial em Plantio Direto",
     "desc": "Cientista sênior, pesquisador associado no Rattan Lal Center for Carbon Management da The Ohio State University, e referência mundial em dinâmica de carbono orgânico no solo, Sistema Plantio Direto e agricultura regenerativa nos trópicos.",
     "stat1": "Artigos científicos",
     "stat2": "Citações (Google Scholar)",
     "stat3": "Anos de pesquisa",
-    "cta1": "📄 Ver Publicações",
-    "cta2": "Conheça o Pesquisador"
+    "cta1": "CV Lattes",
+    "cta2": "Conheça o Pesquisador",
+    "courseTagTitle": "Anúncio de Abertura",
+    "courseTagSub": "curso gratuito",
+    "courseBtn": "Curso Gratuito"
+  },
+  "welcomeModal": {
+    "title": "Boas-vindas ao nosso espaço de conhecimento!",
+    "p1": "É com imensa alegria que inicio este blog para compartilhar o aprendizado acumulado ao longo de <b>45 anos de trabalho dedicado a ciência do solo</b>. Nessa jornada, compreendi uma grande verdade: quanto mais experiência adquirimos, mais perguntas surgem e mais precisamos evoluir.",
+    "p2": "Estamos em constante transformação. Em uma era onde as informações jorram pela internet e nos deixam confusos, filtrar aquilo que realmente funciona é o nosso maior desafio. Afinal, na agricultura não existe receita: para cada clima, relevo, solo e manejo existem práticas específicas. Nosso papel é saber escolher a melhor delas.",
+    "subtitle1": "A Revolução da Agricultura e o Futuro do Solo",
+    "p3": "Nas últimas cinco décadas, o <b>Sistema Plantio Direto (SPD)</b> consolidou-se como a maior revolução da agricultura brasileira. Reduziu a erosão, melhorou a saúde do solo e trouxe resiliência, gerando mais produtividade e rentabilidade para o produtor. Mas o seu maior legado é social: garantir solo fértil e produtivo para as próximas gerações.",
+    "p4": "Depois de anos de estudo e prática, estou absolutamente convencido de um fator crucial: <b>o êxito do SPD depende da gestão eficiente da matéria orgânica do solo</b>. É ela quem controla os atributos físicos, químicos e biológicos do solo.",
+    "subtitle2": "Nosso Convite",
+    "p5": "Inicio este novo desafio com entusiasmo, simplicidade e espírito aberto. Convido você a explorar conosco o manejo da matéria orgânica do solo e suas interações, rumo a sistemas de produção saudáveis, resilientes, produtivos, rentáveis e de baixa emissão de CO₂.",
+    "welcome": "Seja muito bem-vindo e boa leitura!"
+  },
+  "courseModal": {
+    "badge": "Curso Gratuito",
+    "title": "Transforme o Campo: Descubra a Ciência por Trás da Agricultura de Carbono",
+    "greeting": "Caro visitante,",
+    "p1": "O conhecimento é o nosso maior tesouro. É ele que transforma a teoria em produtividade real e segura no campo.",
+    "p2": "Após quase <b>30 anos de pesquisa contínua</b>, erros, acertos e muitas colaborações, chegou o momento de compartilhar esse legado com você. Temos o orgulho de lançar o curso: <b>\"Manejo do carbono visando sistemas de produção saudáveis, resilientes, rentáveis e de baixa emissão de CO₂\"</b>.",
+    "sub1": "Por que este curso é importante para você?",
+    "p3": "Hoje, termos como <i>créditos de carbono, emissão zero e serviços ambientais</i> viraram mantras no setor agropecuário. Mas o que eles significam na prática?",
+    "p4": "Como cientista, entendo que a ciência só cumpre seu papel quando sai dos laboratórios e gera resultados no dia a dia da lavoura. Não existe prática de sucesso sem uma teoria sólida. Este curso foi desenhado para dar a você a independência e a segurança necessárias para aplicar esses conceitos com sabedoria, adaptando-os à sua realidade.",
+    "sub2": "Como vai funcionar?",
+    "p5": "O treinamento é totalmente gratuito e dividido em <b>5 módulos semanais</b>. A cada semana, liberamos um novo passo da sua jornada:",
+    "module1": "<b>Módulo 1 – Agricultura de carbono (Disponível agora):</b> Introdução e os pilares da Agricultura de Carbono.",
+    "module2to5": "<b>Módulos 2 a 5:</b> Técnicas de manejo, resiliência no solo, rentabilidade e mercado de carbono (lançamentos semanais).",
+    "p6": "Assista às aulas, absorva o conteúdo e faça bom proveito deste material feito para o seu crescimento.",
+    "cta": "Clique aqui para acessar o Módulo 1 e começar agora!",
+    "modulesLabel": "Módulos",
+    "modulesUnlocked": "1 / 5 Liberado",
+    "available": "▶ Disponível",
+    "locked": "Bloqueado",
+    "ctaModule": "▶ Começar Módulo 1",
+    "ctaHint": "Conclua o módulo 1 para desbloquear o próximo.",
+    "modules": [
+      { "title": "Introdução ao Sistema Plantio Direto", "desc": "Fundamentos, história e princípios do SPD no Brasil." },
+      { "title": "Dinâmica do carbono no solo", "desc": "Como o carbono orgânico influencia a vida do solo." },
+      { "title": "Manejo de palhada e cobertura", "desc": "Estratégias para manutenção e qualidade da cobertura." },
+      { "title": "Rotação de culturas nos trópicos", "desc": "Planejamento de sequências para máxima resiliência." },
+      { "title": "Agricultura regenerativa na prática", "desc": "Integração lavoura-pecuária e sistemas sustentáveis." }
+    ]
   },
   "perfil": {
     "tag": "Perfil Científico",
@@ -26,23 +69,63 @@
     "lead": "Mais de 40 anos dedicados à pesquisa em manejo conservacionista do solo, formando pesquisadores em 11 países e co-autor em 25 artigos com o Prêmio Nobel da Paz Prof. Rattan Lal.",
     "cardTitle": "Cientista Sênior · Prof. Juca Sá",
     "cardItems": [
-      { "icon": "🏛️", "label": "Instituição Atual",  "value": "Rattan Lal Center for Carbon Management — The Ohio State University" },
-      { "icon": "🎓", "label": "Doutorado",           "value": "ESALQ-USP / The Ohio State University (2001)" },
-      { "icon": "🔬", "label": "Laboratório",          "value": "Soil Organic Matter Lab (CNPq)" },
-      { "icon": "🌍", "label": "Bolsa CNPq",           "value": "Pesquisador Nível 1D (mais alto nível)" },
-      { "icon": "🤝", "label": "FEBRAPDP",             "value": "Presidente da Comissão Técnico-Científica" }
+      {
+        "icon": "🏛️",
+        "label": "Instituição Atual",
+        "value": "Rattan Lal Center for Carbon Management — The Ohio State University"
+      },
+      {
+        "icon": "🎓",
+        "label": "Doutorado",
+        "value": "ESALQ-USP / The Ohio State University (2001)"
+      },
+      {
+        "icon": "🔬",
+        "label": "Laboratório",
+        "value": "Soil Organic Matter Lab (CNPq)"
+      },
+      {
+        "icon": "🌍",
+        "label": "Bolsa CNPq",
+        "value": "Pesquisador Nível 1D (mais alto nível)"
+      },
+      {
+        "icon": "🤝",
+        "label": "FEBRAPDP",
+        "value": "Presidente da Comissão Técnico-Científica"
+      }
     ],
     "links": [
-      { "icon": "📚", "label": "Google Scholar", "url": "https://scholar.google.com/citations?user=01cxZjoAAAAJ" },
-      { "icon": "🔗", "label": "ResearchGate",   "url": "https://www.researchgate.net/profile/Joao-Carlos-Sa" },
-      { "icon": "💼", "label": "LinkedIn",        "url": "https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/" },
-      { "icon": "🎓", "label": "Lattes",          "url": "http://lattes.cnpq.br/5078594632126000" },
-      { "icon": "🔬", "label": "ORCID",           "url": "https://orcid.org/0000-0003-1502-5537" }
+      {
+        "icon": "📚",
+        "label": "Google Scholar",
+        "url": "https://scholar.google.com/citations?user=01cxZjoAAAAJ"
+      },
+      {
+        "icon": "🔗",
+        "label": "ResearchGate",
+        "url": "https://www.researchgate.net/profile/Joao-Carlos-Sa"
+      },
+      {
+        "icon": "💼",
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/"
+      },
+      {
+        "icon": "🎓",
+        "label": "Lattes",
+        "url": "http://lattes.cnpq.br/5078594632126000"
+      },
+      {
+        "icon": "🔬",
+        "label": "ORCID",
+        "url": "https://orcid.org/0000-0003-1502-5537"
+      }
     ],
     "sobreTitle": "Sobre o Pesquisador",
-    "bio1": "Prof. Juca Sá é um dos maiores especialistas mundiais em dinâmica de carbono orgânico do solo em sistemas de Plantio Direto. Sua jornada científica começou em 1981, logo após se formar em Engenharia Agronômica pela UFRRJ, passando por instituições pioneiras no SPD como a Fundação ABC, a UEPG (Universidade Estadual de Ponta Grossa) — onde atuou de 1996 a 2019 — e hoje como pesquisador associado sênior na The Ohio State University, ao lado do Prêmio Nobel da Paz Prof. Rattan Lal.",
-    "bio2": "Suas pesquisas demonstraram que o Plantio Direto, quando implementado corretamente nos seus três pilares, é capaz de restaurar os estoques de carbono orgânico do solo a níveis comparáveis aos da vegetação nativa. Um estudo publicado em 2025 em parceria com Rattan Lal — abrangendo 63 fazendas nos biomas Cerrado e Mata Atlântica — confirmou que 25% das propriedades já superaram os estoques de carbono da vegetação nativa.",
-    "bio3": "Formou 32 orientandos de graduação, 12 mestres, 3 doutores e 7 pós-doutores, além de treinar pesquisadores de 11 países da Ásia e África em 7 edições de cursos internacionais sobre manejo de matéria orgânica do solo.",
+    "bio1": "Prof. Juca Sá é um dos maiores especialistas mundiais em dinâmica de carbono orgânico do solo em sistemas de Plantio Direto. Sua jornada científica começou em 1981, logo após se formar em Engenharia Agronômica pela UFRRJ, passando por instituições pioneiras no SPD como a Fundação ABC, a UEPG (Universidade Estadual de Ponta Grossa) — onde atuou de 1996 a 2019 — e hoje como pesquisador associado sênior na The Ohio State University, ao lado do Prêmio Nobel da Paz Prof. Rattan Lal.\n\nSuas pesquisas demonstraram que o Plantio Direto, quando implementado corretamente nos seus três pilares, é capaz de restaurar os estoques de carbono orgânico do solo a níveis comparáveis aos da vegetação nativa. Um estudo publicado em 2025 em parceria com Rattan Lal — abrangendo 63 fazendas nos biomas Cerrado e Mata Atlântica — confirmou que 25% das propriedades já superaram os estoques de carbono da vegetação nativa.\n\nFormou 32 orientandos de graduação, 12 mestres, 3 doutores e 7 pós-doutores, além de treinar pesquisadores de 11 países da Ásia e África em 7 edições de cursos internacionais sobre manejo de matéria orgânica do solo.",
+    "bio2": "",
+    "bio3": "",
     "timeline": [
       {
         "emoji": "🌱",
@@ -150,7 +233,12 @@
     "filterArticle": "Artigos",
     "filterBook": "Livros / Capítulos",
     "filterMisc": "Miscelânea",
-    "cta": "📚 Ver todas no Google Scholar",
+    "cta": "Ver todas no Google Scholar",
+    "seeAll": "Ver todas as publicações",
+    "seeAllCount": "produção completa",
+    "back": "Voltar ao site",
+    "searchPlaceholder": "Buscar por título, autor, revista ou ano…",
+    "empty": "Nenhuma publicação encontrada.",
     "tagArticle": "Artigo",
     "tagBook": "Capítulo",
     "tagMisc": "Miscelânea"
@@ -168,12 +256,16 @@
   "apresentacoes": {
     "tag": "Apresentações",
     "title": "Congressos & Palestras",
-    "lead": "Palestrante convidado em congressos nacionais e internacionais sobre Plantio Direto, carbono no solo e mudanças climáticas."
+    "lead": "Palestrante convidado em congressos nacionais e internacionais sobre Plantio Direto, carbono no solo e mudanças climáticas.",
+    "seeAll": "Ver todas as apresentações",
+    "back": "Voltar ao site"
   },
   "noticias": {
     "tag": "Cobertura de Imprensa",
     "title": "Notícias Recentes",
-    "lead": "Pesquisas e declarações do Prof. Juca Sá repercutindo na mídia especializada em agronegócio, ciência do solo e clima."
+    "lead": "As últimas notícias sobre plantio direto, carbono no solo e agricultura regenerativa na mídia especializada.",
+    "back": "Voltar ao site",
+    "readMore": "Ler matéria"
   },
   "links": {
     "tag": "Links Externos",
@@ -191,7 +283,6 @@
       "Perfil",
       "Opiniões",
       "Publicações",
-      "Vídeos",
       "Fotos",
       "Apresentações",
       "Notícias",

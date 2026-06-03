@@ -1,16 +1,19 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
+import Link from 'next/link'
 import styles from './Noticias.module.css'
-import { supabaseServer } from '@/lib/supabase-server'
-import { Noticia } from '@/types'
+import { fetchGoogleNews } from '@/lib/google-news'
+
+function readingTime(text: string): number {
+  const words = text.trim().split(/\s+/).length
+  return Math.max(1, Math.round(words / 200))
+}
 
 export default async function Noticias() {
-  const t = await getTranslations('noticias')
-  const { data } = await supabaseServer.from('noticias').select('*')
-  const noticias: Noticia[] = (data ?? []).map((n: Record<string, unknown>) => ({
-    ...n,
-    gradientFrom: n.gradient_from,
-    gradientTo: n.gradient_to,
-  } as Noticia))
+  const [t, locale, noticias] = await Promise.all([
+    getTranslations('noticias'),
+    getLocale(),
+    fetchGoogleNews(),
+  ])
 
   const destaque = noticias.find((n) => n.destaque)
   const secundarias = noticias.filter((n) => !n.destaque)
@@ -25,50 +28,65 @@ export default async function Noticias() {
         </div>
 
         <div className={styles.newsGrid}>
+          {/* ── Card destaque ── */}
           {destaque && (
-            <div className={`${styles.newsCardMain} reveal`}>
-              <div
-                className={styles.newsCardImg}
-                style={{ background: `linear-gradient(135deg, ${destaque.gradientFrom}, ${destaque.gradientTo})` }}
-              >
-                <div className={styles.newsImgEmoji}>{destaque.emoji}</div>
-                <div className={styles.newsImgOverlay} />
-                {destaque.tag && <div className={styles.newsImgTag}>{destaque.tag}</div>}
+            <a
+              href={destaque.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.feature} reveal`}
+            >
+              <div className={styles.featureTop}>
+                <span className={styles.featureFlag}>
+                  <span className={styles.featureLive} />
+                  Em destaque
+                </span>
+                <div className={styles.featureKicker}>Ciência do solo &amp; agronegócio</div>
               </div>
-              <div className={styles.newsCardBody}>
-                <div className={styles.newsDate}>{destaque.data}</div>
-                <div className={styles.newsTitle}>{destaque.titulo}</div>
-                <div className={styles.newsDesc}>{destaque.descricao}</div>
+              <div className={styles.featureBody}>
+                <div className={styles.metaRow}>
+                  {destaque.tag && <span className={styles.srcBadge}>{destaque.tag}</span>}
+                  <span className={styles.metaDot} />
+                  <span>{destaque.data}</span>
+                </div>
+                <h3 className={styles.featureTitle}>{destaque.titulo}</h3>
+                {destaque.descricao && (
+                  <p className={styles.featureExcerpt}>{destaque.descricao}</p>
+                )}
+                <div className={styles.featureFoot}>
+                  <span className={styles.readMore}>
+                    Ler matéria <span className={styles.readArr}>→</span>
+                  </span>
+                  <span className={styles.readTime}>
+                    Leitura de {readingTime(destaque.descricao)} min
+                  </span>
+                </div>
               </div>
-            </div>
+            </a>
           )}
 
-          <div className={styles.newsSecondary}>
-            {secundarias.map((noticia, idx) => {
-              const delay = Math.min(idx + 1, 3)
-              const Wrapper = noticia.url ? 'a' : 'div'
-              const wrapperProps = noticia.url
-                ? { href: noticia.url, target: '_blank', rel: 'noopener noreferrer' }
-                : {}
-              return (
-                <Wrapper
-                  key={noticia.id}
-                  className={`${styles.newsCardSm} reveal reveal-delay-${delay}`}
-                  {...(wrapperProps as Record<string, string>)}
-                >
-                  <div
-                    className={styles.newsCardSmImg}
-                    style={{ background: `linear-gradient(135deg, ${noticia.gradientFrom}, ${noticia.gradientTo})` }}
-                  >
-                    <span className={styles.newsCardSmEmoji}>{noticia.emoji}</span>
-                  </div>
-                  <div className={styles.newsCardSmBody}>
-                    <div className={styles.newsCardSmDate}>{noticia.data}</div>
-                    <div className={styles.newsCardSmTitle}>{noticia.titulo}</div>
-                  </div>
-                </Wrapper>
-              )
-            })}
+          {/* ── Lista lateral ── */}
+          <div className={`${styles.list} reveal reveal-delay-1`}>
+            {secundarias.map((noticia) => (
+              <a
+                key={noticia.id}
+                href={noticia.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.listItem}
+              >
+                <div className={styles.itemMeta}>
+                  {noticia.tag && <span className={styles.itemSrc}>{noticia.tag}</span>}
+                  <span className={styles.itemDate}>{noticia.data}</span>
+                </div>
+                <p className={styles.itemTitle}>{noticia.titulo}</p>
+              </a>
+            ))}
+            <div className={styles.listFoot}>
+              <Link href={`/${locale}/noticias`} className={styles.seeAll}>
+                Ver todas as notícias <span>→</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -3,33 +3,44 @@
 import { useEffect, useState } from 'react'
 import styles from './ScrollFab.module.css'
 
-const SECTIONS = ['hero', 'perfil', 'impacto', 'opinioes', 'publicacoes', 'videos', 'fotos', 'apresentacoes', 'noticias', 'links']
+const SECTIONS = ['hero', 'perfil', 'impacto', 'opinioes', 'publicacoes', 'fotos', 'apresentacoes', 'noticias', 'links']
 
 export default function ScrollFab() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  // Só considera seções que existem de fato no DOM
+  function existingSections() {
+    return SECTIONS
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null)
+  }
+
   useEffect(() => {
     function update() {
       const scrollY = window.scrollY + window.innerHeight / 2
-
+      const els = existingSections()
       let idx = 0
-      for (let i = 0; i < SECTIONS.length; i++) {
-        const el = document.getElementById(SECTIONS[i])
-        if (el && el.offsetTop <= scrollY) idx = i
-      }
+      els.forEach((el, i) => {
+        if (el.offsetTop <= scrollY) idx = i
+      })
       setCurrentIndex(idx)
     }
 
     update()
     window.addEventListener('scroll', update, { passive: true })
-    return () => window.removeEventListener('scroll', update)
+    window.addEventListener('resize', update, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
   }, [])
 
-  const isLast = currentIndex === SECTIONS.length - 1
+  const total = typeof document !== 'undefined' ? existingSections().length : SECTIONS.length
+  const isLast = currentIndex >= total - 1
 
   function handleClick() {
-    const nextId = SECTIONS[currentIndex + 1]
-    const next = document.getElementById(nextId)
+    const els = existingSections()
+    const next = els[currentIndex + 1]
     if (!next) return
     const offset = 65
     window.scrollTo({ top: next.offsetTop - offset, behavior: 'smooth' })

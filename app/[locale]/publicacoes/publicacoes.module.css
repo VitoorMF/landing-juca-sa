@@ -1,0 +1,59 @@
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 54px 48px 110px;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 38px;
+  transition: gap .25s, color .2s;
+}
+.back:hover { color: var(--teal); gap: 12px; }
+
+.head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 48px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.eyebrow::before, .eyebrow::after {
+  content: "";
+  width: 26px; height: 1.5px;
+  background: var(--teal);
+  opacity: .5;
+}
+.title {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  margin: 18px 0 18px;
+  color: var(--green-deep);
+}
+.sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .wrap { padding: 40px 22px 80px; }
+}

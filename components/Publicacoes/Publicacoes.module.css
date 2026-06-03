@@ -1,3 +1,62 @@
+/* ── Search ── */
+.pubSearch {
+  position: relative;
+  max-width: 520px;
+  margin: 0 auto 24px;
+}
+.pubSearchIcon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.pubSearchInput {
+  width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  padding: 14px 44px 14px 48px;
+  border: 1.5px solid rgba(44,95,45,.2);
+  border-radius: 100px;
+  background: var(--white);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.pubSearchInput::placeholder { color: var(--text-muted); }
+.pubSearchInput:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,168,150,.12);
+}
+.pubSearchClear {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: rgba(44,95,45,.08);
+  color: var(--text-muted);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+  transition: background .15s, color .15s;
+}
+.pubSearchClear:hover { background: rgba(44,95,45,.16); color: var(--green-deep); }
+
+.pubEmpty {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
 .pubFilters {
   display: flex;
   gap: 8px;
@@ -28,102 +87,168 @@
 .pubList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
+  max-width: 860px;
+  margin: 0 auto;
 }
 
+/* ── Card (mesma identidade dos cards de apresentação) ── */
 .pubCard {
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 28px 32px;
-  box-shadow: 0 2px 12px rgba(30,58,31,.06);
-  border: 1px solid rgba(44,95,45,.08);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 20px;
-  align-items: start;
-  transition: all .25s;
-}
-
-.pubCard:hover {
-  box-shadow: var(--shadow);
-  border-color: rgba(0,168,150,.25);
-}
-
-.pubYearBadge {
-  background: var(--green-mid);
-  color: var(--white);
-  font-size: 13px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 6px;
-  white-space: nowrap;
-}
-
-.pubTitle {
-  font-family: 'Merriweather', serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--green-deep);
-  margin-bottom: 6px;
-  line-height: 1.4;
   display: block;
+  text-decoration: none;
+  color: inherit;
+  background: var(--white);
+  border: 1px solid #e3ded0;
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 18px 40px -30px rgba(20,50,32,.5);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .3s;
+}
+.pubCard:hover {
+  transform: translateX(6px);
+  box-shadow: 0 24px 46px -28px rgba(20,50,32,.6);
+  border-color: rgba(0,168,150,.4);
+}
+
+/* ── Meta row ── */
+.pubMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.pubYear {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--teal);
+  letter-spacing: -.01em;
+  line-height: 1;
+}
+.pubPlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.pubPlace::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #d8d2c6;
+}
+
+/* ── Título ── */
+.pubTitle {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -.005em;
+  color: var(--green-deep);
+  margin: 0 0 10px;
   transition: color .2s;
 }
-
-a.pubTitle:hover {
-  color: var(--teal);
-}
-
-.pubAuthors {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
+.pubCard:hover .pubTitle { color: var(--teal); }
 
 .pubJournal {
-  font-size: 13px;
-  color: var(--teal);
-  font-style: italic;
-  font-weight: 500;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
 }
 
-.pubTypeTag {
-  font-size: 11px;
-  font-weight: 700;
+/* ── Tag de tipo ── */
+.pubTag {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: .06em;
-  padding: 4px 10px;
-  border-radius: 100px;
+  letter-spacing: .1em;
+  padding: 5px 10px;
+  border-radius: 999px;
   white-space: nowrap;
 }
-
 .pubTypeArticle {
   background: rgba(0,168,150,.1);
   color: var(--teal);
 }
-
 .pubTypeBook {
   background: rgba(200,168,75,.15);
   color: var(--brown);
 }
-
 .pubTypeMisc {
   background: rgba(91,62,200,.1);
   color: #5B3EC8;
 }
 
 .pubCta {
-  text-align: center;
-  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  margin-top: 44px;
 }
+
+/* CTA "Ver todas" — mesmo estilo da galeria de fotos */
+.pubSeeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: .01em;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: var(--green-deep);
+  box-shadow: 0 16px 32px -16px rgba(20,50,32,.7);
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), gap .25s, background .25s;
+}
+.pubSeeAll:hover { transform: translateY(-3px); gap: 15px; background: var(--green-mid); }
+.pubSeeAllCount {
+  font-weight: 700;
+  color: #9ecdb3;
+  font-size: 13px;
+  padding-left: 13px;
+  margin-left: 2px;
+  border-left: 1px solid rgba(255,255,255,.25);
+}
+
+/* CTA Google Scholar — pill com borda teal */
+.pubScholar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--teal);
+  text-decoration: none;
+  padding: 14px 26px;
+  border-radius: 999px;
+  background: rgba(0,168,150,.07);
+  border: 1.5px solid rgba(0,168,150,.3);
+  transition: background .25s, border-color .25s, gap .25s, transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.pubScholar svg { width: 19px; height: 19px; }
+.pubScholar:hover {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+  gap: 13px;
+  transform: translateY(-2px);
+}
+.pubScholarArrow { transition: transform .25s; }
+.pubScholar:hover .pubScholarArrow { transform: translateX(3px); }
 
 @media (max-width: 600px) {
   .pubCard {
-    grid-template-columns: 1fr;
     padding: 20px;
-    gap: 12px;
   }
-  .pubTypeTag {
-    align-self: flex-start;
-  }
+  .pubTitle { font-size: 17px; }
+  .pubTag { margin-left: 0; }
 }

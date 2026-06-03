@@ -58,9 +58,7 @@ export default async function Perfil() {
 
           <div className={`${styles.profileBio} reveal reveal-delay-1`}>
             <h3>{t('sobreTitle')}</h3>
-            <p>{t('bio1')}</p>
-            <p>{t('bio2')}</p>
-            <p>{t('bio3')}</p>
+            <div style={{ whiteSpace: 'pre-line' }}>{t('bio1')}</div>
 
             <div className={styles.timeline}>
               {timeline.map((item, idx) => (

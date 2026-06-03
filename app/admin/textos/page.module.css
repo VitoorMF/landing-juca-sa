@@ -1,4 +1,4 @@
-.page { padding: 40px 48px; max-width: 1100px; }
+.page { padding: 40px 48px; max-width: 1100px; height: 100vh; overflow-y: auto; }
 .cabecalho { margin-bottom: 32px; }
 .titulo { font-family: 'Merriweather', serif; font-size: 24px; font-weight: 700; color: var(--green-deep); margin-bottom: 4px; }
 .sub { font-size: 13px; color: var(--text-muted); }
@@ -78,11 +78,30 @@
   color: var(--text-muted);
 }
 
-/* colunas: ícone | nº | sufixo | labelPt | labelEn */
-.tabelaImpacto { grid-template-columns: 64px 64px 1fr 1fr; }
+/* colunas: nº | sufixo | labelPt | divisor | labelEn */
+.tabelaImpacto { grid-template-columns: 64px 64px 1fr 1px 1fr; }
 
-/* colunas: ícone | labelPt | valorPt | labelEn | valorEn | × */
-.tabelaCard { grid-template-columns: 48px 1fr 1fr 1fr 1fr 28px; }
+/* colunas: ícone | labelPt | valorPt | divisor | labelEn | valorEn | × */
+.tabelaCard { grid-template-columns: 48px 1fr 1fr 1px 1fr 1fr 28px; }
+
+/* divisor vertical entre grupos PT e EN */
+.divider {
+  align-self: stretch;
+  width: 1px;
+  background: #e0e3e8;
+  margin: 0 6px;
+}
+
+/* tags de idioma no cabeçalho */
+.langPt, .langEn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.langPt::before { content: '🇧🇷'; font-size: 12px; }
+.langEn::before { content: '🇬🇧'; font-size: 12px; }
+.langPt { color: var(--teal) !important; }
+.langEn { color: var(--green-mid) !important; }
 
 /* colunas: ícone | label | url | × */
 .tabelaLinks { grid-template-columns: 48px 140px 1fr 28px; }

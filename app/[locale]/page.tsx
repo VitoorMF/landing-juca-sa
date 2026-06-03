@@ -4,7 +4,6 @@ import Perfil from '@/components/Perfil/Perfil'
 import Impacto from '@/components/Impacto/Impacto'
 import Opinioes from '@/components/Opinioes/Opinioes'
 import Publicacoes from '@/components/Publicacoes/Publicacoes'
-import Videos from '@/components/Videos/Videos'
 import Fotos from '@/components/Fotos/Fotos'
 import Apresentacoes from '@/components/Apresentacoes/Apresentacoes'
 import Noticias from '@/components/Noticias/Noticias'
@@ -23,7 +22,6 @@ export default function Home() {
         <Impacto />
         <Opinioes />
         <Publicacoes />
-        <Videos />
         <Fotos />
         <Apresentacoes />
         <Noticias />

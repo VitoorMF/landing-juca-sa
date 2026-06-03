@@ -2,6 +2,8 @@
   position: relative;
   padding: 40px 48px;
   max-width: 1400px;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 /* ── Cabeçalho ── */

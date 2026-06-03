@@ -12,13 +12,56 @@
     "closeMenu": "Close menu"
   },
   "hero": {
-    "eyebrow": "🌱 World Reference in No-Till Farming",
+    "eyebrow": "World Reference in No-Till Farming",
     "desc": "Senior scientist and associate researcher at the Rattan Lal Center for Carbon Management at The Ohio State University — a world reference in soil organic carbon dynamics, the No-Till System, and regenerative agriculture in the tropics.",
     "stat1": "Scientific articles",
     "stat2": "Citations (Google Scholar)",
     "stat3": "Years of research",
-    "cta1": "📄 View Publications",
-    "cta2": "Meet the Researcher"
+    "cta1": "CV Lattes",
+    "cta2": "Meet the Researcher",
+    "courseTagTitle": "Course Announcement",
+    "courseTagSub": "free course",
+    "courseBtn": "Free Course"
+  },
+  "welcomeModal": {
+    "title": "Welcome to our knowledge space!",
+    "p1": "It is with great joy that I start this blog to share the knowledge accumulated over <b>45 years dedicated to soil science</b>. In this journey, I understood a great truth: the more experience we gain, the more questions arise and the more we need to evolve.",
+    "p2": "We are in constant transformation. In an era where information floods the internet and leaves us confused, filtering what truly works is our greatest challenge. After all, there is no single recipe in agriculture: for each climate, terrain, soil and management, there are specific practices. Our role is to know how to choose the best one.",
+    "subtitle1": "The Agricultural Revolution and the Future of Soil",
+    "p3": "Over the last five decades, the <b>No-Till System (NTS)</b> has established itself as the greatest revolution in Brazilian agriculture. It reduced erosion, improved soil health, and brought resilience, generating more productivity and profitability for farmers. But its greatest legacy is social: ensuring fertile and productive soil for future generations.",
+    "p4": "After years of study and practice, I am absolutely convinced of a crucial factor: <b>the success of NTS depends on the efficient management of soil organic matter</b>. It is the one that controls the physical, chemical, and biological attributes of the soil.",
+    "subtitle2": "Our Invitation",
+    "p5": "I start this new challenge with enthusiasm, simplicity, and an open spirit. I invite you to explore with us the management of soil organic matter and its interactions, towards healthy, resilient, productive, profitable, and low CO₂ emission production systems.",
+    "welcome": "Welcome and happy reading!"
+  },
+  "courseModal": {
+    "badge": "Free Course",
+    "title": "Transform the Field: Discover the Science Behind Carbon Agriculture",
+    "greeting": "Dear visitor,",
+    "p1": "Knowledge is our greatest treasure. It is what transforms theory into real, safe productivity in the field.",
+    "p2": "After nearly <b>30 years of continuous research</b>, trials, successes, and many collaborations, the time has come to share this legacy with you. We are proud to launch the course: <b>\"Carbon management for healthy, resilient, profitable, and low CO₂ emission production systems\"</b>.",
+    "sub1": "Why is this course important for you?",
+    "p3": "Today, terms like <i>carbon credits, net zero, and environmental services</i> have become mantras in the agricultural sector. But what do they mean in practice?",
+    "p4": "As a scientist, I understand that science only fulfills its role when it leaves the laboratories and produces results in everyday farming. There is no successful practice without a solid theory. This course was designed to give you the independence and confidence needed to apply these concepts wisely, adapting them to your reality.",
+    "sub2": "How will it work?",
+    "p5": "The training is completely free and divided into <b>5 weekly modules</b>. Each week, we release a new step in your journey:",
+    "module1": "<b>Module 1 – Carbon Agriculture (Available now):</b> Introduction and the pillars of Carbon Agriculture.",
+    "module2to5": "<b>Modules 2 to 5:</b> Management techniques, soil resilience, profitability and carbon markets (weekly releases).",
+    "p6": "Watch the lessons, absorb the content, and make the most of this material made for your growth.",
+    "cta": "Click here to access Module 1 and start now!",
+    "modulesLabel": "Modules",
+    "modulesUnlocked": "1 / 5 Unlocked",
+    "available": "▶ Available",
+    "locked": "Locked",
+    "ctaModule": "▶ Start Module 1",
+    "ctaHint": "Complete module 1 to unlock the next.",
+    "modules": [
+      { "title": "Introduction to the No-Till System", "desc": "Fundamentals, history and principles of NTS in Brazil." },
+      { "title": "Soil carbon dynamics", "desc": "How organic carbon influences soil life." },
+      { "title": "Straw and cover management", "desc": "Strategies for maintaining and improving cover quality." },
+      { "title": "Crop rotation in the tropics", "desc": "Planning sequences for maximum resilience." },
+      { "title": "Regenerative agriculture in practice", "desc": "Crop-livestock integration and sustainable systems." }
+    ]
   },
   "perfil": {
     "tag": "Scientific Profile",
@@ -26,23 +69,63 @@
     "lead": "Over 40 years dedicated to research in conservation soil management, training researchers across 11 countries and co-author of 25 articles with Nobel Peace Prize laureate Prof. Rattan Lal.",
     "cardTitle": "Senior Scientist · Prof. Juca Sá",
     "cardItems": [
-      { "icon": "🏛️", "label": "Current Institution", "value": "Rattan Lal Center for Carbon Management — The Ohio State University" },
-      { "icon": "🎓", "label": "Ph.D.",               "value": "ESALQ-USP / The Ohio State University (2001)" },
-      { "icon": "🔬", "label": "Laboratory",           "value": "Soil Organic Matter Lab (CNPq)" },
-      { "icon": "🌍", "label": "CNPq Fellowship",      "value": "Level 1D Researcher (highest tier)" },
-      { "icon": "🤝", "label": "FEBRAPDP",             "value": "President of the Technical-Scientific Committee" }
+      {
+        "icon": "🏛️",
+        "label": "Current Institution",
+        "value": "Rattan Lal Center for Carbon Management — The Ohio State University"
+      },
+      {
+        "icon": "🎓",
+        "label": "Ph.D.",
+        "value": "ESALQ-USP / The Ohio State University (2001)"
+      },
+      {
+        "icon": "🔬",
+        "label": "Laboratory",
+        "value": "Soil Organic Matter Lab (CNPq)"
+      },
+      {
+        "icon": "🌍",
+        "label": "CNPq Fellowship",
+        "value": "Level 1D Researcher (highest tier)"
+      },
+      {
+        "icon": "🤝",
+        "label": "FEBRAPDP",
+        "value": "President of the Technical-Scientific Committee"
+      }
     ],
     "links": [
-      { "icon": "📚", "label": "Google Scholar", "url": "https://scholar.google.com/citations?user=01cxZjoAAAAJ" },
-      { "icon": "🔗", "label": "ResearchGate",   "url": "https://www.researchgate.net/profile/Joao-Carlos-Sa" },
-      { "icon": "💼", "label": "LinkedIn",        "url": "https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/" },
-      { "icon": "🎓", "label": "Lattes",          "url": "http://lattes.cnpq.br/5078594632126000" },
-      { "icon": "🔬", "label": "ORCID",           "url": "https://orcid.org/0000-0003-1502-5537" }
+      {
+        "icon": "📚",
+        "label": "Google Scholar",
+        "url": "https://scholar.google.com/citations?user=01cxZjoAAAAJ"
+      },
+      {
+        "icon": "🔗",
+        "label": "ResearchGate",
+        "url": "https://www.researchgate.net/profile/Joao-Carlos-Sa"
+      },
+      {
+        "icon": "💼",
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/"
+      },
+      {
+        "icon": "🎓",
+        "label": "Lattes",
+        "url": "http://lattes.cnpq.br/5078594632126000"
+      },
+      {
+        "icon": "🔬",
+        "label": "ORCID",
+        "url": "https://orcid.org/0000-0003-1502-5537"
+      }
     ],
     "sobreTitle": "About the Researcher",
-    "bio1": "Prof. Juca Sá is one of the world's leading experts in soil organic carbon dynamics in No-Till systems. His scientific journey began in 1981, shortly after graduating in Agronomic Engineering from UFRRJ, passing through pioneering No-Till institutions such as Fundação ABC, UEPG (State University of Ponta Grossa) — where he worked from 1996 to 2019 — and today as a senior associate researcher at The Ohio State University, alongside Nobel Peace Prize laureate Prof. Rattan Lal.",
-    "bio2": "His research has demonstrated that No-Till, when correctly implemented across its three pillars, can restore soil organic carbon stocks to levels comparable to native vegetation. A 2025 study co-authored with Rattan Lal — covering 63 farms across the Cerrado and Atlantic Forest biomes — confirmed that 25% of properties already exceed carbon stocks of native vegetation.",
-    "bio3": "He has mentored 32 undergraduate students, 12 master's, 3 doctoral, and 7 post-doctoral researchers, and trained researchers from 11 countries across Asia and Africa in 7 editions of international courses on soil organic matter management.",
+    "bio1": "Prof. Juca Sá is one of the world's leading experts in soil organic carbon dynamics in No-Till systems. His scientific journey began in 1981, shortly after graduating in Agronomic Engineering from UFRRJ, passing through pioneering No-Till institutions such as Fundação ABC, UEPG (State University of Ponta Grossa) — where he worked from 1996 to 2019 — and today as a senior associate researcher at The Ohio State University, alongside Nobel Peace Prize laureate Prof. Rattan Lal.\n\nHis research has demonstrated that No-Till, when correctly implemented across its three pillars, can restore soil organic carbon stocks to levels comparable to native vegetation. A 2025 study co-authored with Rattan Lal — covering 63 farms across the Cerrado and Atlantic Forest biomes — confirmed that 25% of properties already exceed carbon stocks of native vegetation.\n\nHe has mentored 32 undergraduate students, 12 master's, 3 doctoral, and 7 post-doctoral researchers, and trained researchers from 11 countries across Asia and Africa in 7 editions of international courses on soil organic matter management.",
+    "bio2": "",
+    "bio3": "",
     "timeline": [
       {
         "emoji": "🌱",
@@ -150,7 +233,12 @@
     "filterArticle": "Articles",
     "filterBook": "Books / Chapters",
     "filterMisc": "Miscellaneous",
-    "cta": "📚 View all on Google Scholar",
+    "cta": "View all on Google Scholar",
+    "seeAll": "View all publications",
+    "seeAllCount": "full output",
+    "back": "Back to site",
+    "searchPlaceholder": "Search by title, author, journal or year…",
+    "empty": "No publications found.",
     "tagArticle": "Article",
     "tagBook": "Chapter",
     "tagMisc": "Miscellaneous"
@@ -168,12 +256,16 @@
   "apresentacoes": {
     "tag": "Presentations",
     "title": "Conferences & Lectures",
-    "lead": "Invited speaker at national and international conferences on No-Till, soil carbon, and climate change."
+    "lead": "Invited speaker at national and international conferences on No-Till, soil carbon, and climate change.",
+    "seeAll": "View all presentations",
+    "back": "Back to site"
   },
   "noticias": {
     "tag": "Media Coverage",
     "title": "Recent News",
-    "lead": "Prof. Juca Sá's research and statements covered by specialized media in agribusiness, soil science, and climate."
+    "lead": "The latest news on no-till, soil carbon and regenerative agriculture from specialized media.",
+    "back": "Back to site",
+    "readMore": "Read article"
   },
   "links": {
     "tag": "External Links",
@@ -191,7 +283,6 @@
       "Profile",
       "Principles",
       "Publications",
-      "Videos",
       "Photos",
       "Presentations",
       "News",

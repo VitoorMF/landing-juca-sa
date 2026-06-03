@@ -1,17 +1,20 @@
 import { getTranslations } from 'next-intl/server'
 import styles from './Hero.module.css'
+import WelcomeModal from './WelcomeModal'
+import CourseModal from './CourseModal'
 
 export default async function Hero() {
   const t = await getTranslations('hero')
 
   return (
     <section id="hero" className={styles.hero}>
+
       <div className={styles.heroBgPattern}></div>
       <div className={`${styles.heroBlob} ${styles.heroBlob1}`}></div>
       <div className={`${styles.heroBlob} ${styles.heroBlob2}`}></div>
       <div className={styles.heroContent}>
         <div>
-          <div className={styles.heroEyebrow}>{t('eyebrow')}</div>
+          <WelcomeModal label={t('eyebrow')} />
           <h1 className={styles.heroTitle}>Prof. Juca Sá</h1>
           <p className={styles.heroSubtitle}>João Carlos de Moraes Sá</p>
           <p className={styles.heroDesc}>{t('desc')}</p>
@@ -21,7 +24,7 @@ export default async function Hero() {
               <div className={styles.heroStatLabel}>{t('stat1')}</div>
             </div>
             <div>
-              <div className={styles.heroStatNum}>9.4<span className={styles.heroStatSup}>K</span></div>
+              <div className={styles.heroStatNum}>+9.4<span className={styles.heroStatSup}>K</span></div>
               <div className={styles.heroStatLabel}>{t('stat2')}</div>
             </div>
             <div>
@@ -30,8 +33,19 @@ export default async function Hero() {
             </div>
           </div>
           <div className={styles.heroActions}>
-            <a className="btn-primary" href="#publicacoes">{t('cta1')}</a>
-            <a className="btn-outline" href="#perfil">{t('cta2')}</a>
+            <a className="btn-primary" href="#perfil">
+              {t('cta2')}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" style={{ width: 18, height: 18 }}>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <a className="btn-outline" href="http://lattes.cnpq.br/5078594632126000" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: 17, height: 17 }}>
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" />
+              </svg>
+              {t('cta1')}
+            </a>
+            <CourseModal />
           </div>
         </div>
 

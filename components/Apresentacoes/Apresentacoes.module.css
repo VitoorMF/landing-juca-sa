@@ -1,61 +1,168 @@
-.presGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+/* ── Timeline container ── */
+.timeline {
+  position: relative;
+  padding-left: 34px;
+  max-width: 860px;
+  margin: 0 auto;
 }
 
-.presCard {
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 28px;
-  box-shadow: 0 2px 12px rgba(30,58,31,.07);
-  border: 1px solid rgba(44,95,45,.08);
+/* ── CTA "Ver todas" ── */
+.talksCta {
   display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  transition: all .25s;
+  justify-content: center;
+  margin-top: 44px;
+}
+.talksSeeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-weight: 800;
+  font-size: 15px;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 30px;
+  border-radius: 999px;
+  background: var(--green-deep);
+  box-shadow: 0 16px 32px -16px rgba(20,50,32,.7);
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), gap .25s, background .25s;
+}
+.talksSeeAll:hover { transform: translateY(-3px); gap: 15px; background: var(--green-mid); }
+
+/* Spine vertical */
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--teal) 0%, rgba(0,168,150,.15) 100%);
+  border-radius: 2px;
 }
 
-.presCard:hover {
-  box-shadow: var(--shadow);
-  border-color: rgba(0,168,150,.25);
+/* ── Item ── */
+.talk {
+  position: relative;
+  padding: 0 0 14px;
+  margin-bottom: 18px;
+}
+.talk:last-child { margin-bottom: 0; }
+
+/* Nó na spine */
+.talkNode {
+  position: absolute;
+  left: -34px;
+  top: 24px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--sand);
+  border: 2.5px solid var(--teal);
+  box-shadow: 0 0 0 4px var(--sand);
+  transition: background .3s, transform .3s;
+  z-index: 2;
+}
+.talkIntl .talkNode {
+  border-color: var(--green-deep);
+}
+.talk:hover .talkNode {
+  background: var(--teal);
+  transform: scale(1.15);
+}
+.talkIntl:hover .talkNode {
+  background: var(--green-deep);
 }
 
-.presIcon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, var(--green-mid), var(--green-light));
-  border-radius: 10px;
+/* ── Card ── */
+.talkCard {
+  background: var(--white);
+  border: 1px solid #e3ded0;
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 18px 40px -30px rgba(20,50,32,.5);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s, border-color .3s;
+}
+.talk:hover .talkCard {
+  transform: translateX(6px);
+  box-shadow: 0 24px 46px -28px rgba(20,50,32,.6);
+  border-color: rgba(0,168,150,.4);
+}
+
+/* ── Meta row ── */
+.talkMeta {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
-.presYear {
-  font-size: 11px;
+.talkYear {
+  font-family: 'Merriweather', Georgia, serif;
   font-weight: 700;
+  font-size: 19px;
   color: var(--teal);
+  letter-spacing: -.01em;
+  line-height: 1;
+}
+
+.talkPlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  letter-spacing: .06em;
-  margin-bottom: 6px;
-}
-
-.presTitle {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--green-deep);
-  line-height: 1.4;
-  margin-bottom: 8px;
-}
-
-.presEvent {
-  font-size: 13px;
   color: var(--text-muted);
-  line-height: 1.5;
+}
+.talkPlace::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #d8d2c6;
 }
 
-@media (max-width: 960px) {
-  .presGrid { grid-template-columns: 1fr; }
+.talkTag {
+  margin-left: auto;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: rgba(0,168,150,.1);
+  padding: 5px 10px;
+  border-radius: 999px;
+}
+.talkTagIntl {
+  color: var(--white);
+  background: var(--green-deep);
+}
+
+/* ── Título ── */
+.talkTitle {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: -.005em;
+  color: var(--green-deep);
+  margin: 0 0 10px;
+}
+
+/* ── Evento/onde ── */
+.talkWhere {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 760px) {
+  .timeline { padding-left: 26px; }
+  .talkNode { left: -26px; }
+  .talkCard { padding: 20px; }
+  .talkTag { margin-left: 0; }
+  .talkTitle { font-size: 17px; }
 }

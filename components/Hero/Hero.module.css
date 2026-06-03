@@ -7,6 +7,61 @@
   overflow: hidden;
 }
 
+.courseTag {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 44px 12px 28px;
+  background: linear-gradient(90deg, rgba(0, 168, 150, .22) 0%, rgba(0, 168, 150, .08) 100%);
+  border-top: 1px solid rgba(0, 168, 150, .5);
+  border-bottom: 1px solid rgba(0, 168, 150, .5);
+  border-right: 1px solid rgba(0, 168, 150, .3);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .25s;
+  box-shadow: inset 0 0 32px rgba(0, 168, 150, .08);
+}
+
+.courseTag:hover {
+  background: linear-gradient(90deg, rgba(0, 168, 150, .35) 0%, rgba(0, 168, 150, .14) 100%);
+}
+
+.courseTagDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  box-shadow: 0 0 8px var(--teal-light);
+  flex-shrink: 0;
+}
+
+.courseTagBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.courseTagTitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--teal-light);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  line-height: 1;
+}
+
+.courseTagSub {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .55);
+  letter-spacing: .04em;
+}
+
 .heroBgPattern {
   position: absolute;
   inset: 0;
@@ -43,6 +98,25 @@
   padding: 6px 14px;
   border-radius: 100px;
   margin-bottom: 24px;
+  cursor: pointer;
+  position: relative;
+  animation: eyebrowGlow 2s ease-in-out infinite;
+}
+
+@keyframes eyebrowGlow {
+
+  0% {
+    box-shadow: 0 0 0px rgba(2, 195, 154, 0);
+  }
+
+
+  50% {
+    box-shadow: 0 0 12px rgba(6, 164, 130, 0.5);
+  }
+
+  100% {
+    box-shadow: 0 0 0px rgba(2, 195, 154, 0);
+  }
 }
 
 .heroTitle {
@@ -198,6 +272,343 @@
   background: rgba(200, 168, 75, .08);
   bottom: -80px;
   left: 200px;
+}
+
+/* Course Modal */
+.courseModal {
+  position: relative;
+  background: linear-gradient(160deg, #1a3d1a 0%, #0f2b10 100%);
+  border: 1px solid rgba(0, 168, 150, .2);
+  border-radius: 20px;
+  padding: 36px 36px 28px;
+  max-width: 660px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, .6);
+}
+
+.courseModalBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--teal-light);
+  margin-bottom: 14px;
+}
+
+.courseModalTitle {
+  font-family: 'Merriweather', serif;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
+.courseModalDesc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, .65);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.courseModalStats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: rgba(255, 255, 255, .7);
+  margin-bottom: 24px;
+}
+
+.courseModalStatDivider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, .2);
+}
+
+.courseModalDivider {
+  height: 1px;
+  background: rgba(255, 255, 255, .08);
+  margin-bottom: 20px;
+}
+
+.courseModalModulesHeader {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .4);
+  margin-bottom: 14px;
+}
+
+.courseModalModulesHighlight {
+  color: var(--teal-light);
+}
+
+.courseModalList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.courseModuleAvailable,
+.courseModuleLocked {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+}
+
+.courseModuleAvailable {
+  background: rgba(0, 168, 150, .12);
+  border: 1px solid rgba(0, 168, 150, .3);
+}
+
+.courseModuleLocked {
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .07);
+}
+
+.courseModuleNumActive {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--teal);
+  color: var(--white);
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.courseModuleNumLocked {
+  min-width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.courseModuleLockIcon {
+  font-size: 14px;
+  opacity: .5;
+}
+
+.courseModuleBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.courseModuleTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.3;
+}
+
+.courseModuleLocked .courseModuleTitle {
+  color: rgba(255, 255, 255, .45);
+}
+
+.courseModuleDesc {
+  font-size: 12px;
+  color: rgba(255, 255, 255, .35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.courseModuleStatusAvailable {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.courseModuleStatusLocked {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .25);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.courseModalGreeting {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .9);
+  margin-bottom: 12px;
+}
+
+.courseModalSub {
+  font-family: 'Merriweather', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal-light);
+  margin: 24px 0 10px;
+}
+
+.courseModalBullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding-left: 4px;
+}
+
+.courseModalBullets li {
+  font-size: 14px;
+  color: rgba(255, 255, 255, .75);
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+
+.courseModalBullets li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--teal-light);
+}
+
+.courseModalFooter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.courseModalFooter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.courseModalCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--teal);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 13px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+
+.courseModalCta:hover {
+  background: var(--teal-light);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 168, 150, .35);
+}
+
+.courseModalCtaHint {
+  font-size: 12px;
+  color: rgba(255, 255, 255, .4);
+}
+
+/* Welcome Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, .65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modalContent {
+  position: relative;
+  background: linear-gradient(160deg, #1a3d1a 0%, #0f2b10 100%);
+  border: 1px solid rgba(0, 168, 150, .25);
+  border-radius: 20px;
+  padding: 48px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: rgba(255, 255, 255, .82);
+  line-height: 1.8;
+  font-size: 15px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, .5);
+}
+
+.modalContent p {
+  margin-bottom: 16px;
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: rgba(255, 255, 255, .08);
+  border: none;
+  color: rgba(255, 255, 255, .6);
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s, color .2s;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, .15);
+  color: var(--white);
+}
+
+.modalTitle {
+  font-family: 'Merriweather', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--teal-light);
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.modalSubtitle {
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--teal-light);
+  margin: 28px 0 12px;
+}
+
+.modalWelcome {
+  font-weight: 600;
+  color: rgba(255, 255, 255, .9);
+  margin-top: 24px !important;
 }
 
 @media (max-width: 960px) {

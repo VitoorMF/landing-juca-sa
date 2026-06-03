@@ -1,154 +1,280 @@
+/* ── Layout ── */
 .newsGrid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 24px;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 40px;
+  align-items: start;
 }
 
-.newsCardMain {
+/* ══════════════════════════════
+   FEATURED CARD
+══════════════════════════════ */
+.feature {
   background: var(--white);
-  border-radius: var(--radius);
+  border: 1px solid #e3ded0;
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(30,58,31,.07);
-  border: 1px solid rgba(44,95,45,.08);
-  transition: all .25s;
-}
-
-.newsCardMain:hover {
-  box-shadow: var(--shadow);
-  border-color: rgba(0,168,150,.2);
-}
-
-.newsCardImg {
-  height: 220px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.newsImgEmoji {
-  font-size: 64px;
-  position: relative;
-  z-index: 1;
-  opacity: .7;
-}
-
-.newsImgOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(30,58,31,.75) 0%, transparent 60%);
-}
-
-.newsImgTag {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  background: var(--teal);
-  color: var(--white);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  padding: 4px 12px;
-  border-radius: 100px;
-  z-index: 2;
-}
-
-.newsCardBody {
-  padding: 24px 26px 28px;
-}
-
-.newsDate {
-  font-size: 12px;
-  color: var(--teal);
-  font-weight: 600;
-  letter-spacing: .04em;
-  margin-bottom: 10px;
-}
-
-.newsTitle {
-  font-family: 'Merriweather', serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--green-deep);
-  line-height: 1.4;
-  margin-bottom: 12px;
-}
-
-.newsDesc {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.7;
-}
-
-/* Secondary cards */
-.newsSecondary {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.newsCardSm {
-  background: var(--white);
-  border-radius: 10px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  box-shadow: 0 2px 12px rgba(30,58,31,.06);
-  border: 1px solid rgba(44,95,45,.08);
-  transition: all .25s;
+  box-shadow: 28px 40px 80px -48px rgba(20,50,32,.45);
   text-decoration: none;
   color: inherit;
+  transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;
+}
+.feature:hover {
+  transform: translateY(-4px);
+  box-shadow: 28px 48px 90px -46px rgba(20,50,32,.55);
 }
 
-.newsCardSm:hover {
-  box-shadow: var(--shadow);
-  border-color: rgba(0,168,150,.2);
-}
-
-.newsCardSmImg {
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Header escuro */
+.featureTop {
+  position: relative;
+  padding: 26px 34px 24px;
+  background: linear-gradient(135deg, var(--green-deep), #16301f);
+  color: #eafff4;
   overflow: hidden;
 }
-
-.newsCardSmEmoji {
-  font-size: 28px;
+.featureTop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255,255,255,.07) 1px, transparent 1.4px);
+  background-size: 20px 20px;
 }
 
-.newsCardSmBody {
-  padding: 14px 16px;
-}
-
-.newsCardSmDate {
+.featureFlag {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #bfe8d4;
   font-size: 11px;
-  color: var(--teal);
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-weight: 800;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.featureLive {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 9px var(--teal);
+}
+.featureKicker {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  font-family: 'Merriweather', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 15px;
+  color: #9ecdb3;
 }
 
-.newsCardSmTitle {
+/* Body */
+.featureBody {
+  padding: 30px 34px 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.srcBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--teal);
+  padding: 5px 11px;
+  border-radius: 7px;
+}
+.metaDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+.featureTitle {
+  font-family: 'Merriweather', Georgia, serif;
   font-weight: 700;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.2;
+  letter-spacing: -.01em;
   color: var(--green-deep);
-  line-height: 1.4;
+  margin: 16px 0 12px;
+}
+.featureExcerpt {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--text-muted);
+  margin: 0;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.featureFoot {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #ece8db;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--teal);
+  letter-spacing: .01em;
+}
+.readArr {
+  transition: transform .25s;
+}
+.feature:hover .readArr {
+  transform: translateX(5px);
+}
+.readTime {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
+/* ══════════════════════════════
+   SIDE LIST
+══════════════════════════════ */
+.list {
+  background: var(--white);
+  border: 1px solid #e3ded0;
+  border-radius: 22px;
+  padding: 8px 26px;
+  box-shadow: 28px 40px 80px -48px rgba(20,50,32,.45);
+}
+
+.listItem {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 20px 6px;
+  border-bottom: 1px solid #ece8db;
+  position: relative;
+  transition: padding-left .28s cubic-bezier(.2,.7,.2,1);
+}
+.listItem:last-of-type {
+  border-bottom: none;
+}
+.listItem::before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 22px;
+  bottom: 22px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--teal);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.listItem:hover {
+  padding-left: 16px;
+}
+.listItem:hover::before {
+  transform: scaleY(1);
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 9px;
+  flex-wrap: wrap;
+}
+.itemSrc {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+.itemDate {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.itemDate::before {
+  content: "·";
+  margin: 0 10px;
+  color: #c8c2b4;
+}
+.itemTitle {
+  font-family: 'Merriweather', Georgia, serif;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--green-deep);
+  transition: color .2s;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+}
+.listItem:hover .itemTitle {
+  color: var(--teal);
+}
+
+/* Footer */
+.listFoot {
+  padding: 18px 6px 20px;
+  display: flex;
+  justify-content: center;
+}
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .02em;
+  color: var(--green-deep);
+  text-decoration: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1.5px solid #e3ded0;
+  background: transparent;
+  transition: background .25s, border-color .25s, color .25s, gap .25s;
+}
+.seeAll:hover {
+  background: var(--green-deep);
+  color: var(--white);
+  border-color: var(--green-deep);
+  gap: 14px;
+}
+
+/* ── Responsivo ── */
 @media (max-width: 960px) {
-  .newsGrid { grid-template-columns: 1fr; }
+  .newsGrid { grid-template-columns: 1fr; gap: 28px; }
 }
-
 @media (max-width: 600px) {
-  .newsCardSm {
-    grid-template-columns: 80px 1fr;
-  }
-  .newsCardImg {
-    height: 180px;
-  }
-  .newsTitle {
-    font-size: 16px;
-  }
+  .featureBody { padding: 22px 22px 24px; }
+  .featureTop { padding: 20px 22px 18px; }
+  .featureTitle { font-size: 20px; }
+  .list { padding: 4px 18px; }
 }

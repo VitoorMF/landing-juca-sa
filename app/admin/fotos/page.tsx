@@ -3,219 +3,173 @@
 import { useEffect, useRef, useState } from 'react'
 import { Foto } from '@/types'
 import { supabase } from '@/lib/supabase'
-import styles from './page.module.css'
+import { AdminTopbar, DeleteDialog } from '../components/AdminShared'
 
-const vazio: Omit<Foto, 'id'> = { src: '', label: '', caption: '', span: false }
+const uid = () => 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
+
+type Row = Foto & { id: string }
 
 export default function FotosAdmin() {
-  const [lista, setLista] = useState<Foto[]>([])
-  const [form, setForm] = useState<Omit<Foto, 'id'>>(vazio)
-  const [editandoId, setEditandoId] = useState<string | null>(null)
-  const [mostrarForm, setMostrarForm] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState<string | null>(null)
-  const [enviando, setEnviando] = useState(false)
-  const [preview, setPreview] = useState<string | null>(null)
-  const inputFileRef = useRef<HTMLInputElement>(null)
+  const [rows, setRows] = useState<Row[]>([])
+  const [saved, setSaved] = useState('[]')
+  const [loading, setLoading] = useState(true)
+  const [toast, setToast] = useState('')
+  const [deleteTarget, setDeleteTarget] = useState<Row | null>(null)
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>()
+
+  const dirty = JSON.stringify(rows) !== saved
 
   useEffect(() => {
-    async function buscar() {
-      const { data } = await supabase.from('fotos').select('*')
-      if (data) setLista(data as Foto[])
-    }
-    buscar()
+    supabase.from('fotos').select('*').then(({ data }) => {
+      const mapped = (data ?? []) as Row[]
+      setRows(mapped)
+      setSaved(JSON.stringify(mapped))
+      setLoading(false)
+    })
   }, [])
 
-  function abrirNovo() {
-    setForm(vazio)
-    setPreview(null)
-    setEditandoId(null)
-    setMostrarForm(true)
+  function showToast(msg: string) {
+    clearTimeout(toastTimer.current)
+    setToast(msg)
+    toastTimer.current = setTimeout(() => setToast(''), 2800)
   }
 
-  function abrirEditar(f: Foto) {
-    setForm({ src: f.src, label: f.label, caption: f.caption, span: f.span ?? false })
-    setPreview(f.src)
-    setEditandoId(f.id)
-    setMostrarForm(true)
+  function update(id: string, patch: Partial<Row>) {
+    setRows(prev => prev.map(r => r.id === id ? { ...r, ...patch } : r))
   }
 
-  function fecharForm() {
-    setMostrarForm(false)
-    setEditandoId(null)
-    setForm(vazio)
-    setPreview(null)
+  function addRow() {
+    setRows(prev => [...prev, { id: uid(), src: '', label: '', caption: '', categoria: '', span: false }])
   }
 
-  async function handleArquivo(e: React.ChangeEvent<HTMLInputElement>) {
-    const arquivo = e.target.files?.[0]
-    if (!arquivo) return
-
-    // Preview local imediato
-    setPreview(URL.createObjectURL(arquivo))
-    setEnviando(true)
-
-    // Nome único pra evitar conflito de arquivos
-    const nomeUnico = `${Date.now()}-${arquivo.name}`
-
-    const { error } = await supabase.storage
-      .from('fotos')
-      .upload(nomeUnico, arquivo)
-
-    if (error) {
-      alert('Erro ao fazer upload: ' + error.message)
-      setEnviando(false)
-      return
-    }
-
-    // Pega a URL pública do arquivo enviado
-    const { data: { publicUrl } } = supabase.storage
-      .from('fotos')
-      .getPublicUrl(nomeUnico)
-
-    setForm(f => ({ ...f, src: publicUrl }))
-    setEnviando(false)
+  async function handleFile(id: string, file: File) {
+    update(id, { src: URL.createObjectURL(file) }) // preview imediato
+    const nomeUnico = `${Date.now()}-${file.name}`
+    const { error } = await supabase.storage.from('fotos').upload(nomeUnico, file)
+    if (error) { showToast('Erro no upload: ' + error.message); return }
+    const { data: { publicUrl } } = supabase.storage.from('fotos').getPublicUrl(nomeUnico)
+    update(id, { src: publicUrl })
   }
 
-  async function salvar() {
-    if (!form.src.trim()) return
-    if (editandoId) {
-      await supabase.from('fotos').update({ ...form }).eq('id', editandoId)
-      setLista(prev => prev.map(f => f.id === editandoId ? { ...form, id: editandoId } : f))
-    } else {
-      const { data: novo } = await supabase.from('fotos').insert({ ...form }).select().single()
-      if (novo) setLista(prev => [...prev, novo as Foto])
-    }
-    fecharForm()
+  async function confirmDelete() {
+    if (!deleteTarget) return
+    if (!deleteTarget.id.startsWith('x')) await supabase.from('fotos').delete().eq('id', deleteTarget.id)
+    setRows(prev => {
+      const next = prev.filter(r => r.id !== deleteTarget.id)
+      setSaved(JSON.stringify(next))
+      return next
+    })
+    setDeleteTarget(null)
+    showToast('Foto excluída')
   }
 
-  async function excluir(id: string) {
-    await supabase.from('fotos').delete().eq('id', id)
-    setLista(prev => prev.filter(f => f.id !== id))
-    setConfirmDelete(null)
+  async function save() {
+    const ops: Promise<unknown>[] = []
+    rows.forEach(r => {
+      const payload = { src: r.src, label: r.caption, caption: r.caption, categoria: r.categoria, span: r.span ?? false }
+      if (r.id.startsWith('x')) ops.push(supabase.from('fotos').insert(payload))
+      else ops.push(supabase.from('fotos').update(payload).eq('id', r.id))
+    })
+    await Promise.all(ops)
+    const { data } = await supabase.from('fotos').select('*')
+    const mapped = (data ?? []) as Row[]
+    setRows(mapped)
+    setSaved(JSON.stringify(mapped))
+    showToast('✓ Fotos salvas')
+  }
+
+  function discard() { setRows(JSON.parse(saved)) }
+
+  if (loading) return <div className="adminRoot"><div className="content">Carregando…</div></div>
+
+  return (
+    <div className="adminRoot">
+      <AdminTopbar title="Fotos" hint="Galeria de imagens do site" dirty={dirty} onSave={save} onDiscard={discard} />
+      <div className="content">
+        <div className="hintBar">
+          <b>Arraste uma foto</b> do seu computador para cada quadro — ou clique para escolher. Escreva uma legenda e o local. Não esqueça de <b>Salvar alterações</b>.
+        </div>
+
+        <div className="photoGrid">
+          {rows.map((f, i) => (
+            <PhotoCard key={f.id} foto={f} index={i}
+              onFile={file => handleFile(f.id, file)}
+              onLegenda={v => update(f.id, { caption: v })}
+              onLocal={v => update(f.id, { categoria: v })}
+              onDelete={() => setDeleteTarget(f)} />
+          ))}
+          <button className="pcardAdd" onClick={addRow}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: 40, height: 40 }}>
+              <path d="M12 19V5M5 12l7-7 7 7"/>
+            </svg>
+            <b>Adicionar foto</b>
+          </button>
+        </div>
+      </div>
+
+      <DeleteDialog target={deleteTarget} noun="foto" onCancel={() => setDeleteTarget(null)} onConfirm={confirmDelete} />
+      {toast && <div className="toast">{toast}</div>}
+    </div>
+  )
+}
+
+function PhotoCard({ foto, index, onFile, onLegenda, onLocal, onDelete }: {
+  foto: Row
+  index: number
+  onFile: (file: File) => void
+  onLegenda: (v: string) => void
+  onLocal: (v: string) => void
+  onDelete: () => void
+}) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [dragOver, setDragOver] = useState(false)
+
+  function onDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setDragOver(false)
+    const file = e.dataTransfer.files?.[0]
+    if (file?.type.startsWith('image/')) onFile(file)
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.cabecalho}>
-        <div>
-          <h1 className={styles.titulo}>Fotos</h1>
-          <p className={styles.sub}>{lista.length} fotos cadastradas</p>
-        </div>
-        <button className={styles.btnPrimario} onClick={abrirNovo}>+ Nova foto</button>
+    <div className="pcard">
+      <div
+        className={`pcardMedia ${dragOver ? 'pcardMediaOver' : ''}`}
+        onClick={() => inputRef.current?.click()}
+        onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={onDrop}
+      >
+        {foto.src ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={foto.src} alt={foto.caption} className="pcardImg" />
+        ) : (
+          <div className="pcardEmpty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" style={{ width: 30, height: 30 }}>
+              <rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-5-5L5 20"/>
+            </svg>
+            <span className="pcardEmptyT">Arraste uma foto aqui</span>
+            <span className="pcardEmptyS">ou clique para escolher</span>
+          </div>
+        )}
+        <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }}
+          onChange={e => { const f = e.target.files?.[0]; if (f) onFile(f) }} />
       </div>
 
-      <div className={styles.grid}>
-        {lista.map(f => (
-          <div key={f.id} className={`${styles.card} ${f.span ? styles.cardSpan : ''}`}>
-            <div className={styles.cardImgWrap}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={f.src} alt={f.label} className={styles.cardImg}
-                onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
-              <div className={styles.cardPlaceholder}>🖼️</div>
-            </div>
-            <div className={styles.cardBody}>
-              <div className={styles.cardCaption}>{f.caption || f.label}</div>
-              {f.span && <span className={styles.badgeDestaque}>Destaque</span>}
-            </div>
-            <div className={styles.cardAcoes}>
-              <button className={styles.btnEditar} onClick={() => abrirEditar(f)}>✏️ Editar</button>
-              <button className={styles.btnExcluir} onClick={() => setConfirmDelete(f.id)}>🗑️ Excluir</button>
-            </div>
-          </div>
-        ))}
+      <div className="pcardBody">
+        <input className="pcardInput" value={foto.caption} placeholder="Legenda da foto"
+          onChange={e => onLegenda(e.target.value)} />
+        <input className="pcardInput" value={foto.categoria ?? ''} placeholder="Local (ex.: Faz. Paiquerê, PR)"
+          onChange={e => onLocal(e.target.value)} />
+        <div className="pcardFoot">
+          <span className="pcardOrder">Foto {index + 1}</span>
+          <button className="iconBtn" title="Excluir foto" onClick={onDelete}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+            </svg>
+          </button>
+        </div>
       </div>
-
-      {confirmDelete && (
-        <div className={styles.overlay} onClick={() => setConfirmDelete(null)}>
-          <div className={styles.modalConfirm} onClick={e => e.stopPropagation()}>
-            <div className={styles.modalIcon}>🗑️</div>
-            <h3>Excluir foto?</h3>
-            <p>Esta ação não pode ser desfeita.</p>
-            <div className={styles.modalAcoes}>
-              <button className={styles.btnCancelar} onClick={() => setConfirmDelete(null)}>Cancelar</button>
-              <button className={styles.btnExcluirConfirm} onClick={() => excluir(confirmDelete)}>Excluir</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {mostrarForm && (
-        <div className={styles.overlay} onClick={fecharForm}>
-          <div className={styles.drawer} onClick={e => e.stopPropagation()}>
-            <div className={styles.drawerHeader}>
-              <h2 className={styles.drawerTitulo}>{editandoId ? 'Editar foto' : 'Nova foto'}</h2>
-              <button className={styles.btnFechar} onClick={fecharForm}>✕</button>
-            </div>
-
-            <div className={styles.drawerBody}>
-
-              {/* Área de upload */}
-              <div
-                className={styles.uploadArea}
-                onClick={() => inputFileRef.current?.click()}
-              >
-                {preview ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={preview} alt="preview" className={styles.uploadPreview} />
-                ) : (
-                  <div className={styles.uploadPlaceholder}>
-                    <span className={styles.uploadIcone}>📁</span>
-                    <span className={styles.uploadTexto}>Clique para selecionar uma foto</span>
-                    <span className={styles.uploadSub}>JPG, PNG ou WEBP</span>
-                  </div>
-                )}
-
-                {enviando && (
-                  <div className={styles.uploadLoading}>
-                    <span>Enviando…</span>
-                  </div>
-                )}
-              </div>
-
-              <input
-                ref={inputFileRef}
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handleArquivo}
-              />
-
-              {preview && !enviando && (
-                <button
-                  className={styles.btnTrocar}
-                  onClick={() => inputFileRef.current?.click()}
-                >
-                  🔄 Trocar imagem
-                </button>
-              )}
-
-              <label className={styles.label}>
-                Legenda
-                <input className={styles.input} value={form.caption}
-                  onChange={e => setForm(f => ({ ...f, caption: e.target.value }))}
-                  placeholder="Descrição da foto" />
-              </label>
-
-              <label className={styles.checkLabel}>
-                <input type="checkbox" checked={form.span}
-                  onChange={e => setForm(f => ({ ...f, span: e.target.checked }))} />
-                Foto em destaque (ocupa mais espaço na galeria)
-              </label>
-            </div>
-
-            <div className={styles.drawerFooter}>
-              <button className={styles.btnCancelar} onClick={fecharForm}>Cancelar</button>
-              <button
-                className={styles.btnPrimario}
-                onClick={salvar}
-                disabled={!form.src.trim() || enviando}
-              >
-                {enviando ? 'Enviando…' : '💾 Salvar'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

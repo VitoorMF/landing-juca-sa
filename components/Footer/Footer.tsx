@@ -1,7 +1,7 @@
 import { getTranslations } from 'next-intl/server'
 import styles from './Footer.module.css'
 
-const navHrefs = ['#perfil', '#opinioes', '#publicacoes', '#videos', '#fotos', '#apresentacoes', '#noticias', '#links']
+const navHrefs = ['#perfil', '#opinioes', '#publicacoes', '#fotos', '#apresentacoes', '#noticias', '#links']
 
 const academicLinks = [
   { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=01cxZjoAAAAJ' },

@@ -12,6 +12,7 @@
     "@supabase/ssr": "^0.10.0",
     "@supabase/supabase-js": "^2.102.1",
     "@vercel/analytics": "^2.0.1",
+    "fast-xml-parser": "^5.8.0",
     "next": "^16.2.2",
     "next-intl": "^4.9.0",
     "react": "^18.3.0",

@@ -18,8 +18,6 @@ const DEFAULTS: Record<string, { pt: string; en: string }> = {
   'hero.desc':    { pt: ptJson.hero.desc,      en: enJson.hero.desc     },
   'perfil.lead':  { pt: ptJson.perfil.lead,    en: enJson.perfil.lead   },
   'perfil.bio1':  { pt: ptJson.perfil.bio1,    en: enJson.perfil.bio1   },
-  'perfil.bio2':  { pt: ptJson.perfil.bio2,    en: enJson.perfil.bio2   },
-  'perfil.bio3':  { pt: ptJson.perfil.bio3,    en: enJson.perfil.bio3   },
 }
 
 function rowsToImpacto(rows: Row[]): ImpactoItem[] {
@@ -223,7 +221,7 @@ export default function TextosAdmin() {
         </Secao>
 
         {/* Perfil */}
-        <Secao titulo="👤 Perfil" onSalvar={() => salvarSecao(['perfil.lead','perfil.bio1','perfil.bio2','perfil.bio3'])} salvando={isSaving('perfil.lead')}>
+        <Secao titulo="👤 Perfil" onSalvar={() => salvarSecao(['perfil.lead','perfil.bio1'])} salvando={isSaving('perfil.lead')}>
           <CampoBilingual
             label="Lead"
             textarea rows={3}
@@ -231,22 +229,10 @@ export default function TextosAdmin() {
             onChange={(lang, val) => setCampo('perfil.lead', lang, val)}
           />
           <CampoBilingual
-            label="Bio — parágrafo 1"
-            textarea rows={5}
+            label="Bio"
+            textarea rows={10}
             pt={campos['perfil.bio1'].pt} en={campos['perfil.bio1'].en}
             onChange={(lang, val) => setCampo('perfil.bio1', lang, val)}
-          />
-          <CampoBilingual
-            label="Bio — parágrafo 2"
-            textarea rows={5}
-            pt={campos['perfil.bio2'].pt} en={campos['perfil.bio2'].en}
-            onChange={(lang, val) => setCampo('perfil.bio2', lang, val)}
-          />
-          <CampoBilingual
-            label="Bio — parágrafo 3"
-            textarea rows={4}
-            pt={campos['perfil.bio3'].pt} en={campos['perfil.bio3'].en}
-            onChange={(lang, val) => setCampo('perfil.bio3', lang, val)}
           />
         </Secao>
 
@@ -255,7 +241,10 @@ export default function TextosAdmin() {
         <Secao titulo="📊 Dados de impacto" onSalvar={salvarImpacto} salvando={isSaving('impacto')}>
           <div className={styles.tabela}>
             <div className={`${styles.tabelaRow} ${styles.tabelaHeader} ${styles.tabelaImpacto}`}>
-              <span>Nº</span><span>Sufixo</span><span>Label PT</span><span>Label EN</span>
+              <span>Nº</span><span>Sufixo</span>
+              <span className={styles.langPt}>Label PT</span>
+              <span className={styles.divider} />
+              <span className={styles.langEn}>Label EN</span>
             </div>
             {impacto.map((item, idx) => (
               <div key={idx} className={`${styles.tabelaRow} ${styles.tabelaImpacto}`}>
@@ -265,6 +254,7 @@ export default function TextosAdmin() {
                   onChange={e => setImpactoItem(idx, 'sufixo', e.target.value)} />
                 <input className={styles.input} value={item.labelPt}
                   onChange={e => setImpactoItem(idx, 'labelPt', e.target.value)} />
+                <span className={styles.divider} />
                 <input className={styles.input} value={item.labelEn}
                   onChange={e => setImpactoItem(idx, 'labelEn', e.target.value)} />
               </div>
@@ -276,7 +266,13 @@ export default function TextosAdmin() {
         <Secao titulo="🪪 Card do perfil" onSalvar={salvarCardItems} salvando={isSaving('cardItems')}>
           <div className={styles.tabela}>
             <div className={`${styles.tabelaRow} ${styles.tabelaHeader} ${styles.tabelaCard}`}>
-              <span>Ícone</span><span>Label PT</span><span>Valor PT</span><span>Label EN</span><span>Valor EN</span><span />
+              <span>Ícone</span>
+              <span className={styles.langPt}>Label PT</span>
+              <span className={styles.langPt}>Valor PT</span>
+              <span className={styles.divider} />
+              <span className={styles.langEn}>Label EN</span>
+              <span className={styles.langEn}>Valor EN</span>
+              <span />
             </div>
             {cardItems.map((item, idx) => (
               <div key={idx} className={`${styles.tabelaRow} ${styles.tabelaCard}`}>
@@ -286,6 +282,7 @@ export default function TextosAdmin() {
                   onChange={e => setCardItems(prev => prev.map((c, i) => i === idx ? { ...c, labelPt: e.target.value } : c))} />
                 <input className={styles.input} placeholder="Valor" value={item.valuePt}
                   onChange={e => setCardItems(prev => prev.map((c, i) => i === idx ? { ...c, valuePt: e.target.value } : c))} />
+                <span className={styles.divider} />
                 <input className={styles.input} placeholder="Label" value={item.labelEn}
                   onChange={e => setCardItems(prev => prev.map((c, i) => i === idx ? { ...c, labelEn: e.target.value } : c))} />
                 <input className={styles.input} placeholder="Value" value={item.valueEn}

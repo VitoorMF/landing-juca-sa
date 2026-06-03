@@ -1,12 +1,21 @@
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
+import Link from 'next/link'
 import styles from './Apresentacoes.module.css'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Apresentacao } from '@/types'
+import TimelineView from './TimelineView'
+
+const LIMIT = 6
 
 export default async function Apresentacoes() {
-  const t = await getTranslations('apresentacoes')
-  const { data } = await supabaseServer.from('apresentacoes').select('*')
-  const apresentacoes: Apresentacao[] = data ?? []
+  const [t, locale, { data }] = await Promise.all([
+    getTranslations('apresentacoes'),
+    getLocale(),
+    supabaseServer.from('apresentacoes').select('*'),
+  ])
+  const todas: Apresentacao[] = data ?? []
+  const apresentacoes = todas.slice(0, LIMIT)
+  const hasMore = todas.length > LIMIT
 
   return (
     <section id="apresentacoes" className="section section-alt">
@@ -17,24 +26,15 @@ export default async function Apresentacoes() {
           <p className="section-lead">{t('lead')}</p>
         </div>
 
-        <div className={styles.presGrid}>
-          {apresentacoes.map((ap, idx) => {
-            const delay = idx % 2
-            return (
-              <div
-                key={ap.id}
-                className={`${styles.presCard} reveal${delay > 0 ? ` reveal-delay-${delay}` : ''}`}
-              >
-                <div className={styles.presIcon}>{ap.emoji}</div>
-                <div>
-                  <div className={styles.presYear}>{ap.ano} — {ap.local}</div>
-                  <div className={styles.presTitle}>{ap.titulo}</div>
-                  <div className={styles.presEvent}>{ap.evento}</div>
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <TimelineView apresentacoes={apresentacoes} />
+
+        {hasMore && (
+          <div className={styles.talksCta}>
+            <Link href={`/${locale}/apresentacoes`} className={styles.talksSeeAll}>
+              {t('seeAll')} <span>→</span>
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   )
