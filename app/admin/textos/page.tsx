@@ -195,14 +195,15 @@ export default function TextosAdmin() {
   const isSaving = (key: string) => salvando === key
 
   return (
-    <div className={styles.page}>
-      <div className={styles.cabecalho}>
+    <div className="adminRoot">
+      <div className="topbar">
         <div>
-          <h1 className={styles.titulo}>Textos do site</h1>
-          <p className={styles.sub}>Edite os textos principais — as alterações entram no ar em até 60 segundos</p>
+          <h1 className="topbarTitle">Textos do site</h1>
+          <div className="topbarHint">Edite os textos principais — as alterações entram no ar em até 60 segundos</div>
         </div>
       </div>
 
+      <div className="content">
       <div className={styles.secoes}>
 
         {/* Hero */}
@@ -386,6 +387,7 @@ export default function TextosAdmin() {
           ))}
         </Secao>
 
+      </div>
       </div>
 
       {toast && <div className={styles.toast}>{toast}</div>}

@@ -26,12 +26,9 @@ export default function LinksAdmin() {
 
   return (
     <div className="adminRoot">
-      <AdminTopbar title="Links" hint="Perfis acadêmicos e recursos externos" dirty={sh.dirty} onSave={sh.save} onDiscard={sh.discard} />
-      <div className="content">
-        <div className="hintBar">
-          Cole o endereço completo na coluna <b>Endereço (URL)</b>. Clique em qualquer célula para editar.
-        </div>
-        <SheetTable cols={COLS} rows={sh.rows} onChange={sh.onChange} onAdd={sh.onAdd} onDelete={sh.onDelete} addLabel="Adicionar link" noun="links" />
+      <AdminTopbar title="Links" hint="Perfis acadêmicos e recursos externos" dirty={sh.dirty} saving={sh.saving} onSave={sh.save} onDiscard={sh.discard} />
+      <div className="contentFlush">
+        <SheetTable cols={COLS} rows={sh.rows} onChange={sh.onChange} onAdd={sh.onAdd} onDelete={sh.onDelete} onReorder={sh.onReorder} addLabel="Adicionar link" noun="links" />
       </div>
       <DeleteDialog target={sh.deleteTarget} noun="link" onCancel={() => sh.setDeleteTarget(null)} onConfirm={sh.confirmDelete} />
       {sh.toast && <div className="toast">{sh.toast}</div>}

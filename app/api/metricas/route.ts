@@ -23,9 +23,18 @@ export async function GET(req: Request) {
     const m   = (type: string, limit = 10) =>
       fetch(`${BASE}/websites/${WEBSITE_ID}/metrics?${qs}&type=${type}&limit=${limit}`, { headers: h }).then(r => r.json())
 
-    const [stats, statsPrev, urls, entradas, saidas, paises, regioes, cidades, browsers, sistemas, dispositivos, referrers] = await Promise.all([
+    // série temporal: dia (até 90d) ou mês (12 meses)
+    const unit = dias > 180 ? 'month' : 'day'
+    const tz   = 'America/Sao_Paulo'
+    const serieReq = fetch(
+      `${BASE}/websites/${WEBSITE_ID}/pageviews?${qs}&unit=${unit}&timezone=${encodeURIComponent(tz)}`,
+      { headers: h }
+    ).then(r => r.json())
+
+    const [stats, statsPrev, serie, urls, entradas, saidas, paises, regioes, cidades, browsers, sistemas, dispositivos, referrers] = await Promise.all([
       fetch(`${BASE}/websites/${WEBSITE_ID}/stats?${qs}`,  { headers: h }).then(r => r.json()),
       fetch(`${BASE}/websites/${WEBSITE_ID}/stats?${qsP}`, { headers: h }).then(r => r.json()),
+      serieReq,
       m('url'),
       m('entry'),
       m('exit'),
@@ -40,6 +49,29 @@ export async function GET(req: Request) {
 
     const toArr = (d: unknown) => Array.isArray(d) ? d : []
     const fmt   = (d: { x: string; y: number }) => ({ nome: d.x || '(direto)', visitas: d.y })
+
+    // série temporal: junta pageviews + sessions por data, preenchendo dias sem dados
+    const pv = toArr(serie?.pageviews) as { x: string; y: number }[]
+    const ss = toArr(serie?.sessions) as { x: string; y: number }[]
+    const chave = (iso: string) => iso.slice(0, unit === 'month' ? 7 : 10) // YYYY-MM ou YYYY-MM-DD
+    const pvMap = new Map(pv.map(p => [chave(p.x), p.y]))
+    const ssMap = new Map(ss.map(p => [chave(p.x), p.y]))
+
+    const serieTemporal: { data: string; visualizacoes: number; visitas: number }[] = []
+    const cursor = new Date(inicio30d)
+    const fim = new Date(agora)
+    while (cursor <= fim) {
+      const k = unit === 'month'
+        ? `${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`
+        : cursor.toISOString().slice(0, 10)
+      serieTemporal.push({
+        data: k,
+        visualizacoes: pvMap.get(k) ?? 0,
+        visitas: ssMap.get(k) ?? 0,
+      })
+      if (unit === 'month') cursor.setMonth(cursor.getMonth() + 1)
+      else cursor.setDate(cursor.getDate() + 1)
+    }
 
     // Umami Cloud pode retornar { visitors: 2 } ou { visitors: { value: 2 } }
     const getVal = (v: unknown): number => {
@@ -62,6 +94,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       stats: { visitors, visits, pageviews, taxaRejeicao, duracao, crescimento, visitorsP },
+      serie: serieTemporal,
       paginas:      { urls: toArr(urls).map(fmt), entradas: toArr(entradas).map(fmt), saidas: toArr(saidas).map(fmt) },
       localizacao:  { paises: toArr(paises).map(fmt), regioes: toArr(regioes).map(fmt), cidades: toArr(cidades).map(fmt) },
       ambiente:     { browsers: toArr(browsers).map(fmt), sistemas: toArr(sistemas).map(fmt), dispositivos: toArr(dispositivos).map(fmt) },

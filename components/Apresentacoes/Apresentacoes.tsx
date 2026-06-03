@@ -11,7 +11,7 @@ export default async function Apresentacoes() {
   const [t, locale, { data }] = await Promise.all([
     getTranslations('apresentacoes'),
     getLocale(),
-    supabaseServer.from('apresentacoes').select('*'),
+    supabaseServer.from('apresentacoes').select('*').order('ordem', { nullsFirst: false }),
   ])
   const todas: Apresentacao[] = data ?? []
   const apresentacoes = todas.slice(0, LIMIT)

@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import styles from './page.module.css'
 
+import GraficoVisitas, { PontoSerie } from './GraficoVisitas'
+
 const MapaMundi = dynamic(() => import('./MapaMundi'), { ssr: false })
 
 interface Item { nome: string; visitas: number }
@@ -18,6 +20,7 @@ interface DadosMetricas {
     crescimento: string | null
     visitorsP: number
   }
+  serie: PontoSerie[]
   paginas: { urls: Item[]; entradas: Item[]; saidas: Item[] }
   localizacao: { paises: Item[]; regioes: Item[]; cidades: Item[] }
   ambiente: { browsers: Item[]; sistemas: Item[]; dispositivos: Item[] }
@@ -158,13 +161,13 @@ export default function MetricasAdmin() {
   const crescPositivo = crescNum !== null && crescNum >= 0
 
   return (
-    <div className={styles.page}>
-      <div className={styles.cabecalho}>
+    <div className="adminRoot">
+      <div className="topbar">
         <div>
-          <h1 className={styles.titulo}>Métricas de acesso</h1>
-          <p className={styles.sub}>
+          <h1 className="topbarTitle">Métricas de acesso</h1>
+          <div className="topbarHint">
             Últimos {PERIODOS.find(p => p.dias === periodo)?.label} · via Umami Analytics
-          </p>
+          </div>
         </div>
         <div className={styles.cabecalhoDireita}>
           {ativos !== null && (
@@ -189,6 +192,8 @@ export default function MetricasAdmin() {
           </div>
         </div>
       </div>
+
+      <div className="content">
 
       {carregando && !dados && (
         <div className={styles.loading}>
@@ -246,6 +251,17 @@ export default function MetricasAdmin() {
               <div className={styles.statLabel}>Tempo médio</div>
               <div className={styles.statNum}>{dados.stats.duracao}</div>
               <div className={styles.statSub}>por visita</div>
+            </div>
+          </div>
+
+          {/* Gráfico de tendência */}
+          <div className={styles.painelMapa} style={{ marginTop: 0, marginBottom: 24, borderRadius: 0, overflow: 'visible' }}>
+            <div className={styles.painelMapaCabecalho}>
+              <span className={styles.painelTitulo}>Visitas ao longo do tempo</span>
+              <span className={styles.painelMapaSub}>{periodo > 180 ? 'por mês' : 'por dia'}</span>
+            </div>
+            <div style={{ padding: '20px' }}>
+              <GraficoVisitas serie={dados.serie} unit={periodo > 180 ? 'month' : 'day'} />
             </div>
           </div>
 
@@ -320,6 +336,7 @@ export default function MetricasAdmin() {
           </div>
         </>
       )}
+      </div>
     </div>
   )
 }

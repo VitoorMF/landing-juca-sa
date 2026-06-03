@@ -2,9 +2,13 @@ import { getTranslations } from 'next-intl/server'
 import styles from './Hero.module.css'
 import WelcomeModal from './WelcomeModal'
 import CourseModal from './CourseModal'
+import { supabaseServer } from '@/lib/supabase-server'
+import { Modulo } from '@/types'
 
 export default async function Hero() {
   const t = await getTranslations('hero')
+  const { data } = await supabaseServer.from('modulos').select('*').order('ordem')
+  const modulos: Modulo[] = data ?? []
 
   return (
     <section id="hero" className={styles.hero}>
@@ -45,7 +49,7 @@ export default async function Hero() {
               </svg>
               {t('cta1')}
             </a>
-            <CourseModal />
+            <CourseModal modulos={modulos} />
           </div>
         </div>
 

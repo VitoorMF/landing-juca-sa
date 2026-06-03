@@ -21,7 +21,7 @@ export default function PublicacoesView({ limit, ctaHref, searchable }: Props) {
   const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    supabase.from('publicacoes').select('*').then(({ data }) => {
+    supabase.from('publicacoes').select('*').order('ordem', { nullsFirst: false }).then(({ data }) => {
       if (data) setLista(data as Publicacao[])
     })
   }, [])

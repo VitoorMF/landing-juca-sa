@@ -41,15 +41,19 @@ interface Props<T extends { id: string }> {
   onChange: (id: string, key: keyof T, val: string) => void
   onAdd: () => void
   onDelete: (row: T) => void
+  onReorder?: (from: number, to: number) => void
   addLabel: string
   noun: string
 }
 
 export default function SheetTable<T extends { id: string }>({
-  cols, rows, onChange, onAdd, onDelete, addLabel, noun,
+  cols, rows, onChange, onAdd, onDelete, onReorder, addLabel, noun,
 }: Props<T>) {
   const firstInputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null)
   const tableRef = useRef<HTMLTableElement>(null)
+
+  const [dragIndex, setDragIndex] = useState<number | null>(null)
+  const [overIndex, setOverIndex] = useState<number | null>(null)
 
   const GUT = 50
   const ACT = 60
@@ -155,8 +159,30 @@ export default function SheetTable<T extends { id: string }>({
               </tr>
             )}
             {rows.map((row, ri) => (
-              <tr key={row.id}>
-                <td className="colGut">{ri + 1}</td>
+              <tr
+                key={row.id}
+                className={
+                  overIndex === ri && dragIndex !== null && dragIndex !== ri
+                    ? (ri > dragIndex ? 'rowDropBelow' : 'rowDropAbove')
+                    : ''
+                }
+                onDragOver={onReorder ? (e) => { e.preventDefault(); setOverIndex(ri) } : undefined}
+                onDrop={onReorder ? (e) => {
+                  e.preventDefault()
+                  if (dragIndex !== null) onReorder(dragIndex, ri)
+                  setDragIndex(null); setOverIndex(null)
+                } : undefined}
+              >
+                <td
+                  className="colGut"
+                  draggable={!!onReorder}
+                  style={onReorder ? { cursor: 'move' } : undefined}
+                  onDragStart={onReorder ? () => setDragIndex(ri) : undefined}
+                  onDragEnd={onReorder ? () => { setDragIndex(null); setOverIndex(null) } : undefined}
+                  title={onReorder ? 'Arraste para reordenar' : undefined}
+                >
+                  {ri + 1}
+                </td>
                 {cols.map((col, ci) => {
                   const val = String((row[col.key] ?? '') as string)
                   return (

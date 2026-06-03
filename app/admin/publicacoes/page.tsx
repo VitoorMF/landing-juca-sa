@@ -22,12 +22,9 @@ export default function PublicacoesAdmin() {
 
   return (
     <div className="adminRoot">
-      <AdminTopbar title="Publicações" hint="Artigos, livros e trabalhos científicos" dirty={sh.dirty} onSave={sh.save} onDiscard={sh.discard} />
-      <div className="content">
-        <div className="hintBar">
-          Clique em qualquer célula e digite — <b>como numa planilha</b>. Use <b>Tab</b> para avançar e <b>Enter</b> para descer.
-        </div>
-        <SheetTable cols={COLS} rows={sh.rows} onChange={sh.onChange} onAdd={sh.onAdd} onDelete={sh.onDelete} addLabel="Adicionar publicação" noun="publicações" />
+      <AdminTopbar title="Publicações" hint="Artigos, livros e trabalhos científicos" dirty={sh.dirty} saving={sh.saving} onSave={sh.save} onDiscard={sh.discard} />
+      <div className="contentFlush">
+        <SheetTable cols={COLS} rows={sh.rows} onChange={sh.onChange} onAdd={sh.onAdd} onDelete={sh.onDelete} onReorder={sh.onReorder} addLabel="Adicionar publicação" noun="publicações" />
       </div>
       <DeleteDialog target={sh.deleteTarget} noun="publicação" onCancel={() => sh.setDeleteTarget(null)} onConfirm={sh.confirmDelete} />
       {sh.toast && <div className="toast">{sh.toast}</div>}

@@ -62,3 +62,12 @@ export interface Link {
   iconBg: 'green' | 'teal' | 'gold'
   url: string
 }
+
+export interface Modulo {
+  id: string
+  ordem: number
+  titulo: string
+  descricao: string
+  url: string
+  liberado: boolean
+}

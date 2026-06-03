@@ -1,9 +1,10 @@
 'use client'
 
-export function AdminTopbar({ title, hint, dirty, onSave, onDiscard }: {
+export function AdminTopbar({ title, hint, dirty, saving, onSave, onDiscard }: {
   title: string
   hint: string
   dirty: boolean
+  saving?: boolean
   onSave: () => void
   onDiscard: () => void
 }) {
@@ -18,8 +19,10 @@ export function AdminTopbar({ title, hint, dirty, onSave, onDiscard }: {
           <span className="saveDot" />
           {dirty ? 'Alterações não salvas' : 'Tudo salvo'}
         </div>
-        <button className="btn btnGhost" onClick={onDiscard} disabled={!dirty}>Desfazer</button>
-        <button className="btn btnPrimary" onClick={onSave} disabled={!dirty}>Salvar alterações</button>
+        <button className="btn btnGhost" onClick={onDiscard} disabled={!dirty || saving}>Desfazer</button>
+        <button className="btn btnPrimary" onClick={onSave} disabled={!dirty || saving}>
+          {saving ? 'Salvando…' : 'Salvar alterações'}
+        </button>
       </div>
     </div>
   )
@@ -44,7 +47,7 @@ export function DeleteDialog({ target, noun, onCancel, onConfirm }: {
           <div className="dialogTitle">Excluir {noun}?</div>
         </div>
         <div className="dialogBody">
-          Esta ação só é efetivada ao clicar em <b>Salvar alterações</b>.
+          A exclusão é <b>imediata</b> e não pode ser desfeita.
         </div>
         <div className="dialogFoot">
           <button className="btn btnGhost" onClick={onCancel}>Cancelar</button>

@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Foto } from '@/types'
 import { supabase } from '@/lib/supabase'
+import { adminWrite } from '@/lib/admin-write'
+import { adminUpload } from '@/lib/admin-upload'
 import { AdminTopbar, DeleteDialog } from '../components/AdminShared'
 
 const uid = () => 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
@@ -13,6 +15,7 @@ export default function FotosAdmin() {
   const [rows, setRows] = useState<Row[]>([])
   const [saved, setSaved] = useState('[]')
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState('')
   const [deleteTarget, setDeleteTarget] = useState<Row | null>(null)
   const toastTimer = useRef<ReturnType<typeof setTimeout>>()
@@ -44,38 +47,51 @@ export default function FotosAdmin() {
 
   async function handleFile(id: string, file: File) {
     update(id, { src: URL.createObjectURL(file) }) // preview imediato
-    const nomeUnico = `${Date.now()}-${file.name}`
-    const { error } = await supabase.storage.from('fotos').upload(nomeUnico, file)
-    if (error) { showToast('Erro no upload: ' + error.message); return }
-    const { data: { publicUrl } } = supabase.storage.from('fotos').getPublicUrl(nomeUnico)
-    update(id, { src: publicUrl })
+    try {
+      const url = await adminUpload('fotos', file)
+      update(id, { src: url })
+    } catch (e) {
+      showToast('Erro no upload: ' + (e instanceof Error ? e.message : ''))
+    }
   }
 
   async function confirmDelete() {
     if (!deleteTarget) return
-    if (!deleteTarget.id.startsWith('x')) await supabase.from('fotos').delete().eq('id', deleteTarget.id)
-    setRows(prev => {
-      const next = prev.filter(r => r.id !== deleteTarget.id)
-      setSaved(JSON.stringify(next))
-      return next
+    const id = deleteTarget.id
+    if (!id.startsWith('x')) {
+      const ok = await adminWrite({ table: 'fotos', deletes: [id] })
+      if (!ok) { showToast('❌ Erro ao excluir'); return }
+    }
+    setRows(prev => prev.filter(r => r.id !== id))
+    setSaved(prev => {
+      try {
+        const arr = JSON.parse(prev) as { id: string }[]
+        return JSON.stringify(arr.filter(r => r.id !== id))
+      } catch { return prev }
     })
     setDeleteTarget(null)
     showToast('Foto excluída')
   }
 
   async function save() {
-    const ops: PromiseLike<unknown>[] = []
-    rows.forEach(r => {
-      const payload = { src: r.src, label: r.caption, caption: r.caption, categoria: r.categoria, span: r.span ?? false }
-      if (r.id.startsWith('x')) ops.push(supabase.from('fotos').insert(payload))
-      else ops.push(supabase.from('fotos').update(payload).eq('id', r.id))
-    })
-    await Promise.all(ops)
-    const { data } = await supabase.from('fotos').select('*')
-    const mapped = (data ?? []) as Row[]
-    setRows(mapped)
-    setSaved(JSON.stringify(mapped))
-    showToast('✓ Fotos salvas')
+    setSaving(true)
+    try {
+      const inserts = rows.filter(r => r.id.startsWith('x'))
+        .map(r => ({ src: r.src, label: r.caption, caption: r.caption, categoria: r.categoria, span: r.span ?? false }))
+      const updates = rows.filter(r => !r.id.startsWith('x'))
+        .map(r => ({ id: r.id, src: r.src, label: r.caption, caption: r.caption, categoria: r.categoria, span: r.span ?? false }))
+
+      const ok = await adminWrite({ table: 'fotos', inserts, updates })
+      if (!ok) { showToast('❌ Erro ao salvar'); return }
+
+      const { data } = await supabase.from('fotos').select('*')
+      const mapped = (data ?? []) as Row[]
+      setRows(mapped)
+      setSaved(JSON.stringify(mapped))
+      showToast('✓ Fotos salvas')
+    } finally {
+      setSaving(false)
+    }
   }
 
   function discard() { setRows(JSON.parse(saved)) }
@@ -84,11 +100,8 @@ export default function FotosAdmin() {
 
   return (
     <div className="adminRoot">
-      <AdminTopbar title="Fotos" hint="Galeria de imagens do site" dirty={dirty} onSave={save} onDiscard={discard} />
+      <AdminTopbar title="Fotos" hint="Galeria de imagens do site" dirty={dirty} saving={saving} onSave={save} onDiscard={discard} />
       <div className="content">
-        <div className="hintBar">
-          <b>Arraste uma foto</b> do seu computador para cada quadro — ou clique para escolher. Escreva uma legenda e o local. Não esqueça de <b>Salvar alterações</b>.
-        </div>
 
         <div className="photoGrid">
           {rows.map((f, i) => (
@@ -100,7 +113,7 @@ export default function FotosAdmin() {
           ))}
           <button className="pcardAdd" onClick={addRow}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: 40, height: 40 }}>
-              <path d="M12 19V5M5 12l7-7 7 7"/>
+              <path d="M12 19V5M5 12l7-7 7 7" />
             </svg>
             <b>Adicionar foto</b>
           </button>
@@ -146,7 +159,7 @@ function PhotoCard({ foto, index, onFile, onLegenda, onLocal, onDelete }: {
         ) : (
           <div className="pcardEmpty">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" style={{ width: 30, height: 30 }}>
-              <rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-5-5L5 20"/>
+              <rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9.5" r="1.6" /><path d="M21 16l-5-5L5 20" />
             </svg>
             <span className="pcardEmptyT">Arraste uma foto aqui</span>
             <span className="pcardEmptyS">ou clique para escolher</span>
@@ -165,7 +178,7 @@ function PhotoCard({ foto, index, onFile, onLegenda, onLocal, onDelete }: {
           <span className="pcardOrder">Foto {index + 1}</span>
           <button className="iconBtn" title="Excluir foto" onClick={onDelete}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6M9 6V4h6v2"/>
+              <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6M14 11v6M9 6V4h6v2" />
             </svg>
           </button>
         </div>

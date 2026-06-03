@@ -5,7 +5,7 @@ import { Link } from '@/types'
 
 export default async function Links() {
   const t = await getTranslations('links')
-  const { data } = await supabaseServer.from('links').select('*')
+  const { data } = await supabaseServer.from('links').select('*').order('ordem', { nullsFirst: false })
   const links: Link[] = (data ?? []).map((l: Record<string, unknown>) => ({
     ...l,
     iconBg: l.icon_bg,

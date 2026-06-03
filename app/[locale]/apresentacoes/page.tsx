@@ -10,7 +10,7 @@ export default async function ApresentacoesPage() {
   const [t, locale, { data }] = await Promise.all([
     getTranslations('apresentacoes'),
     getLocale(),
-    supabaseServer.from('apresentacoes').select('*'),
+    supabaseServer.from('apresentacoes').select('*').order('ordem', { nullsFirst: false }),
   ])
   const apresentacoes: Apresentacao[] = data ?? []
 

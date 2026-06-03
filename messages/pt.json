@@ -51,16 +51,17 @@
     "cta": "Clique aqui para acessar o Módulo 1 e começar agora!",
     "modulesLabel": "Módulos",
     "modulesUnlocked": "1 / 5 Liberado",
+    "unlockedWord": "Liberado",
     "available": "▶ Disponível",
     "locked": "Bloqueado",
     "ctaModule": "▶ Começar Módulo 1",
     "ctaHint": "Conclua o módulo 1 para desbloquear o próximo.",
     "modules": [
-      { "title": "Introdução ao Sistema Plantio Direto", "desc": "Fundamentos, história e princípios do SPD no Brasil." },
-      { "title": "Dinâmica do carbono no solo", "desc": "Como o carbono orgânico influencia a vida do solo." },
-      { "title": "Manejo de palhada e cobertura", "desc": "Estratégias para manutenção e qualidade da cobertura." },
-      { "title": "Rotação de culturas nos trópicos", "desc": "Planejamento de sequências para máxima resiliência." },
-      { "title": "Agricultura regenerativa na prática", "desc": "Integração lavoura-pecuária e sistemas sustentáveis." }
+      { "title": "Módulo I — Agricultura de carbono", "desc": "Introdução e os pilares da agricultura de carbono." },
+      { "title": "Módulo II — Relações entre o C e os atributos do solo", "desc": "Como o carbono se relaciona com os atributos físicos, químicos e biológicos do solo." },
+      { "title": "Módulo III — C, chave da resiliência e rentabilidade", "desc": "O carbono como componente-chave da resiliência e da rentabilidade dos sistemas de produção de baixa emissão de CO₂." },
+      { "title": "Módulo IV — Recuperação do C e do Capital Natural", "desc": "Estratégias de recuperação do carbono do solo e do capital natural." },
+      { "title": "Módulo V — Balanço de C sob Plantio Direto", "desc": "Balanço de carbono nos sistemas de produção sob Plantio Direto." }
     ]
   },
   "perfil": {

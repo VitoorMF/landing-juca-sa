@@ -51,16 +51,17 @@
     "cta": "Click here to access Module 1 and start now!",
     "modulesLabel": "Modules",
     "modulesUnlocked": "1 / 5 Unlocked",
+    "unlockedWord": "Unlocked",
     "available": "▶ Available",
     "locked": "Locked",
     "ctaModule": "▶ Start Module 1",
     "ctaHint": "Complete module 1 to unlock the next.",
     "modules": [
-      { "title": "Introduction to the No-Till System", "desc": "Fundamentals, history and principles of NTS in Brazil." },
-      { "title": "Soil carbon dynamics", "desc": "How organic carbon influences soil life." },
-      { "title": "Straw and cover management", "desc": "Strategies for maintaining and improving cover quality." },
-      { "title": "Crop rotation in the tropics", "desc": "Planning sequences for maximum resilience." },
-      { "title": "Regenerative agriculture in practice", "desc": "Crop-livestock integration and sustainable systems." }
+      { "title": "Module I — Carbon agriculture", "desc": "Introduction and the pillars of carbon agriculture." },
+      { "title": "Module II — Carbon and soil attributes", "desc": "How carbon relates to the physical, chemical and biological attributes of the soil." },
+      { "title": "Module III — Carbon, key to resilience and profitability", "desc": "Carbon as a key component of resilience and profitability in low-CO₂ production systems." },
+      { "title": "Module IV — Recovering soil carbon and Natural Capital", "desc": "Strategies for recovering soil carbon and natural capital." },
+      { "title": "Module V — Carbon balance under No-Till", "desc": "Carbon balance in production systems under No-Till." }
     ]
   },
   "perfil": {

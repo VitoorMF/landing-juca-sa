@@ -21,12 +21,9 @@ export default function ApresentacoesAdmin() {
 
   return (
     <div className="adminRoot">
-      <AdminTopbar title="Apresentações" hint="Palestras e congressos" dirty={sh.dirty} onSave={sh.save} onDiscard={sh.discard} />
-      <div className="content">
-        <div className="hintBar">
-          Clique numa célula e digite. <b>Tab</b> avança entre colunas, <b>Enter</b> desce uma linha.
-        </div>
-        <SheetTable cols={COLS} rows={sh.rows} onChange={sh.onChange} onAdd={sh.onAdd} onDelete={sh.onDelete} addLabel="Adicionar apresentação" noun="apresentações" />
+      <AdminTopbar title="Apresentações" hint="Palestras e congressos" dirty={sh.dirty} saving={sh.saving} onSave={sh.save} onDiscard={sh.discard} />
+      <div className="contentFlush">
+        <SheetTable cols={COLS} rows={sh.rows} onChange={sh.onChange} onAdd={sh.onAdd} onDelete={sh.onDelete} onReorder={sh.onReorder} addLabel="Adicionar apresentação" noun="apresentações" />
       </div>
       <DeleteDialog target={sh.deleteTarget} noun="apresentação" onCancel={() => sh.setDeleteTarget(null)} onConfirm={sh.confirmDelete} />
       {sh.toast && <div className="toast">{sh.toast}</div>}

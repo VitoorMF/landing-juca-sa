@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import styles from './Hero.module.css'
+import { Modulo } from '@/types'
 
-export default function CourseModal() {
+export default function CourseModal({ modulos = [] }: { modulos?: Modulo[] }) {
   const t = useTranslations('courseModal')
   const th = useTranslations('hero')
   const [open, setOpen] = useState(false)
@@ -17,7 +18,12 @@ export default function CourseModal() {
   const b = (chunks: React.ReactNode) => <strong>{chunks}</strong>
   const i = (chunks: React.ReactNode) => <em>{chunks}</em>
 
-  const modules = t.raw('modules') as { title: string; desc: string }[]
+  // Fallback para os textos estáticos caso a tabela esteja vazia
+  const fallback = (t.raw('modules') as { title: string; desc: string }[])
+    .map((m, idx) => ({ id: String(idx), ordem: idx + 1, titulo: m.title, descricao: m.desc, url: '', liberado: idx === 0 }))
+  const modules: Modulo[] = modulos && modulos.length ? modulos : fallback
+
+  const liberados = modules.filter(m => m.liberado).length
 
   return (
     <>
@@ -54,31 +60,36 @@ export default function CourseModal() {
             <div className={styles.courseModalDivider} />
             <div className={styles.courseModalModulesHeader}>
               {t('modulesLabel')}{' '}
-              <span className={styles.courseModalModulesHighlight}>{t('modulesUnlocked')}</span>
+              <span className={styles.courseModalModulesHighlight}>{liberados} / {modules.length} {t('unlockedWord')}</span>
             </div>
 
             <ul className={styles.courseModalList}>
-              {modules.map((m, i) => (
-                <li key={i} className={i === 0 ? styles.courseModuleAvailable : styles.courseModuleLocked}>
-                  <div className={i === 0 ? styles.courseModuleNumActive : styles.courseModuleNumLocked}>
-                    {i === 0 ? `0${i + 1}` : <span className={styles.courseModuleLockIcon}>🔒</span>}
-                  </div>
-                  <div className={styles.courseModuleBody}>
-                    <span className={styles.courseModuleTitle}>{m.title}</span>
-                    <span className={styles.courseModuleDesc}>{m.desc}</span>
-                  </div>
-                  <div className={i === 0 ? styles.courseModuleStatusAvailable : styles.courseModuleStatusLocked}>
-                    {i === 0 ? t('available') : t('locked')}
-                  </div>
-                </li>
-              ))}
+              {modules.map((m, i) => {
+                const clickable = m.liberado && m.url
+                const Wrapper = clickable ? 'a' : 'li'
+                const wrapperProps = clickable
+                  ? { href: m.url, target: '_blank', rel: 'noopener noreferrer' }
+                  : {}
+                return (
+                  <Wrapper
+                    key={m.id ?? i}
+                    className={m.liberado ? styles.courseModuleAvailable : styles.courseModuleLocked}
+                    {...(wrapperProps as Record<string, string>)}
+                  >
+                    <div className={m.liberado ? styles.courseModuleNumActive : styles.courseModuleNumLocked}>
+                      {m.liberado ? String(i + 1).padStart(2, '0') : <span className={styles.courseModuleLockIcon}>🔒</span>}
+                    </div>
+                    <div className={styles.courseModuleBody}>
+                      <span className={styles.courseModuleTitle}>{m.titulo}</span>
+                      <span className={styles.courseModuleDesc}>{m.descricao}</span>
+                    </div>
+                    <div className={m.liberado ? styles.courseModuleStatusAvailable : styles.courseModuleStatusLocked}>
+                      {m.liberado ? t('available') : t('locked')}
+                    </div>
+                  </Wrapper>
+                )
+              })}
             </ul>
-
-            {/* Footer CTA */}
-            <div className={styles.courseModalFooter}>
-              <button className={styles.courseModalCta}>{t('ctaModule')}</button>
-              <span className={styles.courseModalCtaHint}>{t('ctaHint')}</span>
-            </div>
           </div>
         </div>
       )}

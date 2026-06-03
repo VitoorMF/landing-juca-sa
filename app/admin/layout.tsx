@@ -23,6 +23,7 @@ const icons: Record<string, React.ReactNode> = {
   fotos: <Svg><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="8.5" cy="9.5" r="1.6" /><path d="M21 16l-5-5L5 20" /></Svg>,
   links: <Svg><path d="M10 13a4 4 0 0 0 5.7.3l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.5 1.5" /><path d="M14 11a4 4 0 0 0-5.7-.3L5.7 13.3a4 4 0 0 0 5.7 5.7l1.5-1.5" /></Svg>,
   textos: <Svg><path d="M5 5h14M5 5v3M19 5v3M12 5v14M9 19h6" /></Svg>,
+  curso: <Svg><path d="M22 10L12 4 2 10l10 6 10-6z" /><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" /></Svg>,
 }
 
 const navItems = [
@@ -32,6 +33,7 @@ const navItems = [
   { href: '/admin/apresentacoes', label: 'Apresentações', key: 'apresentacoes' },
   { href: '/admin/fotos', label: 'Fotos', key: 'fotos' },
   { href: '/admin/links', label: 'Links', key: 'links' },
+  { href: '/admin/curso', label: 'Curso', key: 'curso' },
   { href: '/admin/textos', label: 'Textos', key: 'textos' },
 ]
 
