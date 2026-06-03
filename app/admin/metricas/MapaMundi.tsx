@@ -105,8 +105,9 @@ export default function MapaMundi({ paises }: Props) {
       >
         <ZoomableGroup zoom={1} minZoom={0.8} maxZoom={8}>
           <Geographies geography={GEO_URL}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {({ geographies }: { geographies: any[] }) =>
+              geographies.map((geo: any) => {
                 const id = Number(geo.id)
                 const dado = visitasPorId[id]
                 return (
@@ -121,12 +122,12 @@ export default function MapaMundi({ paises }: Props) {
                       hover:   { outline: 'none', fill: dado ? 'rgba(0,168,150,1)' : '#c8d2da', cursor: 'pointer' },
                       pressed: { outline: 'none' },
                     }}
-                    onMouseEnter={(e) => {
+                    onMouseEnter={(e: React.MouseEvent) => {
                       const alpha2 = numericToAlpha2[id]
                       const nome = alpha2 ? (alpha2ToNome[alpha2] ?? alpha2) : String(id)
                       setTooltip({ nome, visitas: dado?.visitas ?? 0, x: e.clientX, y: e.clientY })
                     }}
-                    onMouseMove={(e) => {
+                    onMouseMove={(e: React.MouseEvent) => {
                       setTooltip(t => t ? { ...t, x: e.clientX, y: e.clientY } : null)
                     }}
                     onMouseLeave={() => setTooltip(null)}
