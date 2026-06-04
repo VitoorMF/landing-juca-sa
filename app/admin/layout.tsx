@@ -3,7 +3,42 @@
 import './admin.css'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import styles from './layout.module.css'
+
+// favicon distinto pro admin: quadrado verde com engrenagem branca
+const ADMIN_FAVICON =
+  'data:image/svg+xml,' +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" rx="22" fill="#16301f"/>
+      <g fill="none" stroke="#2bbd86" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="50" cy="50" r="13"/>
+        <path d="M50 24v-8M50 84v-8M76 50h8M16 50h8M68 68l6 6M26 26l6 6M68 32l6-6M26 74l6-6"/>
+      </g>
+    </svg>`
+  )
+
+function useAdminChrome() {
+  useEffect(() => {
+    const prevTitle = document.title
+    document.title = 'Painel Admin · Prof. Juca Sá'
+
+    let link = document.querySelector<HTMLLinkElement>("link[rel~='icon']")
+    const prevHref = link?.href ?? null
+    if (!link) {
+      link = document.createElement('link')
+      link.rel = 'icon'
+      document.head.appendChild(link)
+    }
+    link.href = ADMIN_FAVICON
+
+    return () => {
+      document.title = prevTitle
+      if (link && prevHref) link.href = prevHref
+    }
+  }, [])
+}
 
 function Svg({ children }: { children: React.ReactNode }) {
   return (
@@ -39,6 +74,7 @@ const navItems = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  useAdminChrome()
 
   return (
     <div className={styles.layout}>
