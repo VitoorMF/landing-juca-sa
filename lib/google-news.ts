@@ -1,7 +1,7 @@
 import { XMLParser } from 'fast-xml-parser'
 import { Noticia } from '@/types'
 
-const QUERY = '"plantio direto" OR "carbono no solo" OR "agricultura regenerativa"'
+const QUERY = '"plantio direto" OR "carbono no solo" OR "carbon sequestration" OR "climate change" OR "carbon credits" OR "ecosystem services"'
 const RSS_URL = `https://news.google.com/rss/search?q=${encodeURIComponent(QUERY)}&hl=pt-BR&gl=BR&ceid=BR:pt`
 
 const GRADIENTS: [string, string][] = [
