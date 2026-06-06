@@ -24,7 +24,7 @@ export default async function Hero() {
           <p className={styles.heroDesc}>{t('desc')}</p>
           <div className={styles.heroStats}>
             <div>
-              <div className={styles.heroStatNum}>70<span className={styles.heroStatSup}>+</span></div>
+              <div className={styles.heroStatNum}>90<span className={styles.heroStatSup}>+</span></div>
               <div className={styles.heroStatLabel}>{t('stat1')}</div>
             </div>
             <div>
