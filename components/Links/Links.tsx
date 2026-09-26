@@ -1,46 +1,37 @@
 import { getTranslations } from 'next-intl/server'
-import styles from './Links.module.css'
+import SectionHead from '@/components/ui/SectionHead'
+import { ArrowUpRight } from '@/components/ui/Icons'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Link } from '@/types'
+import styles from './Links.module.css'
 
 export default async function Links() {
-  const t = await getTranslations('links')
-  const { data } = await supabaseServer.from('links').select('*').order('ordem', { nullsFirst: false })
-  const links: Link[] = (data ?? []).map((l: Record<string, unknown>) => ({
-    ...l,
-    iconBg: l.icon_bg,
-  } as Link))
+  const [t, { data }] = await Promise.all([
+    getTranslations('links'),
+    supabaseServer.from('links').select('*').order('ordem', { nullsFirst: false }),
+  ])
+  const links = (data ?? []) as Link[]
 
   return (
-    <section id="links" className="section section-dark">
-      <div className="container">
-        <div className="section-header reveal">
-          <div className="section-tag">{t('tag')}</div>
-          <h2 className="section-title">{t('title')}</h2>
-          <p className="section-lead">{t('lead')}</p>
-        </div>
+    <section id="links" className="section tone-dark" aria-labelledby="links-title">
+      <div className="wrap">
+        <SectionHead eyebrow={t('tag')} title={t('title')} titleId="links-title" lead={t('lead')} />
 
-        <div className={styles.linksGrid}>
-          {links.map((link, idx) => {
-            const delay = idx % 3
-            return (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${styles.linkCard} reveal${delay > 0 ? ` reveal-delay-${delay}` : ''}`}
-              >
-                <div className={`${styles.linkIcon} ${styles[`linkIcon_${link.iconBg}`]}`}>
-                  {link.emoji}
-                </div>
-                <div className={styles.linkName}>{link.nome}</div>
-                <div className={styles.linkDesc}>{link.descricao}</div>
-                <div className={styles.linkArrow}>{t('cta')}</div>
-              </a>
-            )
-          })}
-        </div>
+        {links.length > 0 && (
+          <ul className={styles.grid}>
+            {links.map((link, idx) => (
+              <li key={link.id} className={`reveal reveal-delay-${idx % 3}`}>
+                <a className={styles.card} href={link.url} target="_blank" rel="noopener noreferrer">
+                  <span className={styles.name}>
+                    {link.nome}
+                    <ArrowUpRight className={styles.arrow} />
+                  </span>
+                  {link.descricao && <span className={styles.desc}>{link.descricao}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   )

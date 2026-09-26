@@ -1,0 +1,31 @@
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 72px;
+  margin-top: 28px;
+}
+
+.columns > :last-child {
+  position: relative;
+}
+
+.columns > :last-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -36px;
+  width: 1px;
+  background: var(--rule);
+}
+
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+
+  .columns > :last-child::before {
+    display: none;
+  }
+}

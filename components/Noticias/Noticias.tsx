@@ -1,95 +1,62 @@
 import { getTranslations, getLocale } from 'next-intl/server'
-import Link from 'next/link'
-import styles from './Noticias.module.css'
+import { Link } from '@/i18n/navigation'
+import { ArrowRight, ArrowUpRight } from '@/components/ui/Icons'
 import { fetchGoogleNews } from '@/lib/google-news'
+import { Noticia } from '@/types'
+import styles from './Noticias.module.css'
 
-function readingTime(text: string): number {
-  const words = text.trim().split(/\s+/).length
-  return Math.max(1, Math.round(words / 200))
+/** O RSS do Google News costuma repetir título + veículo na descrição; só vale mostrar se trouxer algo novo. */
+export function resumo(n: Noticia): string {
+  const d = n.descricao?.trim() ?? ''
+  if (!d) return ''
+  const head = n.titulo.slice(0, 40).toLowerCase()
+  return d.toLowerCase().startsWith(head) ? '' : d
 }
 
+/** Coluna de notícias da seção "Ideias em circulação". */
 export default async function Noticias() {
-  const [t, locale, noticias] = await Promise.all([
-    getTranslations('noticias'),
-    getLocale(),
-    fetchGoogleNews(),
-  ])
-
-  const destaque = noticias.find((n) => n.destaque)
-  const secundarias = noticias.filter((n) => !n.destaque)
+  const locale = await getLocale()
+  const [t, noticias] = await Promise.all([getTranslations('noticias'), fetchGoogleNews(5, locale)])
+  const [destaque, ...demais] = noticias
 
   return (
-    <section id="noticias" className="section">
-      <div className="container">
-        <div className="section-header reveal">
-          <div className="section-tag">{t('tag')}</div>
-          <h2 className="section-title">{t('title')}</h2>
-          <p className="section-lead">{t('lead')}</p>
-        </div>
+    <div id="noticias" className={styles.column}>
+      <h2 className={styles.columnTitle}>{t('title')}</h2>
+      <p className={styles.columnLead}>{t('lead')}</p>
 
-        <div className={styles.newsGrid}>
-          {/* ── Card destaque ── */}
-          {destaque && (
-            <a
-              href={destaque.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${styles.feature} reveal`}
-            >
-              <div className={styles.featureTop}>
-                <span className={styles.featureFlag}>
-                  <span className={styles.featureLive} />
-                  Em destaque
-                </span>
-                <div className={styles.featureKicker}>Ciência do solo &amp; agronegócio</div>
-              </div>
-              <div className={styles.featureBody}>
-                <div className={styles.metaRow}>
-                  {destaque.tag && <span className={styles.srcBadge}>{destaque.tag}</span>}
-                  <span className={styles.metaDot} />
-                  <span>{destaque.data}</span>
-                </div>
-                <h3 className={styles.featureTitle}>{destaque.titulo}</h3>
-                {destaque.descricao && (
-                  <p className={styles.featureExcerpt}>{destaque.descricao}</p>
-                )}
-                <div className={styles.featureFoot}>
-                  <span className={styles.readMore}>
-                    Ler matéria <span className={styles.readArr}>→</span>
-                  </span>
-                  <span className={styles.readTime}>
-                    Leitura de {readingTime(destaque.descricao)} min
-                  </span>
-                </div>
-              </div>
+      {!destaque ? (
+        <p className={styles.empty}>{t('empty')}</p>
+      ) : (
+        <ul className={styles.list}>
+          <li>
+            <a className={`${styles.item} ${styles.featured}`} href={destaque.url} target="_blank" rel="noopener noreferrer">
+              <span className={styles.meta}>
+                <span className={styles.flag}>{t('featured')}</span>
+                {destaque.tag && <span>{destaque.tag}</span>}
+                <span>{destaque.data}</span>
+              </span>
+              <span className={styles.title}>{destaque.titulo}</span>
+              {resumo(destaque) && <span className={styles.excerpt}>{resumo(destaque)}</span>}
+              <span className={styles.read}>{t('readMore')} <ArrowUpRight /></span>
             </a>
-          )}
-
-          {/* ── Lista lateral ── */}
-          <div className={`${styles.list} reveal reveal-delay-1`}>
-            {secundarias.map((noticia) => (
-              <a
-                key={noticia.id}
-                href={noticia.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.listItem}
-              >
-                <div className={styles.itemMeta}>
-                  {noticia.tag && <span className={styles.itemSrc}>{noticia.tag}</span>}
-                  <span className={styles.itemDate}>{noticia.data}</span>
-                </div>
-                <p className={styles.itemTitle}>{noticia.titulo}</p>
+          </li>
+          {demais.map((n) => (
+            <li key={n.id}>
+              <a className={styles.item} href={n.url} target="_blank" rel="noopener noreferrer">
+                <span className={styles.meta}>
+                  {n.tag && <span>{n.tag}</span>}
+                  <span>{n.data}</span>
+                </span>
+                <span className={styles.title}>{n.titulo}</span>
               </a>
-            ))}
-            <div className={styles.listFoot}>
-              <Link href={`/${locale}/noticias`} className={styles.seeAll}>
-                Ver todas as notícias <span>→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <Link href="/noticias" className={`text-link ${styles.more}`}>
+        {t('seeAll')} <ArrowRight />
+      </Link>
+    </div>
   )
 }

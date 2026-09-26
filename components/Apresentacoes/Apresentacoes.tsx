@@ -1,41 +1,31 @@
-import { getTranslations, getLocale } from 'next-intl/server'
-import Link from 'next/link'
-import styles from './Apresentacoes.module.css'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
+import { ArrowRight } from '@/components/ui/Icons'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Apresentacao } from '@/types'
 import TimelineView from './TimelineView'
+import styles from './Apresentacoes.module.css'
 
-const LIMIT = 6
+const LIMIT = 5
 
+/** Coluna de congressos e palestras da seção "Ideias em circulação". */
 export default async function Apresentacoes() {
-  const [t, locale, { data }] = await Promise.all([
+  const [t, { data }] = await Promise.all([
     getTranslations('apresentacoes'),
-    getLocale(),
     supabaseServer.from('apresentacoes').select('*').order('ordem', { nullsFirst: false }),
   ])
   const todas: Apresentacao[] = data ?? []
-  const apresentacoes = todas.slice(0, LIMIT)
-  const hasMore = todas.length > LIMIT
 
   return (
-    <section id="apresentacoes" className="section section-alt">
-      <div className="container">
-        <div className="section-header reveal">
-          <div className="section-tag">{t('tag')}</div>
-          <h2 className="section-title">{t('title')}</h2>
-          <p className="section-lead">{t('lead')}</p>
-        </div>
-
-        <TimelineView apresentacoes={apresentacoes} />
-
-        {hasMore && (
-          <div className={styles.talksCta}>
-            <Link href={`/${locale}/apresentacoes`} className={styles.talksSeeAll}>
-              {t('seeAll')} <span>→</span>
-            </Link>
-          </div>
-        )}
-      </div>
-    </section>
+    <div id="apresentacoes" className={styles.column}>
+      <h2 className={styles.columnTitle}>{t('title')}</h2>
+      <p className={styles.columnLead}>{t('lead')}</p>
+      <TimelineView apresentacoes={todas.slice(0, LIMIT)} compact />
+      {todas.length > LIMIT && (
+        <Link href="/apresentacoes" className={`text-link ${styles.more}`}>
+          {t('seeAll')} <ArrowRight />
+        </Link>
+      )}
+    </div>
   )
 }

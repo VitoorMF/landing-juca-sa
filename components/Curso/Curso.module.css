@@ -1,0 +1,44 @@
+.band {
+  --olive: #e0dcb8;
+  background: #5d6336;
+  color: var(--on-dark);
+  padding: 56px 0;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.title {
+  margin-top: 14px;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+}
+
+.text {
+  margin-top: 10px;
+  max-width: 60ch;
+  font-size: .95rem;
+  color: #e6e6d3;
+}
+
+.btn {
+  flex-shrink: 0;
+  color: #fff;
+  border-color: rgba(255, 255, 255, .6);
+}
+
+.btn:hover {
+  background: var(--forest);
+  border-color: var(--forest);
+}
+
+@media (max-width: 760px) {
+  .inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
+  }
+}

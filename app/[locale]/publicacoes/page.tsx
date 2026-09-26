@@ -1,28 +1,14 @@
-import { getTranslations, getLocale } from 'next-intl/server'
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import Subpage from '@/components/Subpage/Subpage'
 import PublicacoesView from '@/components/Publicacoes/PublicacoesView'
-import ScrollRevealProvider from '@/components/ScrollRevealProvider/ScrollRevealProvider'
-import styles from './publicacoes.module.css'
+import { fetchPublicacoes } from '@/components/Publicacoes/Publicacoes'
 
 export default async function PublicacoesPage() {
-  const [t, locale] = await Promise.all([
-    getTranslations('publicacoes'),
-    getLocale(),
-  ])
+  const [t, publicacoes] = await Promise.all([getTranslations('publicacoes'), fetchPublicacoes()])
 
   return (
-    <ScrollRevealProvider>
-      <div className={styles.wrap}>
-        <Link href={`/${locale}`} className={styles.back}>← {t('back')}</Link>
-
-        <header className={styles.head}>
-          <span className={styles.eyebrow}>{t('tag')}</span>
-          <h1 className={styles.title}>{t('title')}</h1>
-          <p className={styles.sub}>{t('lead')}</p>
-        </header>
-
-        <PublicacoesView searchable />
-      </div>
-    </ScrollRevealProvider>
+    <Subpage eyebrow={t('tag')} title={t('title')} lead={t('lead')} backLabel={t('back')}>
+      <PublicacoesView publicacoes={publicacoes} searchable />
+    </Subpage>
   )
 }

@@ -1,19 +1,23 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useId, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import styles from './Hero.module.css'
+import Dialog from '@/components/ui/Dialog'
+import { ArrowUpRight, Lock } from '@/components/ui/Icons'
+import d from '@/components/ui/Dialog.module.css'
+import styles from './CourseModal.module.css'
 import { Modulo } from '@/types'
 
-export default function CourseModal({ modulos = [] }: { modulos?: Modulo[] }) {
-  const t = useTranslations('courseModal')
-  const th = useTranslations('hero')
-  const [open, setOpen] = useState(false)
+interface Props {
+  modulos?: Modulo[]
+  label: string
+  className?: string
+}
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [open])
+export default function CourseModal({ modulos = [], label, className }: Props) {
+  const t = useTranslations('courseModal')
+  const [open, setOpen] = useState(false)
+  const titleId = useId()
 
   const b = (chunks: React.ReactNode) => <strong>{chunks}</strong>
   const i = (chunks: React.ReactNode) => <em>{chunks}</em>
@@ -21,78 +25,69 @@ export default function CourseModal({ modulos = [] }: { modulos?: Modulo[] }) {
   // Fallback para os textos estáticos caso a tabela esteja vazia
   const fallback = (t.raw('modules') as { title: string; desc: string }[])
     .map((m, idx) => ({ id: String(idx), ordem: idx + 1, titulo: m.title, descricao: m.desc, url: '', liberado: idx === 0 }))
-  const modules: Modulo[] = modulos && modulos.length ? modulos : fallback
+  const modules: Modulo[] = modulos.length ? modulos : fallback
 
-  const liberados = modules.filter(m => m.liberado).length
+  const liberados = modules.filter((m) => m.liberado).length
 
   return (
     <>
-      <button className="btn-gold" onClick={() => setOpen(true)}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: 18, height: 18 }}>
-          <path d="M11 20A7 7 0 0 1 4 13C4 8 9 4 20 4c0 11-4 16-9 16z" /><path d="M11 20c0-5 2-9 7-12" />
-        </svg>
-        {th('courseBtn')}
+      <button type="button" className={className} onClick={() => setOpen(true)} aria-haspopup="dialog">
+        {label}
       </button>
 
-      {open && (
-        <div className={styles.modalOverlay} onClick={() => setOpen(false)}>
-          <div className={styles.courseModal} onClick={e => e.stopPropagation()}>
+      <Dialog open={open} onClose={() => setOpen(false)} labelledBy={titleId}>
+        <div className={d.prose}>
+          <div className={`eyebrow ${d.badge}`}>{t('badge')}</div>
+          <h2 id={titleId} className={d.title}>{t('title')}</h2>
 
-            <button className={styles.modalClose} onClick={() => setOpen(false)} aria-label="Fechar">✕</button>
+          <p>{t('greeting')}</p>
+          <p>{t('p1')}</p>
+          <p>{t.rich('p2', { b })}</p>
 
-            {/* Header */}
-            <div className={styles.courseModalBadge}>{t('badge')}</div>
-            <h2 className={styles.courseModalTitle}>{t('title')}</h2>
+          <h3 className={d.subtitle}>{t('sub1')}</h3>
+          <p>{t.rich('p3', { b, i })}</p>
+          <p>{t('p4')}</p>
 
-            {/* Intro text */}
-            <p className={styles.courseModalGreeting}>{t('greeting')}</p>
-            <p className={styles.courseModalDesc}>{t('p1')}</p>
-            <p className={styles.courseModalDesc}>{t.rich('p2', { b })}</p>
-
-            <h3 className={styles.courseModalSub}>{t('sub1')}</h3>
-            <p className={styles.courseModalDesc}>{t.rich('p3', { b, i })}</p>
-            <p className={styles.courseModalDesc}>{t('p4')}</p>
-
-            <h3 className={styles.courseModalSub}>{t('sub2')}</h3>
-            <p className={styles.courseModalDesc}>{t.rich('p5', { b })}</p>
-
-            {/* Module rows */}
-            <div className={styles.courseModalDivider} />
-            <div className={styles.courseModalModulesHeader}>
-              {t('modulesLabel')}{' '}
-              <span className={styles.courseModalModulesHighlight}>{liberados} / {modules.length} {t('unlockedWord')}</span>
-            </div>
-
-            <ul className={styles.courseModalList}>
-              {modules.map((m, i) => {
-                const clickable = m.liberado && m.url
-                const Wrapper = clickable ? 'a' : 'li'
-                const wrapperProps = clickable
-                  ? { href: m.url, target: '_blank', rel: 'noopener noreferrer' }
-                  : {}
-                return (
-                  <Wrapper
-                    key={m.id ?? i}
-                    className={m.liberado ? styles.courseModuleAvailable : styles.courseModuleLocked}
-                    {...(wrapperProps as Record<string, string>)}
-                  >
-                    <div className={m.liberado ? styles.courseModuleNumActive : styles.courseModuleNumLocked}>
-                      {m.liberado ? String(i + 1).padStart(2, '0') : <span className={styles.courseModuleLockIcon}>🔒</span>}
-                    </div>
-                    <div className={styles.courseModuleBody}>
-                      <span className={styles.courseModuleTitle}>{m.titulo}</span>
-                      <span className={styles.courseModuleDesc}>{m.descricao}</span>
-                    </div>
-                    <div className={m.liberado ? styles.courseModuleStatusAvailable : styles.courseModuleStatusLocked}>
-                      {m.liberado ? t('available') : t('locked')}
-                    </div>
-                  </Wrapper>
-                )
-              })}
-            </ul>
-          </div>
+          <h3 className={d.subtitle}>{t('sub2')}</h3>
+          <p>{t.rich('p5', { b })}</p>
         </div>
-      )}
+
+        <div className={styles.modulesHead}>
+          <span>{t('modulesLabel')}</span>
+          <span className={styles.progress}>{liberados} / {modules.length} {t('unlockedWord')}</span>
+        </div>
+
+        <ol className={styles.modules}>
+          {modules.map((m, idx) => {
+            const clickable = m.liberado && m.url
+            const body = (
+              <>
+                <span className={styles.num}>{String(idx + 1).padStart(2, '0')}</span>
+                <span className={styles.body}>
+                  <span className={styles.moduleTitle}>{m.titulo}</span>
+                  <span className={styles.moduleDesc}>{m.descricao}</span>
+                </span>
+                <span className={styles.status}>
+                  {m.liberado ? (
+                    <>{t('available')}{clickable && <ArrowUpRight />}</>
+                  ) : (
+                    <><Lock /> {t('locked')}</>
+                  )}
+                </span>
+              </>
+            )
+            return (
+              <li key={m.id ?? idx} className={m.liberado ? styles.available : styles.locked}>
+                {clickable ? (
+                  <a className={styles.row} href={m.url} target="_blank" rel="noopener noreferrer">{body}</a>
+                ) : (
+                  <div className={styles.row}>{body}</div>
+                )}
+              </li>
+            )
+          })}
+        </ol>
+      </Dialog>
     </>
   )
 }

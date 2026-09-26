@@ -1,0 +1,37 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.opt {
+  position: relative;
+  padding: 6px 7px;
+  border: 0;
+  background: none;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: color .2s;
+}
+
+.opt + .opt::before {
+  content: '/';
+  position: absolute;
+  left: -4px;
+  color: var(--rule);
+  font-weight: 400;
+}
+
+.opt:hover {
+  color: var(--fg);
+}
+
+.opt[aria-pressed='true'] {
+  color: var(--forest);
+  text-decoration: underline;
+  text-decoration-color: var(--olive);
+  text-underline-offset: 5px;
+}

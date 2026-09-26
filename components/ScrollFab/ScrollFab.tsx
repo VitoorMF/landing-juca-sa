@@ -1,31 +1,35 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useTranslations } from 'next-intl'
+import { ArrowDown } from '@/components/ui/Icons'
 import styles from './ScrollFab.module.css'
 
-const SECTIONS = ['hero', 'perfil', 'impacto', 'opinioes', 'publicacoes', 'fotos', 'apresentacoes', 'noticias', 'links']
+// "noticias" fica ao lado de "apresentacoes" no desktop, então a seção de circulação conta uma vez só
+const SECTIONS = ['inicio', 'perfil', 'impacto', 'opinioes', 'publicacoes', 'fotos', 'apresentacoes', 'curso', 'links']
+
+function existingSections() {
+  return SECTIONS
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null)
+}
+
+function top(el: HTMLElement) {
+  return el.getBoundingClientRect().top + window.scrollY
+}
 
 export default function ScrollFab() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  // Só considera seções que existem de fato no DOM
-  function existingSections() {
-    return SECTIONS
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null)
-  }
+  const t = useTranslations('common')
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     function update() {
-      const scrollY = window.scrollY + window.innerHeight / 2
       const els = existingSections()
-      let idx = 0
-      els.forEach((el, i) => {
-        if (el.offsetTop <= scrollY) idx = i
-      })
-      setCurrentIndex(idx)
+      const last = els[els.length - 1]
+      const pastHero = window.scrollY > window.innerHeight * 0.6
+      const atEnd = last ? window.scrollY + window.innerHeight / 2 >= top(last) : true
+      setVisible(pastHero && !atEnd)
     }
-
     update()
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update, { passive: true })
@@ -35,26 +39,21 @@ export default function ScrollFab() {
     }
   }, [])
 
-  const total = typeof document !== 'undefined' ? existingSections().length : SECTIONS.length
-  const isLast = currentIndex >= total - 1
-
   function handleClick() {
-    const els = existingSections()
-    const next = els[currentIndex + 1]
-    if (!next) return
-    const offset = 65
-    window.scrollTo({ top: next.offsetTop - offset, behavior: 'smooth' })
+    const header = document.querySelector('header')?.getBoundingClientRect().height ?? 76
+    const next = existingSections().find((el) => top(el) > window.scrollY + header + 24)
+    if (next) window.scrollTo({ top: top(next) - header })
   }
 
   return (
     <button
-      className={`${styles.fab} ${isLast ? styles.hidden : ''}`}
+      type="button"
+      className={`${styles.fab} ${visible ? '' : styles.hidden}`}
       onClick={handleClick}
-      aria-label="Próxima seção"
+      aria-label={t('nextSection')}
+      tabIndex={visible ? 0 : -1}
     >
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M10 4v12M4 10l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      </svg>
+      <ArrowDown />
     </button>
   )
 }

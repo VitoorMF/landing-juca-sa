@@ -1,37 +1,42 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useId, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import Link from 'next/link'
-import { supabase } from '@/lib/supabase'
+import { Link } from '@/i18n/navigation'
+import { ArrowRight, ArrowUpRight, Close, Search } from '@/components/ui/Icons'
 import { Publicacao, TipoPublicacao } from '@/types'
+import { SCHOLAR_URL } from '@/lib/links'
 import styles from './Publicacoes.module.css'
 
 interface Props {
+  publicacoes: Publicacao[]
   limit?: number
-  ctaHref?: string
+  showAllLink?: boolean
   searchable?: boolean
 }
 
-export default function PublicacoesView({ limit, ctaHref, searchable }: Props) {
+const TIPOS: TipoPublicacao[] = ['article', 'book', 'misc']
+
+function matchesTipo(p: Publicacao, tipo: TipoPublicacao) {
+  return tipo === 'misc' ? p.tipo !== 'article' && p.tipo !== 'book' : p.tipo === tipo
+}
+
+export default function PublicacoesView({ publicacoes, limit, showAllLink, searchable }: Props) {
   const t = useTranslations('publicacoes')
-  const [lista, setLista] = useState<Publicacao[]>([])
   const [activeFilter, setActiveFilter] = useState<TipoPublicacao>('article')
   const [query, setQuery] = useState('')
-  const listRef = useRef<HTMLDivElement>(null)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const uid = useId()
 
-  useEffect(() => {
-    supabase.from('publicacoes').select('*').order('ordem', { nullsFirst: false }).then(({ data }) => {
-      if (data) setLista(data as Publicacao[])
-    })
-  }, [])
+  const labels: Record<TipoPublicacao, string> = {
+    article: t('filterArticle'),
+    book: t('filterBook'),
+    misc: t('filterMisc'),
+  }
 
   const q = query.trim().toLowerCase()
-  const filtered = lista.filter((p) => {
-    const matchTipo = activeFilter === 'misc'
-      ? p.tipo !== 'article' && p.tipo !== 'book'
-      : p.tipo === activeFilter
-    if (!matchTipo) return false
+  const filtered = publicacoes.filter((p) => {
+    if (!matchesTipo(p, activeFilter)) return false
     if (!q) return true
     return (
       p.titulo?.toLowerCase().includes(q) ||
@@ -40,95 +45,110 @@ export default function PublicacoesView({ limit, ctaHref, searchable }: Props) {
       p.ano?.toString().includes(q)
     )
   })
-
   const visible = limit ? filtered.slice(0, limit) : filtered
 
-  useEffect(() => {
-    const container = listRef.current
-    if (!container) return
-    const cards = container.querySelectorAll(`.${styles.pubCard}`)
-    cards.forEach((el) => el.classList.remove('visible'))
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
-    )
-    cards.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [activeFilter, lista, limit, query])
+  function onTabKey(e: React.KeyboardEvent, idx: number) {
+    let next = -1
+    if (e.key === 'ArrowRight') next = (idx + 1) % TIPOS.length
+    if (e.key === 'ArrowLeft') next = (idx - 1 + TIPOS.length) % TIPOS.length
+    if (e.key === 'Home') next = 0
+    if (e.key === 'End') next = TIPOS.length - 1
+    if (next < 0) return
+    e.preventDefault()
+    setActiveFilter(TIPOS[next])
+    tabRefs.current[next]?.focus()
+  }
+
+  const panelId = `${uid}-panel`
 
   return (
-    <>
+    <div className={styles.view}>
       {searchable && (
-        <div className={`${styles.pubSearch} reveal`}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={styles.pubSearchIcon}>
-            <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.3-4.3" />
-          </svg>
+        <div className={`${styles.search} reveal`}>
+          <Search className={styles.searchIcon} />
           <input
-            className={styles.pubSearchInput}
+            type="search"
+            className={styles.searchInput}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={t('searchPlaceholder')}
+            aria-label={t('searchLabel')}
           />
           {query && (
-            <button className={styles.pubSearchClear} onClick={() => setQuery('')} aria-label="Limpar">✕</button>
+            <button type="button" className={styles.searchClear} onClick={() => setQuery('')} aria-label={t('clear')}>
+              <Close />
+            </button>
           )}
         </div>
       )}
 
-      <div className={`${styles.pubFilters} reveal`}>
-        <button className={`${styles.pubFilter} ${activeFilter === 'article' ? styles.active : ''}`} onClick={() => setActiveFilter('article')}>{t('filterArticle')}</button>
-        <button className={`${styles.pubFilter} ${activeFilter === 'book' ? styles.active : ''}`} onClick={() => setActiveFilter('book')}>{t('filterBook')}</button>
-        <button className={`${styles.pubFilter} ${activeFilter === 'misc' ? styles.active : ''}`} onClick={() => setActiveFilter('misc')}>{t('filterMisc')}</button>
-      </div>
-
-      <div ref={listRef} className={styles.pubList}>
-        {visible.length === 0 && (
-          <div className={styles.pubEmpty}>{t('empty')}</div>
-        )}
-        {visible.map((pub) => {
-          const Wrapper = pub.url ? 'a' : 'div'
-          const wrapperProps = pub.url
-            ? { href: pub.url, target: '_blank', rel: 'noopener noreferrer' }
-            : {}
+      <div className={`${styles.tabs} reveal`} role="tablist" aria-label={t('tablistLabel')}>
+        {TIPOS.map((tipo, idx) => {
+          const selected = activeFilter === tipo
+          const count = publicacoes.filter((p) => matchesTipo(p, tipo)).length
           return (
-            <Wrapper key={pub.id} className={`${styles.pubCard} reveal`} {...(wrapperProps as Record<string, string>)}>
-              <div className={styles.pubMeta}>
-                <span className={styles.pubYear}>{pub.ano}</span>
-                {pub.autores && <span className={styles.pubPlace}>{pub.autores}</span>}
-                <span className={`${styles.pubTag} ${pub.tipo === 'article' ? styles.pubTypeArticle : pub.tipo === 'book' ? styles.pubTypeBook : styles.pubTypeMisc}`}>
-                  {pub.tipo === 'article' ? t('tagArticle') : pub.tipo === 'book' ? t('tagBook') : t('tagMisc')}
-                </span>
-              </div>
-              <h3 className={styles.pubTitle}>{pub.titulo}</h3>
-              {pub.revista && <p className={styles.pubJournal}>{pub.revista}</p>}
-            </Wrapper>
+            <button
+              key={tipo}
+              ref={(el) => { tabRefs.current[idx] = el }}
+              type="button"
+              role="tab"
+              id={`${uid}-tab-${tipo}`}
+              aria-selected={selected}
+              aria-controls={panelId}
+              tabIndex={selected ? 0 : -1}
+              className={styles.tab}
+              onClick={() => setActiveFilter(tipo)}
+              onKeyDown={(e) => onTabKey(e, idx)}
+            >
+              {labels[tipo]}
+              {count > 0 && <span className={styles.tabCount}>{count}</span>}
+            </button>
           )
         })}
       </div>
 
-      {/* CTA: ver todas (home) ou Google Scholar (página completa) */}
-      <div className={`${styles.pubCta} reveal`}>
-        {ctaHref ? (
-          <Link href={ctaHref} className={styles.pubSeeAll}>
-            {t('seeAll')} <span className={styles.pubSeeAllCount}>{t('seeAllCount')}</span> →
+      <div id={panelId} role="tabpanel" aria-labelledby={`${uid}-tab-${activeFilter}`} className={styles.panel}>
+        {visible.length === 0 ? (
+          <p className={styles.empty}>{t('empty')}</p>
+        ) : (
+          <ul className={styles.list}>
+            {visible.map((pub) => {
+              const content = (
+                <>
+                  <span className={styles.year}>{pub.ano}</span>
+                  <span className={styles.body}>
+                    <span className={styles.pubTitle}>{pub.titulo}</span>
+                    {pub.autores && <span className={styles.authors}>{pub.autores}</span>}
+                    {pub.revista && <span className={styles.journal}>{pub.revista}</span>}
+                  </span>
+                  {pub.url && <ArrowUpRight className={styles.arrow} />}
+                </>
+              )
+              return (
+                <li key={pub.id}>
+                  {pub.url ? (
+                    <a className={styles.item} href={pub.url} target="_blank" rel="noopener noreferrer">{content}</a>
+                  ) : (
+                    <div className={styles.item}>{content}</div>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </div>
+
+      <div className={styles.footer}>
+        {showAllLink ? (
+          <Link href="/publicacoes" className="btn-line">
+            {t('seeAll')} <ArrowRight />
           </Link>
         ) : (
-          <a className={styles.pubScholar} href="https://scholar.google.com/citations?user=01cxZjoAAAAJ" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 10L12 4 2 10l10 6 10-6z" /><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
-            </svg>
-            {t('cta')}
-            <span className={styles.pubScholarArrow}>→</span>
+          <a className="btn-line" href={SCHOLAR_URL} target="_blank" rel="noopener noreferrer">
+            {t('cta')} <ArrowUpRight />
           </a>
         )}
       </div>
-    </>
+    </div>
   )
 }

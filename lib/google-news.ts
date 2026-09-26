@@ -26,9 +26,9 @@ function pickEmoji(title: string, idx: number): string {
   return EMOJIS[idx % EMOJIS.length]
 }
 
-function formatDate(pubDate: string): string {
+function formatDate(pubDate: string, locale: string): string {
   try {
-    return new Date(pubDate).toLocaleDateString('pt-BR', {
+    return new Date(pubDate).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
@@ -62,7 +62,7 @@ interface RssItem {
   source?: { '#text'?: string; _name?: string } | string
 }
 
-export async function fetchGoogleNews(limit = 5): Promise<Noticia[]> {
+export async function fetchGoogleNews(limit = 5, locale = 'pt'): Promise<Noticia[]> {
   try {
     const res = await fetch(RSS_URL, {
       next: { revalidate: 3600 },
@@ -94,7 +94,7 @@ export async function fetchGoogleNews(limit = 5): Promise<Noticia[]> {
         id: item.link ?? String(idx),
         titulo: cleanTitle(item.title ?? ''),
         descricao: item.description ? stripHtml(item.description) : '',
-        data: formatDate(item.pubDate),
+        data: formatDate(item.pubDate, locale),
         tag: sourceName,
         emoji: pickEmoji(item.title ?? '', idx),
         gradientFrom: from,

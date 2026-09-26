@@ -1,78 +1,81 @@
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
+import SectionHead from '@/components/ui/SectionHead'
+import { ArrowUpRight } from '@/components/ui/Icons'
 import styles from './Perfil.module.css'
+import portrait from '@/public/profile-photo.png'
 
-const timelineColors = [
-  'var(--green-mid)',
-  'var(--green-mid)',
-  'var(--green-mid)',
-  'var(--green-mid)',
-  'var(--teal)',
-  'var(--teal)',
-]
+type TimelineItem = { year: string; text: string }
+type CardItem = { label: string; value: string }
+type ProfileLink = { label: string; url: string }
 
 export default async function Perfil() {
   const t = await getTranslations('perfil')
-  const timeline   = t.raw('timeline')   as Array<{ emoji: string; year: string; text: string }>
-  const cardItems  = t.raw('cardItems')  as Array<{ icon: string; label: string; value: string }>
-  const links      = t.raw('links')      as Array<{ icon: string; label: string; url: string }>
+  const timeline = t.raw('timeline') as TimelineItem[]
+  const cardItems = t.raw('cardItems') as CardItem[]
+  const links = t.raw('links') as ProfileLink[]
+  const bio = t('bio1').split(/\n\s*\n/).filter(Boolean)
 
   return (
-    <section id="perfil" className="section">
-      <div className="container">
-        <div className="section-header reveal">
-          <div className="section-tag">{t('tag')}</div>
-          <h2 className="section-title">{t('title')}</h2>
-          <p className="section-lead">{t('lead')}</p>
-        </div>
+    <section id="perfil" className="section" aria-labelledby="perfil-title">
+      <div className={`wrap ${styles.grid}`}>
+        <figure className={`${styles.portrait} reveal`}>
+          <div className={styles.portraitFrame}>
+            <Image
+              src={portrait}
+              alt={t('portraitAlt')}
+              fill
+              placeholder="blur"
+              sizes="(max-width: 860px) 100vw, 40vw"
+              className={styles.portraitImg}
+            />
+          </div>
+          <figcaption className={styles.portraitCaption}>
+            Ph.D. · {t('cardTitle')}
+          </figcaption>
+        </figure>
 
-        <div className={styles.profileGrid}>
-          <div className="reveal">
-            <div className={styles.profileCard}>
-              <div className={styles.profileCardHeader}>
-                <div className={styles.profileAvatar}>
-                  <img src="/profile-photo.png" alt="Prof. João Carlos de Moraes Sá" className={styles.profileAvatarImg} />
-                </div>
-                <div className={styles.profileCardName}>João Carlos de Moraes Sá</div>
-                <div className={styles.profileCardTitle}>Ph.D. · {t('cardTitle')}</div>
+        <div className={styles.text}>
+          <SectionHead eyebrow={t('tag')} title={t('title')} titleId="perfil-title" lead={t('lead')} className={styles.head} />
+
+          <div className={`${styles.bio} reveal`}>
+            {bio.map((p, idx) => <p key={idx}>{p}</p>)}
+          </div>
+
+          <dl className={`${styles.facts} reveal`}>
+            {cardItems.map((item) => (
+              <div key={item.label} className={styles.fact}>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
               </div>
-              <div className={styles.profileCardBody}>
-                {cardItems.map((item) => (
-                  <div key={item.label} className={styles.profileMetaItem}>
-                    <div className={styles.profileMetaIcon}>{item.icon}</div>
-                    <div>
-                      <div className={styles.profileMetaLabel}>{item.label}</div>
-                      <div className={styles.profileMetaValue}>{item.value}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.profileLinks}>
-                {links.map((link) => (
-                  <a key={link.url} className={styles.profileLink} href={link.url} target="_blank" rel="noopener noreferrer">
-                    {link.icon} {link.label}
+            ))}
+          </dl>
+
+          <div className={`${styles.profiles} reveal`}>
+            <h3 className={styles.profilesTitle}>{t('linksTitle')}</h3>
+            <ul>
+              {links.map((link) => (
+                <li key={link.url}>
+                  <a className="text-link" href={link.url} target="_blank" rel="noopener noreferrer">
+                    {link.label} <ArrowUpRight />
                   </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className={`${styles.profileBio} reveal reveal-delay-1`}>
-            <h3>{t('sobreTitle')}</h3>
-            <div style={{ whiteSpace: 'pre-line' }}>{t('bio1')}</div>
-
-            <div className={styles.timeline}>
-              {timeline.map((item, idx) => (
-                <div key={idx} className={styles.timelineItem}>
-                  <div className={styles.timelineDot} style={{ background: timelineColors[idx] }}>{item.emoji}</div>
-                  <div>
-                    <div className={styles.timelineYear}>{item.year}</div>
-                    <div className={styles.timelineText}>{item.text}</div>
-                  </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
+      </div>
+
+      <div className={`wrap ${styles.timelineWrap}`}>
+        <h3 className={`${styles.timelineTitle} reveal`}>{t('timelineTitle')}</h3>
+        <ol className={styles.timeline}>
+          {timeline.map((item, idx) => (
+            <li key={idx} className={`${styles.step} reveal reveal-delay-${idx % 3}`}>
+              <span className={styles.year}>{item.year}</span>
+              <p>{item.text}</p>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   )

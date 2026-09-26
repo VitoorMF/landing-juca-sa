@@ -1,46 +1,35 @@
 import { getTranslations, getLocale } from 'next-intl/server'
-import Link from 'next/link'
+import Subpage from '@/components/Subpage/Subpage'
+import { resumo } from '@/components/Noticias/Noticias'
+import { ArrowUpRight } from '@/components/ui/Icons'
 import { fetchGoogleNews } from '@/lib/google-news'
 import styles from './noticias.module.css'
 
-function readingTime(text: string): number {
-  const words = text.trim().split(/\s+/).length
-  return Math.max(1, Math.round(words / 200))
-}
-
 export default async function NoticiasPage() {
-  const [t, locale, noticias] = await Promise.all([
-    getTranslations('noticias'),
-    getLocale(),
-    fetchGoogleNews(30),
-  ])
+  const locale = await getLocale()
+  const [t, noticias] = await Promise.all([getTranslations('noticias'), fetchGoogleNews(30, locale)])
 
   return (
-    <div className={styles.wrap}>
-      <Link href={`/${locale}`} className={styles.back}>← {t('back')}</Link>
-
-      <header className={styles.head}>
-        <span className={styles.eyebrow}>{t('tag')}</span>
-        <h1 className={styles.title}>{t('title')}</h1>
-        <p className={styles.sub}>{t('lead')}</p>
-      </header>
-
-      <div className={styles.grid}>
-        {noticias.map((n) => (
-          <a key={n.id} href={n.url} target="_blank" rel="noopener noreferrer" className={styles.card}>
-            <div className={styles.cardMeta}>
-              {n.tag && <span className={styles.cardSrc}>{n.tag}</span>}
-              <span className={styles.cardDate}>{n.data}</span>
-            </div>
-            <h3 className={styles.cardTitle}>{n.titulo}</h3>
-            {n.descricao && <p className={styles.cardDesc}>{n.descricao}</p>}
-            <div className={styles.cardFoot}>
-              <span className={styles.cardRead}>{t('readMore')} →</span>
-              <span className={styles.cardTime}>{readingTime(n.descricao)} min</span>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
+    <Subpage eyebrow={t('tag')} title={t('title')} lead={t('lead')} backLabel={t('back')}>
+      {noticias.length === 0 ? (
+        <p className={styles.empty}>{t('empty')}</p>
+      ) : (
+        <ul className={styles.grid}>
+          {noticias.map((n) => (
+            <li key={n.id}>
+              <a href={n.url} target="_blank" rel="noopener noreferrer" className={styles.card}>
+                <span className={styles.meta}>
+                  {n.tag && <span>{n.tag}</span>}
+                  <span>{n.data}</span>
+                </span>
+                <span className={styles.title}>{n.titulo}</span>
+                {resumo(n) && <span className={styles.desc}>{resumo(n)}</span>}
+                <span className={styles.read}>{t('readMore')} <ArrowUpRight /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Subpage>
   )
 }

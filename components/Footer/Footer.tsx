@@ -1,59 +1,72 @@
 import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/navigation'
+import { ArrowUp, ArrowUpRight } from '@/components/ui/Icons'
 import styles from './Footer.module.css'
 
-const navHrefs = ['#perfil', '#opinioes', '#publicacoes', '#fotos', '#apresentacoes', '#noticias', '#links']
+const SECTION_IDS = ['perfil', 'opinioes', 'publicacoes', 'fotos', 'apresentacoes', 'noticias', 'links']
 
 const academicLinks = [
   { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=01cxZjoAAAAJ' },
-  { label: 'ResearchGate',   href: 'https://www.researchgate.net/profile/Joao-Carlos-Sa' },
+  { label: 'ResearchGate', href: 'https://www.researchgate.net/profile/Joao-Carlos-Sa' },
   { label: 'Ohio State — C-MASC', href: 'https://carbon.osu.edu' },
-  { label: 'FEBRAPDP',       href: 'https://plantiodireto.org.br' },
-  { label: 'LinkedIn',       href: 'https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/' },
+  { label: 'FEBRAPDP', href: 'https://plantiodireto.org.br' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/jo%C3%A3o-carlos-moraes-s%C3%A1-99595330/' },
 ]
 
-export default async function Footer() {
+/** `onHome`: na landing as seções são âncoras locais; nas páginas internas, apontam para a home. */
+export default async function Footer({ onHome = true }: { onHome?: boolean }) {
   const t = await getTranslations('footer')
   const navLabels = t.raw('navItems') as string[]
+  const [madeBefore, madeAfter] = t('made').split('♥')
 
   return (
     <footer className={styles.footer}>
-      <div className="container">
-        <div className={styles.footerInner}>
-          <div>
-            <div className={styles.footerBrandName}>Prof. Juca Sá</div>
-            <p className={styles.footerBrandSub}>{t('brandSub')}</p>
+      <div className="wrap">
+        <div className={styles.top}>
+          <div className={styles.brand}>
+            <p className={styles.brandName}>Prof. Juca Sá</p>
+            <p className={styles.brandSub}>{t('brandSub')}</p>
           </div>
 
-          <div>
-            <div className={styles.footerColTitle}>{t('sections')}</div>
-            <div className={styles.footerLinks}>
+          <nav aria-label={t('sections')}>
+            <h2 className={styles.colTitle}>{t('sections')}</h2>
+            <ul className={styles.list}>
               {navLabels.map((label, idx) => (
-                <a key={navHrefs[idx]} className={styles.footerLink} href={navHrefs[idx]}>
-                  {label}
-                </a>
+                <li key={SECTION_IDS[idx]}>
+                  {onHome ? (
+                    <a href={`#${SECTION_IDS[idx]}`}>{label}</a>
+                  ) : (
+                    <Link href={`/#${SECTION_IDS[idx]}`}>{label}</Link>
+                  )}
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </nav>
 
-          <div>
-            <div className={styles.footerColTitle}>{t('academic')}</div>
-            <div className={styles.footerLinks}>
+          <nav aria-label={t('academic')}>
+            <h2 className={styles.colTitle}>{t('academic')}</h2>
+            <ul className={styles.list}>
               {academicLinks.map((l) => (
-                <a key={l.href} className={styles.footerLink} href={l.href} target="_blank" rel="noopener noreferrer">
-                  {l.label}
-                </a>
+                <li key={l.href}>
+                  <a href={l.href} target="_blank" rel="noopener noreferrer">
+                    {l.label} <ArrowUpRight />
+                  </a>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </nav>
         </div>
 
-        <div className={styles.footerBottom}>
+        <div className={styles.bottom}>
           <span>{t('copyright')}</span>
           <span>
-            {t('made').split('♥')[0]}
-            <span className={styles.footerTeal}>♥</span>
-            {t('made').split('♥')[1]}
+            {madeBefore}<span className={styles.heart}>♥</span>{madeAfter}
           </span>
+          {onHome ? (
+            <a href="#inicio" className={styles.backTop}>{t('backToTop')} <ArrowUp /></a>
+          ) : (
+            <Link href="/" className={styles.backTop}>{t('backToTop')} <ArrowUp /></Link>
+          )}
         </div>
       </div>
     </footer>
