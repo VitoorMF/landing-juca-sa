@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './admin.css'
 import AdminShell from './AdminShell'
+import LegacyFonts from '@/components/LegacyFonts/LegacyFonts'
 
 // favicon distinto pro admin: quadrado verde com engrenagem teal
 const ADMIN_FAVICON =
@@ -21,5 +22,10 @@ export const metadata: Metadata = {
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  return <AdminShell>{children}</AdminShell>
+  return (
+    <>
+      <LegacyFonts />
+      <AdminShell>{children}</AdminShell>
+    </>
+  )
 }

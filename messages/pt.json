@@ -9,7 +9,11 @@
     "noticias": "Notícias",
     "links": "Links",
     "openMenu": "Abrir menu",
-    "closeMenu": "Fechar menu"
+    "closeMenu": "Fechar menu",
+    "skip": "Pular para o conteúdo",
+    "language": "Idioma",
+    "menu": "Menu",
+    "main": "Navegação principal"
   },
   "hero": {
     "eyebrow": "Referência Mundial em Plantio Direto",
@@ -18,10 +22,19 @@
     "stat2": "Citações (Google Scholar)",
     "stat3": "Anos de pesquisa",
     "cta1": "CV Lattes",
-    "cta2": "Conheça o Pesquisador",
+    "cta2": "Conheça o pesquisador",
     "courseTagTitle": "Anúncio de Abertura",
     "courseTagSub": "curso gratuito",
-    "courseBtn": "Curso Gratuito"
+    "courseBtn": "Curso gratuito",
+    "title": "Ciência que\ncomeça no solo.",
+    "welcomeLink": "Carta de boas-vindas",
+    "photoTitle": "Sistema Plantio Direto",
+    "photoCaption": "Soja sobre palhada: solo coberto o ano inteiro.",
+    "photoAlt": "Soja crescendo sobre palhada em lavoura conduzida no Sistema Plantio Direto",
+    "statsLabel": "Trajetória em números",
+    "stat1Value": "90+",
+    "stat2Value": "9,4 mil+",
+    "stat3Value": "40+"
   },
   "welcomeModal": {
     "title": "Boas-vindas ao nosso espaço de conhecimento!",
@@ -52,21 +65,36 @@
     "modulesLabel": "Módulos",
     "modulesUnlocked": "1 / 5 Liberado",
     "unlockedWord": "Liberado",
-    "available": "▶ Disponível",
+    "available": "Disponível",
     "locked": "Bloqueado",
     "ctaModule": "▶ Começar Módulo 1",
     "ctaHint": "Conclua o módulo 1 para desbloquear o próximo.",
     "modules": [
-      { "title": "Módulo I — Agricultura de carbono", "desc": "Introdução e os pilares da agricultura de carbono." },
-      { "title": "Módulo II — Relações entre o C e os atributos do solo", "desc": "Como o carbono se relaciona com os atributos físicos, químicos e biológicos do solo." },
-      { "title": "Módulo III — C, chave da resiliência e rentabilidade", "desc": "O carbono como componente-chave da resiliência e da rentabilidade dos sistemas de produção de baixa emissão de CO₂." },
-      { "title": "Módulo IV — Recuperação do C e do Capital Natural", "desc": "Estratégias de recuperação do carbono do solo e do capital natural." },
-      { "title": "Módulo V — Balanço de C sob Plantio Direto", "desc": "Balanço de carbono nos sistemas de produção sob Plantio Direto." }
+      {
+        "title": "Módulo I — Agricultura de carbono",
+        "desc": "Introdução e os pilares da agricultura de carbono."
+      },
+      {
+        "title": "Módulo II — Relações entre o C e os atributos do solo",
+        "desc": "Como o carbono se relaciona com os atributos físicos, químicos e biológicos do solo."
+      },
+      {
+        "title": "Módulo III — C, chave da resiliência e rentabilidade",
+        "desc": "O carbono como componente-chave da resiliência e da rentabilidade dos sistemas de produção de baixa emissão de CO₂."
+      },
+      {
+        "title": "Módulo IV — Recuperação do C e do Capital Natural",
+        "desc": "Estratégias de recuperação do carbono do solo e do capital natural."
+      },
+      {
+        "title": "Módulo V — Balanço de C sob Plantio Direto",
+        "desc": "Balanço de carbono nos sistemas de produção sob Plantio Direto."
+      }
     ]
   },
   "perfil": {
-    "tag": "Perfil Científico",
-    "title": "Trajetória e Formação",
+    "tag": "Perfil científico",
+    "title": "Uma trajetória dedicada à vida no solo.",
     "lead": "Mais de 40 anos dedicados à pesquisa em manejo conservacionista do solo, formando pesquisadores em 11 países e co-autor em 25 artigos com o Prêmio Nobel da Paz Prof. Rattan Lal.",
     "cardTitle": "Cientista Sênior · Prof. Juca Sá",
     "cardItems": [
@@ -158,11 +186,14 @@
         "year": "2025 — COP30, Belém",
         "text": "Palestrante de abertura na Casa da Agricultura Sustentável — apresentou resultados inéditos do SPD para sequestro de carbono na ONU COP30."
       }
-    ]
+    ],
+    "portraitAlt": "Retrato do Prof. João Carlos de Moraes Sá",
+    "timelineTitle": "Trajetória",
+    "linksTitle": "Perfis acadêmicos"
   },
   "impacto": {
     "tag": "Dados de Impacto",
-    "title": "Números que Transformam",
+    "title": "Números que transformam.",
     "lead": "Resultados mensuráveis do Sistema Plantio Direto segundo as pesquisas do Prof. Juca Sá.",
     "items": [
       {
@@ -189,7 +220,7 @@
   },
   "opinioes": {
     "tag": "Princípios & Visão",
-    "title": "Os 3 Pilares do Sistema Plantio Direto",
+    "title": "Três princípios.\nUm solo vivo.",
     "lead": "Segundo o Prof. Juca Sá, 85–90% das áreas de \"plantio direto\" no Brasil não aplicam corretamente os três princípios fundamentais — e isso compromete todos os benefícios do sistema.",
     "principios": [
       {
@@ -225,15 +256,16 @@
         "texto": "A implementação plena do SPD poderia mitigar 211 milhões de toneladas de CO₂-eq por ano no Brasil — mais de 10% de todas as emissões do agronegócio.",
         "fonte": "Prof. Juca Sá — Agrobalsas 2025"
       }
-    ]
+    ],
+    "quotesTag": "Pesquisa & visão"
   },
   "publicacoes": {
     "tag": "Produção Científica",
-    "title": "Principais Publicações",
+    "title": "Conhecimento que avança.",
     "lead": "Mais de 70 artigos científicos publicados em periódicos internacionais de alto impacto, com 9.400+ citações. Co-autor com o Nobel da Paz Prof. Rattan Lal.",
     "filterArticle": "Artigos",
-    "filterBook": "Livros / Capítulos",
-    "filterMisc": "Miscelânea",
+    "filterBook": "Livros e capítulos",
+    "filterMisc": "Outros trabalhos",
     "cta": "Ver todas no Google Scholar",
     "seeAll": "Ver todas as publicações",
     "seeAllCount": "produção completa",
@@ -242,7 +274,11 @@
     "empty": "Nenhuma publicação encontrada.",
     "tagArticle": "Artigo",
     "tagBook": "Capítulo",
-    "tagMisc": "Miscelânea"
+    "tagMisc": "Miscelânea",
+    "scholar": "Google Scholar",
+    "tablistLabel": "Tipos de publicação",
+    "searchLabel": "Buscar publicações",
+    "clear": "Limpar busca"
   },
   "videos": {
     "tag": "Conteúdo em Vídeo",
@@ -251,26 +287,44 @@
   },
   "fotos": {
     "tag": "Galeria",
-    "title": "Fotos",
-    "lead": "Pesquisa em campo, congressos internacionais e o Sistema Plantio Direto em ação."
+    "title": "A ciência acontece no campo.",
+    "lead": "Pesquisa em campo, congressos internacionais e o Sistema Plantio Direto em ação.",
+    "seeAll": "Ver acervo completo",
+    "pageTag": "Galeria completa",
+    "pageTitle": "Acervo de fotos",
+    "pageLead": "Registros de pesquisa em campo, congressos e o Sistema Plantio Direto ao longo dos anos. Filtre por tema e clique para ampliar.",
+    "all": "Todas",
+    "back": "Voltar ao site",
+    "enlarge": "Ampliar foto",
+    "prev": "Foto anterior",
+    "next": "Próxima foto",
+    "filtersLabel": "Filtrar por tema",
+    "empty": "Nenhuma foto publicada ainda."
   },
   "apresentacoes": {
     "tag": "Apresentações",
-    "title": "Congressos & Palestras",
+    "title": "Congressos & palestras",
     "lead": "Palestrante convidado em congressos nacionais e internacionais sobre Plantio Direto, carbono no solo e mudanças climáticas.",
     "seeAll": "Ver todas as apresentações",
-    "back": "Voltar ao site"
+    "back": "Voltar ao site",
+    "groupTag": "Ideias em circulação",
+    "tagNational": "Nacional",
+    "tagIntl": "Internacional",
+    "empty": "Nenhuma apresentação publicada ainda."
   },
   "noticias": {
     "tag": "Cobertura de Imprensa",
-    "title": "Notícias Recentes",
+    "title": "Notícias recentes",
     "lead": "As últimas notícias sobre plantio direto, carbono no solo e agricultura regenerativa na mídia especializada.",
     "back": "Voltar ao site",
-    "readMore": "Ler matéria"
+    "readMore": "Ler matéria",
+    "featured": "Em destaque",
+    "seeAll": "Ver todas as notícias",
+    "empty": "As notícias não puderam ser carregadas agora. Tente novamente mais tarde."
   },
   "links": {
     "tag": "Links Externos",
-    "title": "Perfis & Recursos",
+    "title": "Perfis & recursos",
     "lead": "Acesse os perfis acadêmicos, publicações completas e organizações associadas ao Prof. Juca Sá.",
     "cta": "Acessar →"
   },
@@ -288,6 +342,17 @@
       "Apresentações",
       "Notícias",
       "Links"
-    ]
+    ],
+    "backToTop": "Voltar ao início"
+  },
+  "common": {
+    "close": "Fechar",
+    "nextSection": "Próxima seção"
+  },
+  "curso": {
+    "tag": "Formação",
+    "title": "Do conhecimento à prática.",
+    "text": "Um curso gratuito, em módulos semanais, sobre o manejo do carbono para sistemas de produção saudáveis, resilientes e de baixa emissão.",
+    "cta": "Conheça o curso gratuito"
   }
 }

@@ -1,14 +1,19 @@
-import { getLocale } from 'next-intl/server'
+import { getTranslations } from 'next-intl/server'
+import Subpage from '@/components/Subpage/Subpage'
 import { supabaseServer } from '@/lib/supabase-server'
 import { Foto } from '@/types'
 import GaleriaClient from './GaleriaClient'
 
 export default async function FotosPage() {
-  const [{ data }, locale] = await Promise.all([
+  const [t, { data }] = await Promise.all([
+    getTranslations('fotos'),
     supabaseServer.from('fotos').select('*'),
-    getLocale(),
   ])
   const fotos: Foto[] = data ?? []
 
-  return <GaleriaClient fotos={fotos} locale={locale} />
+  return (
+    <Subpage eyebrow={t('pageTag')} title={t('pageTitle')} lead={t('pageLead')} backLabel={t('back')}>
+      <GaleriaClient fotos={fotos} />
+    </Subpage>
+  )
 }

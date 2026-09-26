@@ -20,7 +20,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      {children}
+      <div className="site">{children}</div>
     </NextIntlClientProvider>
   )
 }

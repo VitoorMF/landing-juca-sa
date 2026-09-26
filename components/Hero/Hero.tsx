@@ -1,64 +1,78 @@
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import styles from './Hero.module.css'
 import WelcomeModal from './WelcomeModal'
 import CourseModal from './CourseModal'
-import { supabaseServer } from '@/lib/supabase-server'
+import { ArrowDown, ArrowUpRight } from '@/components/ui/Icons'
 import { Modulo } from '@/types'
+import { LATTES_URL } from '@/lib/links'
+import heroPhoto from '@/public/image2.png'
 
-export default async function Hero() {
+export default async function Hero({ modulos }: { modulos: Modulo[] }) {
   const t = await getTranslations('hero')
-  const { data } = await supabaseServer.from('modulos').select('*').order('ordem')
-  const modulos: Modulo[] = data ?? []
+
+  const stats = [
+    { value: t('stat1Value'), label: t('stat1') },
+    { value: t('stat2Value'), label: t('stat2') },
+    { value: t('stat3Value'), label: t('stat3') },
+  ]
 
   return (
-    <section id="hero" className={styles.hero}>
+    <>
+      <section id="inicio" className={styles.hero} aria-labelledby="hero-title">
+        <div className={styles.content}>
+          <div className={`eyebrow ${styles.eyebrow}`}>{t('eyebrow')}</div>
+          <h1 id="hero-title" className={styles.title}>{t('title')}</h1>
 
-      <div className={styles.heroBgPattern}></div>
-      <div className={`${styles.heroBlob} ${styles.heroBlob1}`}></div>
-      <div className={`${styles.heroBlob} ${styles.heroBlob2}`}></div>
-      <div className={styles.heroContent}>
-        <div>
-          <WelcomeModal label={t('eyebrow')} />
-          <h1 className={styles.heroTitle}>Prof. Juca Sá</h1>
-          <p className={styles.heroSubtitle}>João Carlos de Moraes Sá</p>
-          <p className={styles.heroDesc}>{t('desc')}</p>
-          <div className={styles.heroStats}>
-            <div>
-              <div className={styles.heroStatNum}>90<span className={styles.heroStatSup}>+</span></div>
-              <div className={styles.heroStatLabel}>{t('stat1')}</div>
-            </div>
-            <div>
-              <div className={styles.heroStatNum}>+9.4<span className={styles.heroStatSup}>K</span></div>
-              <div className={styles.heroStatLabel}>{t('stat2')}</div>
-            </div>
-            <div>
-              <div className={styles.heroStatNum}>40<span className={styles.heroStatSup}>+</span></div>
-              <div className={styles.heroStatLabel}>{t('stat3')}</div>
-            </div>
+          <div className={styles.identity}>
+            <p className={styles.name}>Prof. Juca Sá</p>
+            <p className={styles.fullName}>João Carlos de Moraes Sá</p>
           </div>
-          <div className={styles.heroActions}>
-            <a className="btn-primary" href="#perfil">
-              {t('cta2')}
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" style={{ width: 18, height: 18 }}>
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
+
+          <p className={styles.desc}>{t('desc')}</p>
+
+          <div className={styles.actions}>
+            <a className="btn-solid" href="#perfil">
+              {t('cta2')} <ArrowDown />
             </a>
-            <a className="btn-outline" href="http://lattes.cnpq.br/5078594632126000" target="_blank" rel="noopener noreferrer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: 17, height: 17 }}>
-                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" />
-              </svg>
-              {t('cta1')}
+            <CourseModal modulos={modulos} label={t('courseBtn')} className="btn-line" />
+          </div>
+
+          <div className={styles.subActions}>
+            <a className="text-link" href={LATTES_URL} target="_blank" rel="noopener noreferrer">
+              {t('cta1')} <ArrowUpRight />
             </a>
-            <CourseModal modulos={modulos} />
+            <WelcomeModal label={t('welcomeLink')} className="text-link" />
           </div>
         </div>
 
-        <div className={styles.heroPhotoWrap}>
-          <div className={styles.heroPhotoCard}>
-            <img src="/hero.jpg" alt="Prof. João Carlos de Moraes Sá" className={styles.heroPhoto} />
-          </div>
-        </div>
-      </div>
-    </section>
+        <figure className={styles.photo}>
+          <Image
+            src={heroPhoto}
+            alt={t('photoAlt')}
+            fill
+            priority
+            placeholder="blur"
+            sizes="(max-width: 860px) 100vw, 50vw"
+            className={styles.photoImg}
+          />
+          <figcaption className={styles.caption}>
+            {t('photoTitle')}
+            <span>{t('photoCaption')}</span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section className={`tone-dark ${styles.stats}`} aria-label={t('statsLabel')}>
+        <dl className={`wrap ${styles.statsGrid}`}>
+          {stats.map((s) => (
+            <div key={s.label} className={styles.stat}>
+              <dt>{s.label}</dt>
+              <dd>{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </>
   )
 }

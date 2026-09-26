@@ -1,0 +1,47 @@
+.head {
+  margin-bottom: 48px;
+}
+
+.withAside {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.main {
+  max-width: 760px;
+}
+
+.title {
+  margin-top: 20px;
+  font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  white-space: pre-line;
+  color: inherit;
+}
+
+.lead {
+  margin-top: 20px;
+  max-width: 62ch;
+  font-size: 1.05rem;
+  color: var(--fg-soft);
+}
+
+.aside {
+  flex-shrink: 0;
+  padding-bottom: 6px;
+}
+
+@media (max-width: 760px) {
+  .head {
+    margin-bottom: 36px;
+  }
+
+  .withAside {
+    display: block;
+  }
+
+  .aside {
+    margin-top: 22px;
+  }
+}

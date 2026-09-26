@@ -1,0 +1,65 @@
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(245, 242, 233, .92);
+  border-bottom: 1px solid var(--rule);
+}
+
+@supports (backdrop-filter: blur(8px)) {
+  .bar {
+    background: rgba(245, 242, 233, .82);
+    backdrop-filter: blur(10px) saturate(1.2);
+  }
+}
+
+.barInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 68px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  letter-spacing: -.02em;
+  color: var(--forest);
+}
+
+.monogram {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--forest);
+  border-radius: 50%;
+  font-size: .85rem;
+}
+
+.main {
+  padding: 48px 0 112px;
+  min-height: 70vh;
+}
+
+.back {
+  margin-bottom: 44px;
+}
+
+.head {
+  margin-bottom: 44px;
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 32px 0 80px;
+  }
+
+  .back {
+    margin-bottom: 32px;
+  }
+}

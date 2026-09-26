@@ -1,139 +1,106 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { useRouter, usePathname } from '@/i18n/navigation'
+import LangToggle from '@/components/LangToggle/LangToggle'
 import styles from './Navbar.module.css'
+
+const SECTION_IDS = ['perfil', 'opinioes', 'publicacoes', 'fotos', 'apresentacoes', 'noticias', 'links'] as const
 
 export default function Navbar() {
   const t = useTranslations('nav')
   const locale = useLocale()
-  const router = useRouter()
-  const pathname = usePathname()
-
-  const navItems = [
-    { href: '#perfil',        label: t('perfil') },
-    { href: '#opinioes',      label: t('opinioes') },
-    { href: '#publicacoes',   label: t('publicacoes') },
-    { href: '#fotos',         label: t('fotos') },
-    { href: '#apresentacoes', label: t('apresentacoes') },
-    { href: '#noticias',      label: t('noticias') },
-    { href: '#links',         label: t('links') },
-  ]
-
-  const [activeSection, setActiveSection] = useState('perfil')
+  const [active, setActive] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    function updateNav() {
-      const sections = document.querySelectorAll('section[id]')
+    function update() {
+      setScrolled(window.scrollY > 8)
+      const limit = (headerRef.current?.offsetHeight ?? 76) + 40
       let current = ''
-      sections.forEach((section) => {
-        const top = section.getBoundingClientRect().top
-        if (top <= 80) current = section.id
-      })
-      if (current) setActiveSection(current)
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= limit) current = id
+      }
+      setActive(current)
     }
-    window.addEventListener('scroll', updateNav, { passive: true })
-    return () => window.removeEventListener('scroll', updateNav)
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
   }, [])
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
+    if (!menuOpen) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') setMenuOpen(false)
     }
-    return () => { document.body.style.overflow = '' }
+    function onPointer(e: PointerEvent) {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) setMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('pointerdown', onPointer)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('pointerdown', onPointer)
+    }
   }, [menuOpen])
 
-  function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    const target = document.querySelector(href)
-    if (target) {
-      e.preventDefault()
-      setMenuOpen(false)
-      const offset = 65
-      const top = target.getBoundingClientRect().top + window.scrollY - offset
-      window.scrollTo({ top, behavior: 'smooth' })
-    }
-  }
-
-  function toggleLocale() {
-    const next = locale === 'pt' ? 'en' : 'pt'
-    router.replace(pathname, { locale: next })
+  function goTop(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault()
+    setMenuOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    history.pushState(null, '', locale === 'en' ? '/en' : '/')
   }
 
   return (
-    <>
-      <nav id="navbar" className={styles.navbar}>
-        <div className={styles.navInner}>
-          <a
-            className={styles.navLogo}
-            href="/"
-            onClick={(e) => {
-              e.preventDefault()
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-              history.pushState(null, '', locale === 'en' ? '/en' : '/')
-            }}
-          >
-            Prof. Juca Sá
-          </a>
+    <header ref={headerRef} className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+      <div className={`wrap ${styles.inner}`}>
+        <a className={styles.brand} href={locale === 'en' ? '/en' : '/'} onClick={goTop}>
+          <span className={styles.monogram} aria-hidden="true">JS</span>
+          <span>Prof. Juca Sá</span>
+        </a>
 
-          {/* Desktop: links */}
-          <div className={styles.navLinks}>
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                className={`${styles.navItem} ${activeSection === item.href.slice(1) ? styles.active : ''}`}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-              >
-                {item.label}
-              </a>
+        <nav id="site-nav" className={`${styles.nav} ${menuOpen ? styles.navOpen : ''}`} aria-label={t('main')}>
+          <ul className={styles.links}>
+            {SECTION_IDS.map((id) => (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  className={styles.link}
+                  aria-current={active === id ? 'true' : undefined}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {t(id)}
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
+        </nav>
 
-          {/* Desktop: toggle de idioma isolado à direita */}
-          <button className={`${styles.langToggle} ${styles.langToggleDesktop}`} onClick={toggleLocale} aria-label="Toggle language">
-            <span className={`${styles.langOpt} ${locale === 'pt' ? styles.langOptActive : ''}`}>PT</span>
-            <span className={`${styles.langOpt} ${locale === 'en' ? styles.langOptActive : ''}`}>EN</span>
-          </button>
-
-          {/* Mobile: toggle de idioma + hamburger */}
-          <div className={styles.navMobile}>
-            <button className={styles.langToggle} onClick={toggleLocale} aria-label="Toggle language">
-              <span className={`${styles.langOpt} ${locale === 'pt' ? styles.langOptActive : ''}`}>PT</span>
-              <span className={`${styles.langOpt} ${locale === 'en' ? styles.langOptActive : ''}`}>EN</span>
-            </button>
-            <button
-              className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`}
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
-              aria-expanded={menuOpen}
-            >
-              <span />
-              <span />
-              <span />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {menuOpen && (
-        <div className={styles.overlay} onClick={() => setMenuOpen(false)} />
-      )}
-      <div className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}>
-        {navItems.map((item) => (
-          <a
-            key={item.href}
-            className={`${styles.drawerItem} ${activeSection === item.href.slice(1) ? styles.drawerItemActive : ''}`}
-            href={item.href}
-            onClick={(e) => handleNavClick(e, item.href)}
+        <div className={styles.tools}>
+          <LangToggle />
+          <button
+            type="button"
+            className={styles.menuBtn}
+            aria-expanded={menuOpen}
+            aria-controls="site-nav"
+            aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
+            onClick={() => setMenuOpen((v) => !v)}
           >
-            {item.label}
-          </a>
-        ))}
+            <span className={styles.menuLabel}>{t('menu')}</span>
+            <span className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`} aria-hidden="true">
+              <span />
+              <span />
+            </span>
+          </button>
+        </div>
       </div>
-    </>
+    </header>
   )
 }
